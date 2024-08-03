@@ -1,0 +1,13 @@
+<%= form_with model: @log do |form| %>
+  <div>
+    <%= form.label :personal_comments %><br>
+    <%= form.text_area :personal_comments %><br>
+    <% @log.errors.full_messages_for(:personal_comments).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

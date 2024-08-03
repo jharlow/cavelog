@@ -1,0 +1,10 @@
+<h1><%= @cave.title %></h1>
+
+<p><%= @cave.description %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
+  <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>
+</ul>
+
+<%= link_to "Back to home", root_path %>
