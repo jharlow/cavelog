@@ -1,10 +1,17 @@
 class LogsController < ApplicationController
+  def show
+    @log = Log.find(params[:id])
+  end
+
   def new
     @log = Log.new
+    @cave = Cave.find(params[:cave_id])
   end
 
   def create
-    @log = Log.new(log_params.merge(user: current_user))
+    logger.info "got here"
+    @cave = Cave.find(params[:cave_id])
+    @log = @cave.logs.new(log_params.merge(user: current_user))
     if @log.save
       redirect_to @log
     else
@@ -13,6 +20,6 @@ class LogsController < ApplicationController
   end
 
   private def log_params
-    params.require(:log).permit(:personal_comments, :cave)
+    params.require(:log).permit(:personal_comments, :cave, :start_datetime, :end_datetime)
   end
 end

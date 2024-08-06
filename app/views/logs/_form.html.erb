@@ -1,0 +1,29 @@
+<%= form_for [cave, log] do |form| %>
+  <div>
+    <%= form.label :start_datetime %>
+    <%= form.datetime_local_field :start_datetime %>
+    <% @log.errors.full_messages_for(:start_datetime).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :end_datetime %>
+    <%= form.datetime_local_field :end_datetime %>
+    <% @log.errors.full_messages_for(:end_datetime).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :personal_comments %><br>
+    <%= form.text_area :personal_comments %><br>
+    <% @log.errors.full_messages_for(:personal_comments).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

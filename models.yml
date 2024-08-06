@@ -1,0 +1,4 @@
+log:
+  - start_time
+  - end_time
+  - group_size

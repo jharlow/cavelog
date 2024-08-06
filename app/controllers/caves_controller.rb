@@ -1,10 +1,11 @@
 class CavesController < ApplicationController
   def index
-    @caves = Cave.all
+    @caves = params[:q].present? ? Cave.search(params[:q]).records : Cave.all
   end
 
   def show
     @cave = Cave.find(params[:id])
+    @logs = @cave.logs.where(user: current_user)
   end
 
   def new

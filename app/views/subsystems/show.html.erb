@@ -1,0 +1,9 @@
+<h1><%= @subsystem.title %></h1>
+
+<p>
+  <%= @subsystem.description %>
+</p>
+
+<a href="<%= cave_path @subsystem.cave %>">
+  Back to <%= @subsystem.cave.title %>
+</a>
