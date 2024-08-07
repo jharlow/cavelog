@@ -37,23 +37,19 @@
 <% end %>
 
 <h2>Your logs</h2>
-
 <% if @logs.length == 0 %>
   <p>No logs in this cave yet!</p>
   <%= link_to 'Create your first log', new_cave_log_path(@cave) %>
 <% else %>
   <ul>
     <% @logs.each do |log| %>
-      <li>
-        <%= log.personal_comments %>
-      </li>
+      <li><%= link_to log.start_datetime.strftime("Trip on %Y/%m/%d"), log_path(log) %></li>
     <% end %>
   </ul>
   <%= link_to 'Create new log', new_cave_log_path(@cave) %>
 <% end %>
 
 <h2>Actions</h2>
-
 <ul>
   <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
   <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>

@@ -8,7 +8,7 @@ class LocationsController < ApplicationController
   def create
     @location = @locatable.locations.new(location_params)
     if @location.save
-      redirect_to @locatable
+      redirect_to @locatable.path
     else
       render :new, status: :unprocessable_entity
     end

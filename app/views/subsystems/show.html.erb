@@ -16,8 +16,11 @@
       </li>
     <% end %>
   </ul>
+  <%= link_to 'Add a location', new_cave_subsystem_location_path(@subsystem.cave, @subsystem) %>
 <% end %>
 
-<a href="<%= cave_path @subsystem.cave %>">
-  Back to <%= @subsystem.cave.title %>
-</a>
+<h2>Actions</h2>
+<ul>
+  <li><%= link_to "Edit", edit_cave_subsystem_path(@subsystem.cave, @subsystem) %></li>
+  <li><%= link_to "Back to #{@subsystem.cave.title}", cave_path(@subsystem.cave) %></li>
+</ul>

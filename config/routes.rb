@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :caves do
     resources :logs, only: [ "new", "create" ]
     resources :locations, only: [ :new, :create, :show ]
-    resources :subsystems, only: [ "new", "create", "show" ] do
+    resources :subsystems, only: [ "new", "create", "show", "edit", "update" ] do
       resources :locations, only: [ :new, :create, :show ]
     end
   end
