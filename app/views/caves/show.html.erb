@@ -16,6 +16,24 @@
       </li>
     <% end %>
   </ul>
+  <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave) %>
+<% end %>
+
+<h2>Locations</h2>
+<% if @cave.locations.length == 0 %>
+  <p>No locations in this cave yet!</p>
+  <%= link_to 'Add a location', new_cave_location_path(@cave) %>
+<% else %>
+  <ul>
+    <% @cave.locations.each do |location| %>
+      <li>
+        <a href="<%= cave_location_path(@cave, location) %>">
+          <%= location.title %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  <%= link_to 'Add a location', new_cave_location_path(@cave) %>
 <% end %>
 
 <h2>Your logs</h2>
@@ -31,6 +49,7 @@
       </li>
     <% end %>
   </ul>
+  <%= link_to 'Create new log', new_cave_log_path(@cave) %>
 <% end %>
 
 <h2>Actions</h2>
@@ -38,8 +57,6 @@
 <ul>
   <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
   <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>
-  <li><%= link_to 'Create new log', new_cave_log_path(@cave) %></li>
-  <li><%= link_to 'Add subsystem', new_cave_subsystem_path(@cave) %></li>
 </ul>
 
 <%= link_to "Back to home", root_path %>

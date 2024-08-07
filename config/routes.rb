@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   root "caves#index"
   resources :caves do
     resources :logs, only: [ "new", "create" ]
-    resources :subsystems, only: [ "new", "create", "show" ]
+    resources :locations, only: [ :new, :create, :show ]
+    resources :subsystems, only: [ "new", "create", "show" ] do
+      resources :locations, only: [ :new, :create, :show ]
+    end
   end
   resources :logs, except: [ "new", "create" ]
 

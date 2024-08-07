@@ -1,0 +1,5 @@
+<h1><%= @location.title %></h1>
+
+<p><%= @location.description %></p>
+
+<%= link_to "Back to #{@location.locatable.title}", @location.locatable.path %>
