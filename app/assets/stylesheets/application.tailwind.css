@@ -41,6 +41,23 @@
   input[type="submit"] {
     @apply rounded-md bg-blue-500 px-4 py-1.5 text-white;
   }
+
+  tr {
+    @apply border-black border;
+  }
+  td,
+  th {
+    @apply p-1;
+  }
+  thead th {
+    @apply text-xl;
+  }
+  tbody th {
+    @apply text-lg;
+  }
+  th {
+    @apply text-left;
+  }
 }
 
 @layer components {
