@@ -1,0 +1,10 @@
+<h1><%= @location.title %></h1>
+<p>Location</p>
+
+<p><%= @location.description %></p>
+
+<h2>Actions</h2>
+<ul>
+  <li><%= link_to "Edit", params[:subsystem_id].present? ? edit_cave_subsystem_location_path(@parent, @locatable, @location) : edit_cave_location_path(@locatable, @location) %></li>
+  <li><%= link_to "Back to #{@location.locatable.title}", @location.locatable.path %></li>
+</ul>

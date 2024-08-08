@@ -9,13 +9,12 @@ class LogsController < ApplicationController
   end
 
   def create
-    logger.info "got here"
     @cave = Cave.find(params[:cave_id])
     @log = @cave.logs.new(log_params.merge(user: current_user))
     if @log.save
-      redirect_to @log
+      redirect_to(@log)
     else
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 

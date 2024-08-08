@@ -18,6 +18,20 @@ class SubsystemsController < ApplicationController
     end
   end
 
+  def edit
+    @subsystem = Subsystem.find(params[:id])
+  end
+
+  def update
+    @subsystem = Subsystem.find(params[:id])
+
+    if @subsystem.update(subsystem_params)
+      redirect_to cave_subsystem_url(@subsystem.cave, @subsystem)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private def subsystem_params
     params.require(:subsystem).permit(:title, :description, :cave)
   end

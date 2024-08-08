@@ -1,0 +1,61 @@
+<table class="w-full">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% cave.subsystems.each do |subsystem| %>
+      <tr class="collapsible">
+        <th colspan="2">
+          <details class="flex flex-col gap-2">
+            <summary><%= subsystem.title %></summary>
+            <p class="font-normal text-sm"><%= subsystem.description %></p>
+            <%= link_to "View #{subsystem.title}", cave_subsystem_path(cave, subsystem), class: 'font-normal text-sm text-sky-200' %>
+          </details>
+        </th>
+      </tr>
+      <% if subsystem.locations.length == 0 %>
+        <tr>
+          <td colspan="2">
+            <p>No locations yet</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="bg-slate-300">
+            <%= link_to "Add location to #{subsystem.title}", new_cave_subsystem_location_path(cave, subsystem) %>
+          </td>
+        </tr>
+      <% else %>
+        <% subsystem.locations.each do |location| %>
+          <tr>
+            <td><%= link_to location.title, cave_subsystem_location_path(cave, subsystem, location) %></td>
+            <td><%= location.description || "" %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="2" class="bg-slate-300">
+            <%= link_to "Add location to #{subsystem.title}", new_cave_subsystem_location_path(cave, subsystem) %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    <% if cave.subsystems.length != 0 && cave.locations.length > 0 %>
+      <tr>
+        <th colspan="2">Miscellaneous</th>
+      </tr>
+    <% end %>
+    <% cave.locations.each do |location| %>
+      <tr>
+        <td><%= link_to location.title, cave_location_path(cave, location) %></td>
+        <td><%= location.description || "" %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="2" class="bg-slate-300">
+        <%= link_to "Add location to #{cave.title}", new_cave_location_path(cave) %>
+      </td>
+    </tr>
+  </tbody>
+</table>
