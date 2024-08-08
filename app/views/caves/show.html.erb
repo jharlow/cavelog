@@ -2,29 +2,13 @@
 
 <p><%= @cave.description %></p>
 
-<h2>Subsystems</h2>
-<% if @cave.subsystems.length == 0 %>
-  <p>No subsystems in this cave yet!</p>
-  <%= link_to 'Add a subsystem', new_cave_subsystem_path(@cave) %>
-<% else %>
-  <ul>
-    <% @cave.subsystems.each do |subsystem| %>
-      <li>
-        <a href="<%= cave_subsystem_path @cave, subsystem %>">
-          <%= subsystem.title %>
-        </a>
-      </li>
-    <% end %>
-  </ul>
+<section>
+  <h2>Locations</h2>
+  <%= render 'locations/locations', cave: @cave %>
   <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave) %>
-<% end %>
+</section>
 
-<h2>Locations</h2>
-<%= render 'locations/locations', cave: @cave %>
-
-<h2>Locations</h2>
-<%= link_to 'Add a location', new_cave_location_path(@cave) %>
-
+<section>
 <h2>Your logs</h2>
 <% if @logs.length == 0 %>
   <p>No logs in this cave yet!</p>
@@ -37,11 +21,14 @@
   </ul>
   <%= link_to 'Create new log', new_cave_log_path(@cave) %>
 <% end %>
+</section>
 
-<h2>Actions</h2>
-<ul>
-  <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
-  <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>
-</ul>
+<section>
+  <h2>Actions</h2>
+  <ul>
+    <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
+    <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>
+  </ul>
+</section>
 
 <%= link_to "Back to home", root_path %>

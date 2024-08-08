@@ -13,11 +13,12 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="p-4">
     <% if user_signed_in? %>
       <div> Welcome <%= current_user.email %> </div>
       <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
