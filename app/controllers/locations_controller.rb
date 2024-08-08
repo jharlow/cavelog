@@ -1,6 +1,10 @@
 class LocationsController < ApplicationController
   before_action :set_locatable
 
+  def show
+    @location = Location.find(params[:id])
+  end
+
   def new
     @location = Location.new
   end
@@ -12,10 +16,6 @@ class LocationsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def show
-    @location = Location.find(params[:id])
   end
 
   private def set_locatable

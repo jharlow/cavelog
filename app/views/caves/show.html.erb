@@ -20,21 +20,10 @@
 <% end %>
 
 <h2>Locations</h2>
-<% if @cave.locations.length == 0 %>
-  <p>No locations in this cave yet!</p>
-  <%= link_to 'Add a location', new_cave_location_path(@cave) %>
-<% else %>
-  <ul>
-    <% @cave.locations.each do |location| %>
-      <li>
-        <a href="<%= cave_location_path(@cave, location) %>">
-          <%= location.title %>
-        </a>
-      </li>
-    <% end %>
-  </ul>
-  <%= link_to 'Add a location', new_cave_location_path(@cave) %>
-<% end %>
+<%= render 'locations/locations', cave: @cave %>
+
+<h2>Locations</h2>
+<%= link_to 'Add a location', new_cave_location_path(@cave) %>
 
 <h2>Your logs</h2>
 <% if @logs.length == 0 %>

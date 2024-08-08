@@ -1,0 +1,36 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% cave.subsystems.each do |subsystem| %>
+      <tr class="collapsible">
+        <th colspan="2"><%= subsystem.title %></th>
+      </tr>
+      <% if subsystem.locations.length == 0 %>
+        <td colspan="2">No locations yet</td>
+      <% else %>
+        <% subsystem.locations.each do |location| %>
+          <tr>
+            <td><%= link_to location.title, cave_subsystem_location_path(cave, subsystem, location) %></td>
+            <td><%= location.description || "" %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if cave.subsystems.length != 0 && cave.locations.length > 0 %>
+      <tr class="collapsible">
+        <th colspan="2">Miscellaneous</th>
+      </tr>
+    <% end %>
+    <% cave.locations.each do |location| %>
+      <tr>
+        <td><%= link_to location.title, cave_location_path(cave, location) %></td>
+        <td><%= location.description || "" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
