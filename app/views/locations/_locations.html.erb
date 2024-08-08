@@ -9,9 +9,10 @@
     <% cave.subsystems.each do |subsystem| %>
       <tr class="collapsible">
         <th colspan="2">
-          <details>
+          <details class="flex flex-col gap-2">
             <summary><%= subsystem.title %></summary>
-            <p><%= subsystem.description %></p>
+            <p class="font-normal text-sm"><%= subsystem.description %></p>
+            <%= link_to "View #{subsystem.title}", cave_subsystem_path(cave, subsystem), class: 'font-normal text-sm text-sky-200' %>
           </details>
         </th>
       </tr>
@@ -22,7 +23,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2">
+          <td colspan="2" class="bg-slate-200">
             <%= link_to "Add location to #{subsystem.title}", new_cave_subsystem_location_path(cave, subsystem) %>
           </td>
         </tr>
@@ -34,7 +35,7 @@
           </tr>
         <% end %>
         <tr>
-          <td>
+          <td colspan="2" class="bg-slate-200">
             <%= link_to "Add location to #{subsystem.title}", new_cave_subsystem_location_path(cave, subsystem) %>
           </td>
         </tr>
@@ -52,7 +53,7 @@
       </tr>
     <% end %>
     <tr>
-      <td colspan="2">
+      <td colspan="2" class="bg-slate-200">
         <%= link_to "Add location to #{cave.title}", new_cave_location_path(cave) %>
       </td>
     </tr>
