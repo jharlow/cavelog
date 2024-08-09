@@ -5,7 +5,7 @@ class CavesController < ApplicationController
 
   def show
     @cave = Cave.find(params[:id])
-    @logs = @cave.logs.where(user: current_user)
+    logger.info(@cave.log_cave_copies)
   end
 
   def new
@@ -15,9 +15,9 @@ class CavesController < ApplicationController
   def create
     @cave = Cave.new(cave_params)
     if @cave.save
-      redirect_to @cave
+      redirect_to(@cave)
     else
-      render :new, status: :unprocessable_entity
+      render(:new, status: :unprocessable_entity)
     end
   end
 
@@ -28,16 +28,16 @@ class CavesController < ApplicationController
   def update
     @cave = Cave.find(params[:id])
     if @cave.update(cave_params)
-      redirect_to @cave
+      redirect_to(@cave)
     else
-      render :edit, status: :unprocessable_entity
+      render(:edit, status: :unprocessable_entity)
     end
   end
 
   def destroy
     @cave = Cave.find(params[:id])
     @cave.destroy
-    redirect_to root_path, status: :see_other
+    redirect_to(root_path, status: :see_other)
   end
 
   private def cave_params

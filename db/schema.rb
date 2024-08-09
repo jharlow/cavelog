@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_06_234554) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_08_230736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,8 +31,27 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_06_234554) do
     t.index ["locatable_type", "locatable_id"], name: "index_locations_on_locatable"
   end
 
+  create_table "log_cave_copies", force: :cascade do |t|
+    t.bigint "log_id", null: false
+    t.bigint "cave_id"
+    t.string "cave_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cave_id"], name: "index_log_cave_copies_on_cave_id"
+    t.index ["log_id"], name: "index_log_cave_copies_on_log_id"
+  end
+
+  create_table "log_location_copies", force: :cascade do |t|
+    t.bigint "log_id", null: false
+    t.bigint "location_id"
+    t.string "location_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_log_location_copies_on_location_id"
+    t.index ["log_id"], name: "index_log_location_copies_on_log_id"
+  end
+
   create_table "logs", force: :cascade do |t|
-    t.bigint "cave_id", null: false
     t.text "personal_comments"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -40,7 +59,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_06_234554) do
     t.integer "group_size"
     t.datetime "start_datetime"
     t.datetime "end_datetime"
-    t.index ["cave_id"], name: "index_logs_on_cave_id"
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
@@ -65,7 +83,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_06_234554) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "logs", "caves"
+  add_foreign_key "log_cave_copies", "caves"
+  add_foreign_key "log_cave_copies", "logs"
+  add_foreign_key "log_location_copies", "locations"
+  add_foreign_key "log_location_copies", "logs"
   add_foreign_key "logs", "users"
   add_foreign_key "subsystems", "caves"
 end

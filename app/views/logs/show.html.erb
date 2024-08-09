@@ -1,6 +1,11 @@
 <h1>Log entry</h1>
 <h2>Cave</h2>
-<p><%= @log.cave.title %></p>
-<%= link_to "View #{@log.cave.title}", cave_path(@log.cave) %>
+<p>
+  <% if @log.log_cave_copy.cave.present? %>
+    <%= @log.log_cave_copy.cave.title %>
+  <% else %>
+    <%= @log.log_cave_copy.cave_title %>
+  <% end %>
+</p>
 <h2>Personal comments</h2>
 <p><%= @log.personal_comments %></p>

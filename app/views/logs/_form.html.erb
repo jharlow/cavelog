@@ -6,7 +6,6 @@
       <div><%= message %></div>
     <% end %>
   </div>
-
   <div>
     <%= form.label :end_datetime %>
     <%= form.datetime_local_field :end_datetime %>
@@ -14,7 +13,6 @@
       <div><%= message %></div>
     <% end %>
   </div>
-
   <div>
     <%= form.label :personal_comments %><br>
     <%= form.text_area :personal_comments %><br>
@@ -22,7 +20,29 @@
       <div><%= message %></div>
     <% end %>
   </div>
-
+  <div>
+    <%= form.fields_for :log_cave_copy do |log_cave_copy_fields| %>
+      <% if @cave.present? %>
+        <%= log_cave_copy_fields.hidden_field :cave_id, value: @cave.id %>
+        <%= log_cave_copy_fields.hidden_field :cave_title, value: @cave.title %>
+      <% else %>
+        <%= log_cave_copy_fields.label :cave_title %><br>
+        <%= log_cave_copy_fields.text_field :cave_title %><br>
+        <% @log.log_cave_copy.errors.full_messages_for(:cave_title).each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <div>
+    <% if @cave.present? %>
+      <%= form.fields_for :log_location_copies do |log_location_copies_fields| %>
+        <% @cave.locations.each do |location| %>
+          <p><%= location.title %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
   <div>
     <%= form.submit %>
   </div>
