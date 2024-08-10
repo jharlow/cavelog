@@ -9,16 +9,16 @@
 </p>
 <h2>Personal comments</h2>
 <p><%= @log.personal_comments %></p>
-<h2>Locations visited</h2>
-<% @log.log_location_copies.each do |llc| %>
-  <% if llc.location.present? %>
-    <%= render 'locations/attached-location-form', action: "Remove", path: remove_location_log_path(llc.log), location: llc.location %>
-  <% else %>
-    <li><%= llc.location_title %></li>
-  <% end %>
-<% end %>
-<h3>Add locations</h3>
 <% if @available_locations.present? %>
+  <h2>Locations visited</h2>
+  <% @log.log_location_copies.each do |llc| %>
+    <% if llc.location.present? %>
+      <%= render 'locations/attached-location-form', action: "Remove", path: remove_location_log_path(llc.log), location: llc.location %>
+    <% else %>
+      <li><%= llc.location_title %></li>
+    <% end %>
+  <% end %>
+  <h3>Add locations</h3>
   <% @available_locations[:subsystems].each do |subsystem_hash| %>
     <% if subsystem_hash[:locations].length > 0 %>
       <h4><%= subsystem_hash[:subsystem].title %></h4>
