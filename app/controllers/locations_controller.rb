@@ -2,7 +2,6 @@ class LocationsController < ApplicationController
   before_action :set_locatable
 
   def show
-    logger.info(params)
     @location = Location.find(params[:id])
   end
 

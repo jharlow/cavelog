@@ -8,13 +8,10 @@ class LogsController < ApplicationController
   def new
     @log = Log.new
     @log.build_log_cave_copy(cave: @cave)
-    @log.log_location_copies.build
   end
 
   def create
     @log = Log.new(log_params.merge(user: current_user))
-    logger.info(log_params)
-    logger.info(@log)
     if @cave.present?
       @log.log_cave_copy.cave = @cave
     end
@@ -24,6 +21,25 @@ class LogsController < ApplicationController
     else
       render(:new, status: :unprocessable_entity)
     end
+  end
+
+  def add_location
+    @log = Log.find(params[:id])
+    logger.info(" into add_location")
+    if @log.log_cave_copy.cave.present?
+      @location = Location.find(params[:location_id])
+      @log_location_copy = LogLocationCopy.new(log: @log, location: @location, location_title: @location.title)
+      logger.info(@log_location_copy)
+      if LogLocationCopy.find_by(log_id: @log.id, location_id: @location.id)
+        flash[:alert] = "This location has already been logged on this log"
+      elsif @log.log_location_copies << @log_location_copy
+        flash[:notice] = "Location added successfully."
+      else
+        flash[:alert] = "Failed to add location."
+      end
+    end
+
+    redirect_to(log_path(@log))
   end
 
   private
@@ -37,8 +53,7 @@ class LogsController < ApplicationController
       :start_datetime,
       :end_datetime,
       :personal_comments,
-      log_cave_copy_attributes: [:cave_id, :cave_title],
-      log_location_copies_attributes: [:location_id]
+      log_cave_copy_attributes: [:cave_id, :cave_title]
     )
   end
 end

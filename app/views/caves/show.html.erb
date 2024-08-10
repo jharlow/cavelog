@@ -1,18 +1,19 @@
 <h1><%= @cave.title %></h1>
-
 <p><%= @cave.description %></p>
-
 <section>
   <h2>Locations</h2>
   <%= render 'locations/locations', cave: @cave %>
   <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave) %>
 </section>
-
 <section>
-<h2>Your logs</h2>
-<%= link_to 'Create your first log', new_cave_log_path(@cave) %>
+  <h2>Your logs</h2>
+  <ul>
+    <% @user_logs.each do |log| %>
+      <li><%= link_to log.personal_comments, log_path(log) %></li>
+    <% end %>
+  </ul>
+  <%= link_to 'Create your first log', new_cave_log_path(@cave) %>
 </section>
-
 <section>
   <h2>Actions</h2>
   <ul>
@@ -20,5 +21,4 @@
     <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>
   </ul>
 </section>
-
 <%= link_to "Back to home", root_path %>

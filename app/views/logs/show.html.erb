@@ -2,10 +2,24 @@
 <h2>Cave</h2>
 <p>
   <% if @log.log_cave_copy.cave.present? %>
-    <%= @log.log_cave_copy.cave.title %>
+    <%= link_to @log.log_cave_copy.cave.title, cave_path(@log.log_cave_copy.cave) %>
   <% else %>
     <%= @log.log_cave_copy.cave_title %>
   <% end %>
 </p>
 <h2>Personal comments</h2>
 <p><%= @log.personal_comments %></p>
+<h2>Locations visited</h2>
+<% @log.log_location_copies.each do |llc| %>
+  <% if llc.location.present? %>
+    <li><%= link_to llc.location.title, llc.location.path %></li>
+  <% else %>
+    <li><%= llc.location_title %></li>
+  <% end %>
+<% end %>
+<h3>Add locations</h3>
+<%= form_with url: add_location_log_path(@log), method: :post do |f| %>
+  <%= f.label :location_id, "Select Location" %>
+  <%= f.collection_select :location_id, @log.log_cave_copy.cave.locations + @log.log_cave_copy.cave.subsystems.flat_map(&:locations), :id, :title, prompt: "Choose a Location" %>
+  <%= f.submit "Add Location" %>
+<% end %>

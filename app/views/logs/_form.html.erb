@@ -35,15 +35,6 @@
     <% end %>
   </div>
   <div>
-    <% if @cave.present? %>
-      <%= form.fields_for :log_location_copies do |log_location_copies_fields| %>
-        <% @cave.locations.each do |location| %>
-          <p><%= location.title %></p>
-        <% end %>
-      <% end %>
-    <% end %>
-  </div>
-  <div>
     <%= form.submit %>
   </div>
 <% end %>
