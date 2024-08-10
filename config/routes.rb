@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources(:logs) do
     member do
       post("add_location")
+      post("remove_location")
     end
   end
 

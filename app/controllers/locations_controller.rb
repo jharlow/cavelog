@@ -31,7 +31,9 @@ class LocationsController < ApplicationController
     end
   end
 
-  private def set_locatable
+  private
+
+  def set_locatable
     if params[:cave_id] && params[:subsystem_id]
       @locatable = Subsystem.find(params[:subsystem_id])
       @parent = @locatable.cave
@@ -40,7 +42,7 @@ class LocationsController < ApplicationController
     end
   end
 
-  private def location_params
+  def location_params
     params.require(:location).permit(:title, :description)
   end
 end
