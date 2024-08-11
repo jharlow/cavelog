@@ -1,5 +1,4 @@
 <%= form_with url: path, method: :post do |f| %>
-  <%= f.label :location_id, location.title %>
   <%= f.hidden_field :location_id, value: location.id %>
-  <%= f.submit "#{action} location" %>
+  <%= f.submit action, aria: { label: "#{action} #{location.title} to log" } %>
 <% end %>
