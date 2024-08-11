@@ -1,36 +1,53 @@
 <h1>Log entry</h1>
-<h2>Cave</h2>
-<p>
-  <% if @log.log_cave_copy.cave.present? %>
-    <%= link_to @log.log_cave_copy.cave.title, cave_path(@log.log_cave_copy.cave) %>
-  <% else %>
-    <%= @log.log_cave_copy.cave_title %>
-  <% end %>
-</p>
 <h2>Personal comments</h2>
 <p><%= @log.personal_comments %></p>
-<% if @available_locations.present? %>
-  <h2>Locations visited</h2>
-  <% @log.log_location_copies.each do |llc| %>
-    <% if llc.location.present? %>
-      <%= render 'locations/attached-location-form', action: "Remove", path: remove_location_log_path(llc.log), location: llc.location %>
-    <% else %>
-      <li><%= llc.location_title %></li>
-    <% end %>
+<h2>Locations visited</h2>
+<% @locations_data[:caves].each do |cave| %>
+  <% if cave[:locations_visited_count] != 0 %>
+    <h3><%= cave[:cave][:data].title %></h3>
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th>Locations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cave[:subsystems].each do |subsystem| %>
+          <% if subsystem[:locations_visited].length > 0 %>
+            <tr class="collapsible">
+              <th colspan="2">
+                <%= subsystem[:data].title %>
+              </th>
+            </tr>
+            <% subsystem[:locations_visited].each do |location| %>
+              <tr>
+                <td><%= render 'locations/attached-location-form', action: "Remove", path: remove_location_log_path(@log), location: location %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if cave[:subsystems].length != 0 && cave[:cave][:locations_visited].length > 0 %>
+          <tr>
+            <th colspan="2">Miscellaneous</th>
+          </tr>
+        <% end %>
+        <% cave[:cave][:locations_visited].each do |location| %>
+          <tr>
+            <td><%= render 'locations/attached-location-form', action: "Remove", path: remove_location_log_path(@log), location: location %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
-  <h3>Add locations</h3>
-  <% @available_locations[:subsystems].each do |subsystem_hash| %>
-    <% if subsystem_hash[:locations].length > 0 %>
-      <h4><%= subsystem_hash[:subsystem].title %></h4>
-      <% subsystem_hash[:locations].each do |location| %>
-        <%= render 'locations/attached-location-form', action: "Add", path: add_location_log_path(@log), location: location %>
-      <% end %>
-    <% end %>
-  <% end %>
-  <% if @available_locations[:subsystems].length != 0 && @available_locations[:miscellaneous].length != 0 %>
-    <h4>Miscellaneous</h4>
-  <% end %>
-  <% @available_locations[:miscellaneous].each do |location| %>
+<% end %>
+<h2>Add locations</h2>
+<% @locations_data[:caves].each do |cave| %>
+  <% cave[:cave][:locations_not_visited].each do |location| %>
     <%= render 'locations/attached-location-form', action: "Add", path: add_location_log_path(@log), location: location %>
+  <% end %>
+  <% cave[:subsystems].each do |subsystem| %>
+    <% subsystem[:locations_not_visited].each do |location| %>
+      <%= render 'locations/attached-location-form', action: "Add", path: add_location_log_path(@log), location: location %>
+    <% end %>
   <% end %>
 <% end %>

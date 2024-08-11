@@ -5,8 +5,7 @@ class CavesController < ApplicationController
 
   def show
     @cave = Cave.find(params[:id])
-    log_cave_copies = LogCaveCopy.where(cave: @cave)
-    @user_logs = Log.where(log_cave_copy: log_cave_copies, user: current_user)
+    @user_logs = @cave.logs.where(user: current_user)
   end
 
   def new

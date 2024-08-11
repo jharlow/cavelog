@@ -1,20 +1,24 @@
 class LogsController < ApplicationController
-  before_action :set_cave, only: [:new, :create]
-
   def show
     @log = Log.find(params[:id])
-    @available_locations = available_locations(@log, @log.log_cave_copy.cave) if @log.log_cave_copy.cave.present?
+    @locations_data = locations_data(@log)
+    logger.info(@locations_data)
   end
 
   def new
     @log = Log.new
-    @log.build_log_cave_copy(cave: @cave)
   end
 
   def create
-    @log = Log.new(log_params.merge(user: current_user))
-    if @cave.present?
-      @log.log_cave_copy.cave = @cave
+    @log = Log.new(log_params)
+    @log.user = current_user
+
+    if params[:cave_id].present?
+      @cave = Cave.find(params[:cave_id])
+      if @cave.present?
+        @log_cave_copy = LogCaveCopy.new(cave: @cave, cave_title: @cave.title)
+        @log.log_cave_copies << @log_cave_copy
+      end
     end
 
     if @log.save
@@ -57,28 +61,38 @@ class LogsController < ApplicationController
 
   private
 
-  def available_locations(log, cave)
-    used_location_ids = log.log_location_copies.pluck(:location_id)
-    if cave.present?
-      {
-        subsystems: cave.subsystems.map do |subsystem|
-          {subsystem: subsystem, locations: subsystem.locations.where.not(id: used_location_ids)}
-        end,
-        miscellaneous: cave.locations.where.not(id: used_location_ids)
-      }
+  def locations_data(log)
+    log_cave_copies_cave_ids = log.log_cave_copies.pluck(:cave_id)
+    caves = Cave.where(id: log_cave_copies_cave_ids).map do |cave|
+      cave_locations_data(cave, log)
     end
+
+    { caves: caves }
   end
 
-  def set_cave
-    @cave = Cave.find(params[:cave_id]) if params[:cave_id]
+  def cave_locations_data(cave, log)
+    cave_locations_data = locations_data_for_locatable(cave, log)
+    subsystem_locations_data = cave.subsystems.map do |subsystem|
+      locations_data_for_locatable(subsystem, log)
+    end
+
+    locations_visited_count = cave_locations_data[:locations_visited].length + subsystem_locations_data.sum { |ss|
+      ss[:locations_visited].length
+    }
+
+    { cave: cave_locations_data, subsystems: subsystem_locations_data, locations_visited_count: locations_visited_count }
+  end
+
+  def locations_data_for_locatable(locatable, log)
+    log_location_copies_location_ids = log.log_location_copies.pluck(:location_id)
+    {
+      data: locatable,
+      locations_visited: locatable.locations.where(id: log_location_copies_location_ids),
+      locations_not_visited: locatable.locations.where.not(id: log_location_copies_location_ids)
+    }
   end
 
   def log_params
-    params.require(:log).permit(
-      :start_datetime,
-      :end_datetime,
-      :personal_comments,
-      log_cave_copy_attributes: [:cave_id, :cave_title]
-    )
+    params.require(:log).permit(:start_datetime, :end_datetime, :personal_comments)
   end
 end
