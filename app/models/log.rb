@@ -25,18 +25,22 @@ class Log < ApplicationRecord
   def cave_locations_data(cave)
     cave_locations_data = locations_data_for_locatable(cave)
     subsystem_locations_data = cave.subsystems.map { |subsystem| locations_data_for_locatable(subsystem) }
-    locations_visited_count = cave_locations_data[:locations].count { |loc| loc[:is_in_log] } +
-      subsystem_locations_data.sum { |ss| ss[:locations].count { |loc| loc[:is_in_log] } }
+    locations_visited_count = cave_locations_data[:locations_visited_count] + subsystem_locations_data.sum { |ss|
+      ss[:locations_visited_count]
+    }
     { cave: cave_locations_data, subsystems: subsystem_locations_data, locations_visited_count: locations_visited_count }
   end
 
   def locations_data_for_locatable(locatable)
+    locations = locatable.locations.map do |location|
+      connected_copy = location.log_location_copies.where(log_id: id)
+      { data: location, is_in_log: connected_copy.present? }
+    end
+
     {
       data: locatable,
-      locations: locatable.locations.map do |location|
-        connected_copy = location.log_location_copies.where(log_id: id)
-        { data: location, is_in_log: connected_copy.present? }
-      end
+      locations: locations,
+      locations_visited_count: locations.count { |location| location[:is_in_log] }
     }
   end
 end

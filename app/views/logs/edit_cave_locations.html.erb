@@ -1,5 +1,8 @@
 <%= turbo_frame_tag "locations_cave_#{@cave.id}" do %>
-  <%= link_to "Back to log", log_path(@log) %>
+  <div class="flex justify-between">
+    <h3 id="<%= "locations_cave_#{@cave.id}" %>"><%= @cave.title %></h3>
+    <%= link_to "Back to log", log_path(@log) %>
+  </div>
   <table class="w-full">
     <thead>
       <tr>
@@ -17,8 +20,8 @@
           </tr>
           <% subsystem[:locations].each do |location| %>
             <tr>
-              <td class="bg-green-100 w-max"><%= location[:data].title %></td>
-              <td class="bg-green-100">
+              <td><%= location[:data].title %></td>
+              <td>
                 <%=
                   render 'locations/attached-location-form',
                   action: location[:is_in_log] ? "Remove" : "Add",

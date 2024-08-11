@@ -1,4 +1,4 @@
-<h1>Log entry</h1>
+<h1>Log entry <span class="text-2xl text-gray-700">#<%= @log.id %></span></h1>
 <h2>Personal comments</h2>
 <p><%= @log.personal_comments %></p>
 <h2>Caves visited</h2>
@@ -17,5 +17,42 @@
       <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
       <%= link_to "Edit", log_path(@log) + "/edit_cave_locations/#{cave[:cave][:data].id}" %>
     </div>
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cave[:subsystems].each do |subsystem| %>
+          <% if subsystem[:locations_visited_count] > 0 %>
+            <tr>
+              <th colspan="2">
+                <%= subsystem[:data].title %>
+              </th>
+            </tr>
+            <% subsystem[:locations].each do |location| %>
+              <% if location[:is_in_log] %>
+                <tr>
+                  <td><%= location[:data].title %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if cave[:subsystems].length != 0 && cave[:cave][:locations_visited_count] > 0 %>
+          <tr>
+            <th colspan="2">Miscellaneous</th>
+          </tr>
+        <% end %>
+        <% cave[:cave][:locations].each do |location| %>
+          <% if location[:is_in_log] %>
+            <tr>
+              <td><%= location[:data].title %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
 <% end %>
