@@ -40,7 +40,18 @@ class LogsController < ApplicationController
       flash[:alert] = "Failed to add location."
     end
 
-    redirect_to(log_path(@log))
+    respond_to do |format|
+      format.turbo_stream {
+        render(
+          turbo_stream: turbo_stream.replace(
+            "edit_location_frame_#{params[:location_id]}",
+            partial: "locations/attached-location-form",
+            locals: { action: "Remove", path: remove_location_log_path(@log), location: @location }
+          )
+        )
+      }
+      format.html { redirect_to(log_path(@log)) }
+    end
   end
 
   def remove_location
@@ -55,13 +66,25 @@ class LogsController < ApplicationController
       flash[:alert] = "Failed to remove location."
     end
 
-    redirect_to(log_path(params[:id]))
+    respond_to do |format|
+      format.turbo_stream {
+        render(
+          turbo_stream: turbo_stream.replace(
+            "edit_location_frame_#{params[:location_id]}",
+            partial: "locations/attached-location-form",
+            locals: { action: "Add", path: add_location_log_path(@log), location: @location }
+          )
+        )
+      }
+      format.html { redirect_to(log_path(@log)) }
+    end
   end
 
   def edit_cave_locations
     @log = Log.find(params[:id])
     @cave = @log.caves.where(id: params[:cave_id]).first
-    if !@cave.present?
+    @cave_locations_data = @log.locations_data[:caves].find { |cave| cave[:cave][:data].id == @cave.id }
+    if !@cave.present? && @cave_locations_data.present?
       render(file: "#{Rails.root}/public/404.html", status: 404)
     end
   end

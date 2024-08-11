@@ -25,8 +25,8 @@ class Log < ApplicationRecord
   def cave_locations_data(cave)
     cave_locations_data = locations_data_for_locatable(cave)
     subsystem_locations_data = cave.subsystems.map { |subsystem| locations_data_for_locatable(subsystem) }
-    locations_visited_count = cave_locations_data[:locations].reject { |loc| loc[:is_in_log] }.length +
-      subsystem_locations_data.sum { |ss| ss[:locations].reject { |loc| loc[:is_in_log] }.length }
+    locations_visited_count = cave_locations_data[:locations].count { |loc| loc[:is_in_log] } +
+      subsystem_locations_data.sum { |ss| ss[:locations].count { |loc| loc[:is_in_log] } }
     { cave: cave_locations_data, subsystems: subsystem_locations_data, locations_visited_count: locations_visited_count }
   end
 

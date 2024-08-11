@@ -1,3 +1,53 @@
 <%= turbo_frame_tag "locations_cave_#{@cave.id}" do %>
-  Hello from the other side!
+  <%= link_to "Back to log", log_path(@log) %>
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th>Location</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cave_locations_data[:subsystems].each do |subsystem| %>
+        <% if subsystem[:locations].length > 0 %>
+          <tr>
+            <th colspan="2">
+              <%= subsystem[:data].title %>
+            </th>
+          </tr>
+          <% subsystem[:locations].each do |location| %>
+            <tr>
+              <td class="bg-green-100 w-max"><%= location[:data].title %></td>
+              <td class="bg-green-100">
+                <%=
+                  render 'locations/attached-location-form',
+                  action: location[:is_in_log] ? "Remove" : "Add",
+                  path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
+                  location: location[:data]
+                %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% if @cave_locations_data[:subsystems].length != 0 && @cave_locations_data[:cave][:locations].length > 0 %>
+        <tr>
+          <th colspan="2">Miscellaneous</th>
+        </tr>
+      <% end %>
+      <% @cave_locations_data[:cave][:locations].each do |location| %>
+        <tr>
+          <td><%= location[:data].title %></td>
+          <td>
+            <%=
+              render 'locations/attached-location-form',
+              action: location[:is_in_log] ? "Remove" : "Add",
+              path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
+              location: location[:data]
+            %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

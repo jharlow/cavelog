@@ -17,55 +17,5 @@
       <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
       <%= link_to "Edit", log_path(@log) + "/edit_cave_locations/#{cave[:cave][:data].id}" %>
     </div>
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th>Location</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% cave[:subsystems].each do |subsystem| %>
-          <% if subsystem[:locations].length > 0 %>
-            <tr>
-              <th colspan="2">
-                <%= subsystem[:data].title %>
-              </th>
-            </tr>
-            <% subsystem[:locations].each do |location| %>
-              <tr>
-                <td class="bg-green-100 w-max"><%= location[:data].title %></td>
-                <td class="bg-green-100">
-                  <%=
-                  render 'locations/attached-location-form',
-                  action: location[:is_in_log] ? "Remove" : "Add",
-                  path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
-                  location: location[:data]
-                  %>
-                </td>
-              </tr>
-            <% end %>
-          <% end %>
-        <% end %>
-        <% if cave[:subsystems].length != 0 && cave[:cave][:locations].length > 0 %>
-          <tr>
-            <th colspan="2">Miscellaneous</th>
-          </tr>
-        <% end %>
-        <% cave[:cave][:locations].each do |location| %>
-          <tr>
-            <td><%= location[:data].title %></td>
-            <td>
-              <%=
-              render 'locations/attached-location-form',
-              action: location[:is_in_log] ? "Remove" : "Add",
-              path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
-              location: location[:data]
-              %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
   <% end %>
 <% end %>
