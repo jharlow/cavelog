@@ -1,37 +1,77 @@
 <h1>Log entry <span class="text-2xl text-gray-700">#<%= @log.id %></span></h1>
+<h2>Trip length</h2>
+<ul>
+  <li>Started trip at <%= @log.format_datetime(@log.start_datetime) %></li>
+  <li>Took <%= @log.length_of_log %></li>
+</ul>
 <h2>Personal comments</h2>
 <p><%= @log.personal_comments %></p>
 <h2>Caves visited</h2>
-<ul>
-  <% @log.caves.each do |cave| %>
-    <li><%= link_to cave.title, "#locations_cave_#{cave.id}" %></li>
+<% if @log.caves.length > 0 || @unconnected_caves.length > 0 %>
+  <% if @unconnected_caves.length > 0 %>
+    <p class="alert">At least one cave isnot currently connected to any data, this may happen because a reported cave was deleted</p>
   <% end %>
-  <% @unconnected_caves.each do |unconnected_cave| %>
-    <li><%= unconnected_cave.cave_title %></li>
-  <% end %>
-</ul>
+  <ul>
+    <% @locations_data[:caves].each do |cave| %>
+      <li><%= link_to cave[:cave][:data].title, log_path(@log) + "#locations_cave_#{cave[:cave][:data].id}" %></li>
+    <% end %>
+    <% @unconnected_caves.each do |unconnected_cave| %>
+      <li><%= unconnected_cave.cave_title %></li>
+    <% end %>
+  </ul>
+<% else %>
+  No caves attached to this log yet!
+<% end %>
+<%= link_to "Add cave", select_cave_to_add_log_path(@log) %>
 <h2>Locations visited</h2>
 <% @locations_data[:caves].each do |cave| %>
-  <%= turbo_frame_tag "locations_cave_#{cave[:cave][:data].id}" do %>
-    <div class="flex justify-between">
-      <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
-      <%= link_to "Edit", log_path(@log) + "/edit_cave_locations/#{cave[:cave][:data].id}" %>
-    </div>
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th>Location</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% cave[:subsystems].each do |subsystem| %>
-          <% if subsystem[:locations_visited_count] > 0 %>
+  <% if cave[:total_locations] == 0 %>
+    <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
+    <p>This cave doesn't have any locations yet to log!</p>
+    <%= link_to "Add a location in #{cave[:cave][:data].title}", new_cave_location_path(cave[:cave][:data]) %>
+  <% else %>
+    <%= turbo_frame_tag "locations_cave_#{cave[:cave][:data].id}" do %>
+      <div class="flex justify-between">
+        <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
+        <%= link_to "Edit", edit_cave_locations_log_path(@log.id, cave[:cave][:data].id) %>
+      </div>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if cave[:locations_visited_count] == 0 %>
             <tr>
-              <th colspan="2">
-                <%= subsystem[:data].title %>
-              </th>
+              <td class="bg-orange-50">
+                Cave visited but no locations logged
+                <%= link_to "Edit", edit_cave_locations_log_path(@log.id, cave[:cave][:data].id) %>
+              </td>
             </tr>
-            <% subsystem[:locations].each do |location| %>
+          <% else %>
+            <% cave[:subsystems].each do |subsystem| %>
+              <% if subsystem[:locations_visited_count] > 0 %>
+                <tr>
+                  <th colspan="2">
+                    <%= subsystem[:data].title %>
+                  </th>
+                </tr>
+                <% subsystem[:locations].each do |location| %>
+                  <% if location[:is_in_log] %>
+                    <tr>
+                      <td><%= location[:data].title %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if cave[:subsystems].length != 0 && cave[:cave][:locations_visited_count] > 0 %>
+              <tr>
+                <th colspan="2">Miscellaneous</th>
+              </tr>
+            <% end %>
+            <% cave[:cave][:locations].each do |location| %>
               <% if location[:is_in_log] %>
                 <tr>
                   <td><%= location[:data].title %></td>
@@ -39,20 +79,28 @@
               <% end %>
             <% end %>
           <% end %>
-        <% end %>
-        <% if cave[:subsystems].length != 0 && cave[:cave][:locations_visited_count] > 0 %>
-          <tr>
-            <th colspan="2">Miscellaneous</th>
-          </tr>
-        <% end %>
-        <% cave[:cave][:locations].each do |location| %>
-          <% if location[:is_in_log] %>
-            <tr>
-              <td><%= location[:data].title %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    <% end %>
   <% end %>
+<% end %>
+<% if @unconnected_locations.length > 0 %>
+  <h3>Miscellaneous locations</h3>
+  <p class="alert">These locations are not currently connected to any data, this may happen because a reported cave/location was deleted</p>
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @unconnected_locations.each do |un_loc| %>
+        <tr>
+          <td>
+            <%= un_loc.location_title %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

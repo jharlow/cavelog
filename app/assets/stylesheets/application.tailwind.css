@@ -41,17 +41,17 @@
   }
 
   tr {
-    @apply border-slate-900 border;
+    @apply border-slate-700 border;
   }
   td,
   th {
     @apply px-2 py-1;
   }
   th {
-    @apply bg-slate-800 text-slate-50;
+    @apply bg-slate-700 text-slate-50;
   }
   thead th {
-    @apply text-xl bg-slate-800 text-slate-50;
+    @apply text-xl bg-slate-700 text-slate-50;
   }
   tbody th {
     @apply text-lg;
@@ -68,5 +68,9 @@
 
   .card {
     @apply rounded p-4 shadow-md;
+  }
+
+  .alert {
+    @apply bg-orange-50 border-t-orange-500 border border-t-4 rounded-md py-2 px-4 text-slate-700 text-sm;
   }
 }

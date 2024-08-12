@@ -1,0 +1,9 @@
+<h1>Add a cave to log #<%= @log.id %></h1>
+<%= render "caves/search-bar", path: select_cave_to_add_log_path(@log) %>
+<ul>
+  <% @caves.each do |cave| %>
+    <li>
+      <div class="flex gap-4 items-center"><%= cave.title %><%= render "caves/attached-cave-form", path: add_cave_log_path(@log), action: "Add", cave: cave %></div>
+    </li>
+  <% end %>
+</ul>

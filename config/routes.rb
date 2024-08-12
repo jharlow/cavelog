@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do
-    resources(:logs, only: [ :new, :create ])
-    resources(:locations, only: [ :new, :create, :show, :edit, :update ])
-    resources(:subsystems, only: [ :new, :create, :show, :edit, :update ]) do
-      resources(:locations, only: [ :new, :create, :show, :edit, :update ])
+    resources(:logs, only: [:new, :create])
+    resources(:locations, only: [:new, :create, :show, :edit, :update])
+    resources(:subsystems, only: [:new, :create, :show, :edit, :update]) do
+      resources(:locations, only: [:new, :create, :show, :edit, :update])
     end
   end
 
@@ -14,7 +14,10 @@ Rails.application.routes.draw do
     member do
       post("add_location")
       post("remove_location")
-      get("/edit_cave_locations/:cave_id", to: "logs#edit_cave_locations")
+      get("/edit_cave_locations/:cave_id", to: "logs#edit_cave_locations", as: :edit_cave_locations)
+      get("select_cave_to_add")
+      post("add_cave")
+      post("remove_cave")
     end
   end
 

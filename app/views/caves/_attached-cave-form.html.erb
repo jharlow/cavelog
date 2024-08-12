@@ -1,0 +1,4 @@
+<%= form_with url: path, method: :post do |f| %>
+  <%= f.hidden_field :cave_id, value: cave.id %>
+  <%= f.submit action, aria: { label: "#{action} #{cave.title} to log" } %>
+<% end %>

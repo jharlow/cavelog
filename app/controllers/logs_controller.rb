@@ -46,7 +46,7 @@ class LogsController < ApplicationController
           turbo_stream: turbo_stream.replace(
             "edit_location_frame_#{params[:location_id]}",
             partial: "locations/attached-location-form",
-            locals: { action: "Remove", path: remove_location_log_path(@log), location: @location }
+            locals: {action: "Remove", path: remove_location_log_path(@log), location: @location}
           )
         )
       }
@@ -72,7 +72,7 @@ class LogsController < ApplicationController
           turbo_stream: turbo_stream.replace(
             "edit_location_frame_#{params[:location_id]}",
             partial: "locations/attached-location-form",
-            locals: { action: "Add", path: add_location_log_path(@log), location: @location }
+            locals: {action: "Add", path: add_location_log_path(@log), location: @location}
           )
         )
       }
@@ -87,6 +87,41 @@ class LogsController < ApplicationController
     if !@cave.present? && @cave_locations_data.present?
       render(file: "#{Rails.root}/public/404.html", status: 404)
     end
+  end
+
+  def select_cave_to_add
+    @log = Log.find(params[:id])
+    @caves = params[:q].present? ? Cave.search(params[:q]).records : Cave.all
+  end
+
+  def add_cave
+    @log = Log.find(params[:id])
+    @cave = Cave.find(params[:cave_id])
+    @log_cave_copy = LogCaveCopy.new(log: @log, cave: @cave, cave_title: @cave.title)
+    if LogCaveCopy.find_by(log_id: @log.id, cave_id: @cave.id)
+      flash[:alert] = "This cave has already been logged on this log"
+    elsif @log.log_cave_copies << @log_cave_copy
+      flash[:notice] = "Cave added successfully."
+    else
+      flash[:alert] = "Failed to add cave."
+    end
+
+    redirect_to(log_path(@log))
+  end
+
+  def remove_cave
+    @log = Log.find(params[:id])
+    @cave = Cave.find(params[:cave_id])
+    @log_cave_copy = LogCaveCopy.find_by(log_id: @log.id, cave_id: @cave.id)
+    if !@log_cave_copy.present?
+      flash[:alert] = "Cave has not been added to this log!"
+    elsif @log_cave_copy.destroy
+      flash[:notice] = "Cave removed successfully."
+    else
+      flash[:alert] = "Failed to remove cave."
+    end
+
+    redirect_to(log_path(@log))
   end
 
   private

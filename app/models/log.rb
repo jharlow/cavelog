@@ -6,9 +6,9 @@ class Log < ApplicationRecord
   has_many :caves, through: :log_cave_copies
   has_many :locations, through: :log_location_copies
 
-  validates :personal_comments, presence: true, length: { minimum: 10 }
+  validates :personal_comments, presence: true, length: {minimum: 10}
   validates :start_datetime, presence: true, not_in_future: true
-  validates :end_datetime, presence: true, not_in_future: true, not_before_other_attribute: { with: :start_datetime }
+  validates :end_datetime, presence: true, not_in_future: true, not_before_other_attribute: {with: :start_datetime}
 
   def unconnected_caves
     log_cave_copies.where(cave_id: nil)
@@ -19,22 +19,30 @@ class Log < ApplicationRecord
   end
 
   def locations_data
-    { caves: caves.map { |cave| cave_locations_data(cave) } }
+    {caves: caves.map { |cave| cave_locations_data(cave) }}
   end
 
   def cave_locations_data(cave)
     cave_locations_data = locations_data_for_locatable(cave)
     subsystem_locations_data = cave.subsystems.map { |subsystem| locations_data_for_locatable(subsystem) }
+    total_locations = cave_locations_data[:locations].length + subsystem_locations_data.sum { |ss|
+      ss[:locations].length
+    }
     locations_visited_count = cave_locations_data[:locations_visited_count] + subsystem_locations_data.sum { |ss|
       ss[:locations_visited_count]
     }
-    { cave: cave_locations_data, subsystems: subsystem_locations_data, locations_visited_count: locations_visited_count }
+    {
+      cave: cave_locations_data,
+      subsystems: subsystem_locations_data,
+      locations_visited_count: locations_visited_count,
+      total_locations: total_locations
+    }
   end
 
   def locations_data_for_locatable(locatable)
     locations = locatable.locations.map do |location|
       connected_copy = location.log_location_copies.where(log_id: id)
-      { data: location, is_in_log: connected_copy.present? }
+      {data: location, is_in_log: connected_copy.present?}
     end
 
     {
@@ -42,5 +50,34 @@ class Log < ApplicationRecord
       locations: locations,
       locations_visited_count: locations.count { |location| location[:is_in_log] }
     }
+  end
+
+  def format_datetime(datetime)
+    day_suffix = case datetime.day
+    when 1, 21, 31
+      "st"
+    when 2, 22
+      "nd"
+    when 3, 23
+      "rd"
+    else
+      "th"
+    end
+
+    datetime.strftime("%I:%M%P on %b #{datetime.day}#{day_suffix} %Y")
+  end
+
+  def length_of_log
+    seconds_diff = (end_datetime - start_datetime).to_i
+
+    days = seconds_diff / (24 * 3600)
+    seconds_diff %= (24 * 3600)
+    hours = seconds_diff / 3600
+
+    parts = []
+    parts << "#{days} day#{"s" if days != 1}" if days > 0
+    parts << "#{hours} hour#{"s" if hours != 1}" if hours > 0
+
+    parts.join(", ")
   end
 end
