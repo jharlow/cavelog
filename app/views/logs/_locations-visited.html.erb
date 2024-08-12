@@ -9,7 +9,7 @@
       <%= turbo_frame_tag "locations_cave_#{cave[:cave][:data].id}" do %>
         <div class="flex justify-between">
           <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
-          <%= link_to "Edit", edit_cave_locations_log_path(@log.id, cave[:cave][:data].id) %>
+          <%= link_to "Edit", edit_cave_locations_log_path(log.id, cave[:cave][:data].id) %>
         </div>
         <table class="w-full">
           <thead>
@@ -22,7 +22,7 @@
               <tr>
                 <td class="bg-orange-50">
                   Cave visited but no locations logged
-                  <%= link_to "Edit", edit_cave_locations_log_path(@log.id, cave[:cave][:data].id) %>
+                  <%= link_to "Edit", edit_cave_locations_log_path(log.id, cave[:cave][:data].id) %>
                 </td>
               </tr>
             <% else %>

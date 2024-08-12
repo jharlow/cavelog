@@ -108,11 +108,18 @@ class LogsController < ApplicationController
       } : Cave.where.not(id: @log.caves.pluck(:id))
       format.turbo_stream {
         render(
-          turbo_stream: turbo_stream.replace(
-            "log_caves_#{@log.id}",
-            partial: "logs/edit-caves-form",
-            locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
-          )
+          turbo_stream: [
+            turbo_stream.replace(
+              "log_caves_#{@log.id}",
+              partial: "logs/edit-caves-form",
+              locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+            ),
+            turbo_stream.replace(
+              "locations_visited",
+              partial: "logs/locations-visited",
+              locals: {locations_data: @log.locations_data, log: @log}
+            )
+          ]
         )
       }
       format.html { redirect_to(log_path(@log)) }
@@ -138,11 +145,18 @@ class LogsController < ApplicationController
       } : Cave.where.not(id: @log.caves.pluck(:id))
       format.turbo_stream {
         render(
-          turbo_stream: turbo_stream.replace(
-            "log_caves_#{@log.id}",
-            partial: "logs/edit-caves-form",
-            locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
-          )
+          turbo_stream: [
+            turbo_stream.replace(
+              "log_caves_#{@log.id}",
+              partial: "logs/edit-caves-form",
+              locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+            ),
+            turbo_stream.replace(
+              "locations_visited",
+              partial: "logs/locations-visited",
+              locals: {locations_data: @log.locations_data, log: @log}
+            )
+          ]
         )
       }
       format.html { redirect_to(log_path(@log)) }

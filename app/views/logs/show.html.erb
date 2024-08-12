@@ -27,7 +27,7 @@
     No caves attached to this log yet!
   <% end %>
 <% end %>
-<%= render 'locations-visited', locations_data:  @locations_data %>
+<%= render 'locations-visited', locations_data: @locations_data, log: @log %>
 <% if @unconnected_locations.length > 0 %>
   <h3>Miscellaneous locations</h3>
   <p class="alert">These locations are not currently connected to any data, this may happen because a reported cave/location was deleted</p>

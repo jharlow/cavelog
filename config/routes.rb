@@ -15,9 +15,9 @@ Rails.application.routes.draw do
       post("add_location")
       post("remove_location")
       get("/edit_cave_locations/:cave_id", to: "logs#edit_cave_locations", as: :edit_cave_locations)
-      get("select_cave_to_add")
       post("add_cave")
       post("remove_cave")
+      get("edit_caves")
     end
   end
 
