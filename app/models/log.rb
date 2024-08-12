@@ -73,10 +73,13 @@ class Log < ApplicationRecord
     days = seconds_diff / (24 * 3600)
     seconds_diff %= (24 * 3600)
     hours = seconds_diff / 3600
+    seconds_diff %= 3600
+    minutes = seconds_diff / 60
 
     parts = []
     parts << "#{days} day#{"s" if days != 1}" if days > 0
     parts << "#{hours} hour#{"s" if hours != 1}" if hours > 0
+    parts << "#{minutes} minute#{"s" if minutes != 1}" if minutes > 0
 
     parts.join(", ")
   end

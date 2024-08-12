@@ -89,11 +89,6 @@ class LogsController < ApplicationController
     end
   end
 
-  def select_cave_to_add
-    @log = Log.find(params[:id])
-    @caves = params[:q].present? ? Cave.search(params[:q]).records : Cave.all
-  end
-
   def add_cave
     @log = Log.find(params[:id])
     @cave = Cave.find(params[:cave_id])
@@ -106,7 +101,22 @@ class LogsController < ApplicationController
       flash[:alert] = "Failed to add cave."
     end
 
-    redirect_to(log_path(@log))
+    respond_to do |format|
+      current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
+      available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
+        @log.caves.pluck(:id) == cave.id
+      } : Cave.where.not(id: @log.caves.pluck(:id))
+      format.turbo_stream {
+        render(
+          turbo_stream: turbo_stream.replace(
+            "log_caves_#{@log.id}",
+            partial: "logs/edit-caves-form",
+            locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+          )
+        )
+      }
+      format.html { redirect_to(log_path(@log)) }
+    end
   end
 
   def remove_cave
@@ -121,7 +131,30 @@ class LogsController < ApplicationController
       flash[:alert] = "Failed to remove cave."
     end
 
-    redirect_to(log_path(@log))
+    respond_to do |format|
+      current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
+      available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
+        @log.caves.pluck(:id) == cave.id
+      } : Cave.where.not(id: @log.caves.pluck(:id))
+      format.turbo_stream {
+        render(
+          turbo_stream: turbo_stream.replace(
+            "log_caves_#{@log.id}",
+            partial: "logs/edit-caves-form",
+            locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+          )
+        )
+      }
+      format.html { redirect_to(log_path(@log)) }
+    end
+  end
+
+  def edit_caves
+    @log = Log.find(params[:id])
+    @current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
+    @available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
+      @log.caves.pluck(:id) == cave.id
+    } : Cave.where.not(id: @log.caves.pluck(:id))
   end
 
   private

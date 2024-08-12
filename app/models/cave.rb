@@ -2,7 +2,7 @@ class Cave < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
-  has_many :subsystems
+  has_many :subsystems, dependent: :destroy
   has_many :locations, as: :locatable, dependent: :destroy
   has_many :log_cave_copies
   has_many :logs, through: :log_cave_copies

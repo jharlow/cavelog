@@ -1,0 +1,63 @@
+<%= turbo_frame_tag "locations_visited" do %>
+  <h2>Locations visited</h2>
+  <% locations_data[:caves].each do |cave| %>
+    <% if cave[:total_locations] == 0 %>
+      <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
+      <p>This cave doesn't have any locations yet to log!</p>
+      <%= link_to "Add a location in #{cave[:cave][:data].title}", new_cave_location_path(cave[:cave][:data]) %>
+    <% else %>
+      <%= turbo_frame_tag "locations_cave_#{cave[:cave][:data].id}" do %>
+        <div class="flex justify-between">
+          <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
+          <%= link_to "Edit", edit_cave_locations_log_path(@log.id, cave[:cave][:data].id) %>
+        </div>
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if cave[:locations_visited_count] == 0 %>
+              <tr>
+                <td class="bg-orange-50">
+                  Cave visited but no locations logged
+                  <%= link_to "Edit", edit_cave_locations_log_path(@log.id, cave[:cave][:data].id) %>
+                </td>
+              </tr>
+            <% else %>
+              <% cave[:subsystems].each do |subsystem| %>
+                <% if subsystem[:locations_visited_count] > 0 %>
+                  <tr>
+                    <th colspan="2">
+                      <%= subsystem[:data].title %>
+                    </th>
+                  </tr>
+                  <% subsystem[:locations].each do |location| %>
+                    <% if location[:is_in_log] %>
+                      <tr>
+                        <td><%= location[:data].title %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% if cave[:subsystems].length != 0 && cave[:cave][:locations_visited_count] > 0 %>
+                <tr>
+                  <th colspan="2">Miscellaneous</th>
+                </tr>
+              <% end %>
+              <% cave[:cave][:locations].each do |location| %>
+                <% if location[:is_in_log] %>
+                  <tr>
+                    <td><%= location[:data].title %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
