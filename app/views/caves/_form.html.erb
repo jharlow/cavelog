@@ -1,21 +1,15 @@
 <%= form_with model: cave do |form| %>
   <div>
-    <%= form.label :title %><br>
+    <%= form.label :title %>
     <%= form.text_field :title %>
-    <% cave.errors.full_messages_for(:title).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
+    <%= render 'components/forms/errors', error_messages: cave.errors.full_messages_for(:title) %>
   </div>
-
   <div>
-    <%= form.label :description %><br>
-    <%= form.text_area :description %><br>
-    <% cave.errors.full_messages_for(:description).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+    <%= render 'components/forms/errors', error_messages: cave.errors.full_messages_for(:description) %>
   </div>
-
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn" %>
   </div>
 <% end %>

@@ -1,0 +1,6 @@
+<turbo-frame id="edit_log_cave_frame_<%= cave.id %>">
+  <%= form_with url: path, method: :post, data: data do |f| %>
+    <%= f.hidden_field :cave_id, value: cave.id %>
+    <%= f.submit action, aria: { label: "#{action} #{cave.title} #{action == "Add" ? "to" : "from"} log" }, :class => action == "Add" ? "btn" : "btn btn-red" %>
+  <% end %>
+</turbo-frame>

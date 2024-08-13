@@ -4,7 +4,11 @@
 
 @layer base {
   body {
-    @apply flex flex-col gap-4 bg-slate-100;
+    @apply flex flex-col gap-4 bg-slate-100 w-full h-screen;
+  }
+
+  section {
+    @apply flex flex-col gap-2;
   }
 
   h1 {
@@ -28,45 +32,67 @@
   }
 
   a {
-    @apply text-sky-700 hover:underline underline-offset-2 focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+    @apply text-sky-600 hover:underline underline-offset-2 focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
   }
 
   p {
     @apply text-base;
   }
 
-  button,
-  input[type="submit"] {
-    @apply rounded-md bg-blue-500 px-4 py-1.5 text-white focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+  label {
+    @apply block text-sm font-medium text-gray-700;
   }
 
-  tr {
-    @apply border-slate-900 border;
+  input[type="text"],
+  input[type="datetime-local"],
+  textarea {
+    @apply mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm;
   }
-  td,
-  th {
-    @apply px-2 py-1;
+  textarea {
+    @apply min-h-24;
   }
-  th {
-    @apply bg-slate-800 text-slate-50;
+
+  button {
+    @apply rounded-md border bg-white shadow-sm inline-block px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:cursor-pointer focus:relative focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+  }
+
+  table {
+    @apply overflow-x-auto rounded-lg border border-gray-200 min-w-full divide-y-2 divide-gray-200 bg-white text-sm;
+  }
+  thead {
+    @apply text-left ltr:text-left rtl:text-right;
+  }
+  tbody {
+    @apply divide-y divide-gray-200;
   }
   thead th {
-    @apply text-xl bg-slate-800 text-slate-50;
-  }
-  tbody th {
-    @apply text-lg;
+    @apply bg-slate-100;
   }
   th {
-    @apply text-left;
+    @apply whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-left bg-slate-50;
+  }
+  td {
+    @apply whitespace-nowrap px-4 py-2 text-gray-700;
   }
 }
 
 @layer components {
   .btn {
-    @apply rounded bg-blue-500 px-4 py-2 text-white;
+    @apply rounded-md border bg-white shadow-sm inline-block px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:cursor-pointer focus:relative focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+  }
+  .btn-red {
+    @apply bg-red-600 hover:bg-red-700 text-white;
   }
 
   .card {
     @apply rounded p-4 shadow-md;
+  }
+
+  .alert {
+    @apply bg-orange-50 border-t-orange-500 border border-t-4 rounded-md py-2 px-4 text-slate-700 text-sm;
+  }
+
+  .err-msgs {
+    @apply block text-sm font-medium text-red-600;
   }
 }

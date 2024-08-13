@@ -1,7 +1,5 @@
 <h1>Caves</h1>
-
-<%= render "search-bar" %>
-
+<%= render "search-bar", path: caves_path %>
 <ul>
   <% @caves.each do |cave| %>
     <li>
@@ -9,5 +7,5 @@
     </li>
   <% end %>
 </ul>
-
 <%= link_to "New Cave", new_cave_path %>
+<%= link_to "New Log", new_log_path %>

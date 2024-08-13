@@ -3,14 +3,28 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do
-    resources(:logs, only: [ "new", "create" ])
-    resources(:locations, only: [ :new, :create, :show, :edit, :update ])
-    resources(:subsystems, only: [ "new", "create", "show", "edit", "update" ]) do
-      resources(:locations, only: [ :new, :create, :show, :edit, :update ])
+    resources(:logs, only: [:new, :create])
+    resources(:locations, only: [:new, :create, :show, :edit, :update])
+    resources(:subsystems, only: [:new, :create, :show, :edit, :update]) do
+      resources(:locations, only: [:new, :create, :show, :edit, :update])
     end
   end
 
-  resources(:logs, except: [ "new", "create" ])
+  resources(:logs) do
+    member do
+      post("add_location")
+      post("remove_location")
+      get("/edit_cave_locations/:cave_id", to: "logs#edit_cave_locations", as: :edit_cave_locations)
+
+      post("remove_unconnected_location")
+      get("edit_unconnected_locations")
+
+      post("add_cave")
+      post("remove_cave")
+      post("remove_unconnected_cave")
+      get("edit_caves")
+    end
+  end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

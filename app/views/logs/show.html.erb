@@ -1,6 +1,31 @@
-<h1>Log entry</h1>
-<h2>Cave</h2>
-<p><%= @log.cave.title %></p>
-<%= link_to "View #{@log.cave.title}", cave_path(@log.cave) %>
+<h1>Log entry <span class="text-2xl text-gray-700">#<%= @log.id %></span></h1>
+<h2>Trip length</h2>
+<ul>
+  <li>Started trip at <%= @log.format_datetime(@log.start_datetime) %></li>
+  <li>Took <%= @log.length_of_log %></li>
+</ul>
 <h2>Personal comments</h2>
 <p><%= @log.personal_comments %></p>
+<%= turbo_frame_tag "log_caves_#{@log.id}" do %>
+  <div class="flex justify-between">
+    <h2>Caves visited</h2>
+    <%= link_to "Edit", edit_caves_log_path(@log.id) %>
+  </div>
+  <% if @log.caves.length > 0 || @unconnected_caves.length > 0 %>
+    <% if @unconnected_caves.length > 0 %>
+      <p class="alert">At least one cave is not currently connected to any data, this may happen because a reported cave was deleted</p>
+    <% end %>
+    <ul>
+      <% @locations_data[:caves].each do |cave| %>
+        <li><%= link_to cave[:cave][:data].title, log_path(@log) + "#locations_cave_#{cave[:cave][:data].id}", data: { turbo: false } %></li>
+      <% end %>
+      <% @unconnected_caves.each do |unconnected_cave| %>
+        <li><%= unconnected_cave.cave_title %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    No caves attached to this log yet!
+  <% end %>
+<% end %>
+<%= render 'locations-visited', locations_data: @locations_data, log: @log %>
+<%= render 'unconnected_locations_visited', unconnected_locations: @unconnected_locations, log: @log %>

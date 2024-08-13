@@ -1,0 +1,6 @@
+<turbo-frame id="edit_location_frame_<%= location.id %>">
+  <%= form_with url: path, method: :post, data: { turbo_frame: "edit_location_frame_#{location.id}" } do |f| %>
+    <%= f.hidden_field :location_id, value: location.id %>
+    <%= f.submit action, aria: { label: "#{action} #{location.title} #{action == "Add" ? "to" : "from"} log" }, :class => action == "Add" ? "btn" : "btn btn-red" %>
+  <% end %>
+</turbo-frame>

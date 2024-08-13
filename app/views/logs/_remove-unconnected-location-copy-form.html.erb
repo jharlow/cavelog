@@ -1,0 +1,4 @@
+<%= form_with url: path, method: :post  do |f| %>
+  <%= f.hidden_field :log_location_copy_id, value: llc.id %>
+  <%= f.submit :Remove, aria: { label: "Remove #{llc.location_title} from log" }, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure? This location will be lost" }, class: 'btn btn-red' %>
+<% end %>
