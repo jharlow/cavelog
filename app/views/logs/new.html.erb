@@ -1,7 +1,9 @@
-<h1>Create new log 
+<h1>
+  Create new log 
   <% if @cave %> 
     in 
     <%= @cave.title %> 
-  <% end %></h1>
+  <% end %>
+</h1>
 
 <%= render 'form', log: @log, cave: @cave %>

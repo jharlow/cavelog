@@ -2,7 +2,7 @@
   <% if unconnected_locations.length > 0 %>
     <div class="flex justify-between">
       <h3>Miscellaneous locations</h3>
-      <%= link_to "Back to log", log_path(log) %>
+      <%= link_to "Done editing", log_path(log) %>
     </div>
     <table class="w-full">
       <thead>
@@ -17,9 +17,9 @@
             <td><%= llc.location_title %></td>
             <td>
               <%=
-              render 'remove-unconnected-location-copy-form',
-              path: remove_unconnected_location_log_path(log),
-              llc: llc
+                render 'remove-unconnected-location-copy-form',
+                path: remove_unconnected_location_log_path(log),
+                llc: llc
               %>
             </td>
           </tr>

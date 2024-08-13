@@ -46,7 +46,7 @@
   input[type="text"],
   input[type="datetime-local"],
   textarea {
-    @apply mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm;
+    @apply w-full rounded-md border-gray-200 shadow-sm sm:text-sm;
   }
   textarea {
     @apply min-h-24;

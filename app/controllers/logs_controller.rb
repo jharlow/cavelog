@@ -28,6 +28,26 @@ class LogsController < ApplicationController
     end
   end
 
+  def edit
+    @log = Log.find(params[:id])
+    if @log.user != current_user
+      redirect_to(log_path(@log), alert: "You are not authorized to access this page.")
+    end
+  end
+
+  def update
+    @log = Log.find(params[:id])
+    if @log.user != current_user
+      redirect_to(log_path(@log), alert: "You are not authorized to access this page.")
+    end
+
+    if @log.update(log_params)
+      redirect_to(log_path(@log))
+    else
+      render(:edit, status: :unprocessable_entity)
+    end
+  end
+
   def add_location
     @log = Log.find(params[:id])
     @location = Location.find(params[:location_id])

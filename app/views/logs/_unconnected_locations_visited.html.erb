@@ -2,7 +2,7 @@
   <% if @unconnected_locations.length > 0 %>
     <div class="flex justify-between">
       <h3>Miscellaneous locations</h3>
-      <%= link_to "Edit", edit_unconnected_locations_log_path(log) %>
+      <%= link_to "Edit locations", edit_unconnected_locations_log_path(log) %>
     </div>
     <p class="alert">These locations are not currently connected to any data, this may happen because a reported cave/location was deleted</p>
     <table class="w-full">

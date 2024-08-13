@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "locations_cave_#{@cave.id}" do %>
   <div class="flex justify-between">
     <h3 id="<%= "locations_cave_#{@cave.id}" %>"><%= @cave.title %></h3>
-    <%= link_to "Back to log", log_path(@log) %>
+    <%= link_to "Done editing", log_path(@log) %>
   </div>
   <table class="w-full">
     <thead>

@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "log_caves_#{@log.id}" do %>
   <div class="flex justify-between">
     <h2>Caves visited</h2>
-    <%= link_to "Back to log", log_path(log) %>
+    <%= link_to "Done editing", log_path(log) %>
   </div>
   <h3>Currently on log</h3>
   <ul>
@@ -11,7 +11,9 @@
           <div class="flex gap-4 items-center"><%= cc.cave.title %><%= render "caves/attached-cave-form", path: remove_cave_log_path(@log), action: "Remove", cave: cc.cave, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure? Any locations related to this cave will be deleted for this log as well." } %></div>
         </li>
       <% else %>
-        <li><div class="flex gap-4 items-center"><%= cc.cave_title %><%= render "remove-unconnected-cave-copy-form", path: remove_unconnected_cave_log_path(@log), lcc: cc %></div></li>
+        <li>
+          <div class="flex gap-4 items-center"><%= cc.cave_title %><%= render "remove-unconnected-cave-copy-form", path: remove_unconnected_cave_log_path(@log), lcc: cc %></div>
+        </li>
       <% end %>
     <% end %>
   </ul>
