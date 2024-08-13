@@ -17,7 +17,7 @@
     <% end %>
     <ul>
       <% @locations_data[:caves].each do |cave| %>
-        <li><%= link_to cave[:cave][:data].title, log_path(@log) + "#locations_cave_#{cave[:cave][:data].id}" %></li>
+        <li><%= link_to cave[:cave][:data].title, log_path(@log) + "#locations_cave_#{cave[:cave][:data].id}", data: { turbo: false } %></li>
       <% end %>
       <% @unconnected_caves.each do |unconnected_cave| %>
         <li><%= unconnected_cave.cave_title %></li>
@@ -28,23 +28,4 @@
   <% end %>
 <% end %>
 <%= render 'locations-visited', locations_data: @locations_data, log: @log %>
-<% if @unconnected_locations.length > 0 %>
-  <h3>Miscellaneous locations</h3>
-  <p class="alert">These locations are not currently connected to any data, this may happen because a reported cave/location was deleted</p>
-  <table class="w-full">
-    <thead>
-      <tr>
-        <th>Location</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @unconnected_locations.each do |un_loc| %>
-        <tr>
-          <td>
-            <%= un_loc.location_title %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+<%= render 'unconnected_locations_visited', unconnected_locations: @unconnected_locations, log: @log %>

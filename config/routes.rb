@@ -18,6 +18,9 @@ Rails.application.routes.draw do
       post("add_cave")
       post("remove_cave")
       get("edit_caves")
+
+      post("remove_unconnected_location")
+      get("edit_unconnected_locations")
     end
   end
 

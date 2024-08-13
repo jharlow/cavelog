@@ -1,0 +1,30 @@
+<%= turbo_frame_tag "unconnected_locations_visited" do %>
+  <% if unconnected_locations.length > 0 %>
+    <div class="flex justify-between">
+      <h3>Miscellaneous locations</h3>
+      <%= link_to "Back to log", log_path(log) %>
+    </div>
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% unconnected_locations.each do |llc| %>
+          <tr>
+            <td><%= llc.location_title %></td>
+            <td>
+              <%=
+              render 'remove-unconnected-location-copy-form',
+              path: remove_unconnected_location_log_path(log),
+              llc: llc
+              %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

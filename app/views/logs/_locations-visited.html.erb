@@ -4,7 +4,7 @@
     <% if cave[:total_locations] == 0 %>
       <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
       <p>This cave doesn't have any locations yet to log!</p>
-      <%= link_to "Add a location in #{cave[:cave][:data].title}", new_cave_location_path(cave[:cave][:data]) %>
+      <%= link_to "Add a location in #{cave[:cave][:data].title}", new_cave_location_path(cave[:cave][:data]), data: { turbo: false } %>
     <% else %>
       <%= turbo_frame_tag "locations_cave_#{cave[:cave][:data].id}" do %>
         <div class="flex justify-between">

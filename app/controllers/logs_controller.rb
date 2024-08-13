@@ -171,6 +171,36 @@ class LogsController < ApplicationController
     } : Cave.where.not(id: @log.caves.pluck(:id))
   end
 
+  def remove_unconnected_location
+    @log = Log.find(params[:id])
+    @log_location_copy = LogLocationCopy.find(params[:log_location_copy_id])
+    if !@log_location_copy.present?
+      flash[:alert] = "Location has not been added to this log!"
+    elsif @log_location_copy.destroy
+      flash[:notice] = "Location removed successfully."
+    else
+      flash[:alert] = "Failed to remove location."
+    end
+
+    respond_to do |format|
+      format.turbo_stream {
+        render(
+          turbo_stream: turbo_stream.replace(
+            "unconnected_locations_visited",
+            partial: "logs/edit-unconnected-locations-form",
+            locals: {unconnected_locations: @log.unconnected_locations, log: @log}
+          )
+        )
+      }
+      format.html { redirect_to(edit_unconnected_locations_log_path(@log)) }
+    end
+  end
+
+  def edit_unconnected_locations
+    @log = Log.find(params[:id])
+    @unconnected_locations = @log.unconnected_locations
+  end
+
   private
 
   def log_params
