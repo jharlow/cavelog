@@ -16,7 +16,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <div class="flex gap-4 justify-between bg-white items-center py-2 px-6">
+    <div class="flex gap-4 justify-between bg-white items-center py-2 px-6 sticky top-0">
       <%= link_to "CaveLog", root_path %>
       <div class="flex gap-4 items-center">
         <% if user_signed_in? %>

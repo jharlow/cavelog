@@ -11,7 +11,7 @@
           <div class="flex gap-4 items-center"><%= cc.cave.title %><%= render "caves/attached-cave-form", path: remove_cave_log_path(@log), action: "Remove", cave: cc.cave, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure? Any locations related to this cave will be deleted for this log as well." } %></div>
         </li>
       <% else %>
-        <li><%= cc.cave_title %></li>
+        <li><div class="flex gap-4 items-center"><%= cc.cave_title %><%= render "remove-unconnected-cave-copy-form", path: remove_unconnected_cave_log_path(@log), lcc: cc %></div></li>
       <% end %>
     <% end %>
   </ul>

@@ -163,6 +163,42 @@ class LogsController < ApplicationController
     end
   end
 
+  def remove_unconnected_cave
+    @log = Log.find(params[:id])
+    @log_cave_copy = LogCaveCopy.find(params[:log_cave_copy_id])
+    if !@log_cave_copy.present?
+      flash[:alert] = "Cave does not exist on this log!"
+    elsif @log_cave_copy.destroy
+      flash[:notice] = "Cave removed successfully."
+    else
+      flash[:alert] = "Failed to remove cave."
+    end
+
+    respond_to do |format|
+      format.turbo_stream {
+        current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
+        available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
+          @log.caves.pluck(:id) == cave.id
+        } : Cave.where.not(id: @log.caves.pluck(:id))
+        render(
+          turbo_stream: [
+            turbo_stream.replace(
+              "log_caves_#{@log.id}",
+              partial: "logs/edit-caves-form",
+              locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+            ),
+            turbo_stream.replace(
+              "locations_visited",
+              partial: "logs/locations-visited",
+              locals: {locations_data: @log.locations_data, log: @log}
+            )
+          ]
+        )
+      }
+      format.html { redirect_to(edit_unconnected_locations_log_path(@log)) }
+    end
+  end
+
   def edit_caves
     @log = Log.find(params[:id])
     @current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
@@ -175,7 +211,7 @@ class LogsController < ApplicationController
     @log = Log.find(params[:id])
     @log_location_copy = LogLocationCopy.find(params[:log_location_copy_id])
     if !@log_location_copy.present?
-      flash[:alert] = "Location has not been added to this log!"
+      flash[:alert] = "Location does not exist on this log!"
     elsif @log_location_copy.destroy
       flash[:notice] = "Location removed successfully."
     else

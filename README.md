@@ -29,8 +29,9 @@ $ ./bin/dev
 - [x] Remove cave from log
 - [x] Add caves to log
 - [x] Delete unconnected locations from log
-- [ ] Delete unconnected cave from log
+- [x] Delete unconnected cave from log
 - [ ] edit log details
+- [ ] delete a log
 
 ## Feature ideas
 
