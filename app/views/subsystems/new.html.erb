@@ -1,3 +1,5 @@
-<h2>Add a subsystem to <%= @cave.title %></h2>
+<%= page_padding do %>
+  <h2>Add a subsystem to <%= @cave.title %></h2>
+  <%= render 'form', cave: @cave, subsystem: @subsystem %>
+<% end %>
 
-<%= render 'form', cave: @cave, subsystem: @subsystem %>
