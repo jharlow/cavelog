@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply flex flex-col gap-4 bg-slate-100 w-full h-screen;
+    @apply flex flex-col bg-slate-100 w-full h-screen;
   }
 
   section {

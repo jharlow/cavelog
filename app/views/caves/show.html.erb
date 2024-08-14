@@ -1,3 +1,6 @@
+<%= remove_page_padding do %>
+  <%= render 'components/breadcrumb-topper', links: [{ text: @cave.title, href: cave_path(@cave)}] %>
+<% end %>
 <h1><%= @cave.title %></h1>
 <p><%= @cave.description %></p>
 <section>
