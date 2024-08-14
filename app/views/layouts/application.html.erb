@@ -27,14 +27,12 @@
         <% end %>
       </div>
     </div>
-    <div class="px-4 pb-4 flex flex-col">
-      <% if notice.present? %>
-        <p class="notice"><%= notice %></p>
-      <% end %>
-      <% if alert.present? %>
-        <p class="alert"><%= alert %></p>
-      <% end %>
-      <%= yield %>
-    </div>
+    <% if notice.present? %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+    <% if alert.present? %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
+    <%= yield %>
   </body>
 </html>

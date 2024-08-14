@@ -1,3 +1,5 @@
+<%= render 'components/breadcrumb-topper', links: [{ text: "Log entry", href: log_path(@log) }] %>
+<%= page_padding do %>
 <h1>Log entry <span class="text-2xl text-gray-700">#<%= @log.id %></span></h1>
 <section>
   <%= turbo_frame_tag "log_details" do %>
@@ -41,3 +43,4 @@
 <%= render 'locations-visited', locations_data: @locations_data, log: @log %>
 <%= render 'unconnected_locations_visited', unconnected_locations: @unconnected_locations, log: @log %>
 </section>
+<% end %>

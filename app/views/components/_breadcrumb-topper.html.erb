@@ -1,5 +1,5 @@
-<nav aria-label="Breadcrumbs">
-  <ol class="flex items-center gap-1 text-sm text-gray-600">
+<nav aria-label="Breadcrumbs" class="sticky top-12 w-[calc(100% + 2rem)] bg-sky-200 backdrop-blur-sm shadow-sm z-40 overflow-x-clip">
+  <ol class="flex items-center gap-1 text-sm text-gray-600 py-2 px-6 overflow-x-auto">
     <li>
       <a href="/" class="block transition hover:text-gray-700">
         <span class="sr-only">Home</span>
@@ -18,21 +18,23 @@
       </a>
     </li>
     <% links.each do |link| %>
-      <li class="rtl:rotate-180">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
-          viewBox="0 0 20 20"
-          fill="currentColor">
-          <path
-            fill-rule="evenodd"
-            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-            clip-rule="evenodd" />
-        </svg>
-      </li>
-      <li>
-        <a href="<%= link[:href] %>" class="block transition hover:text-gray-700"><%= link[:text] %></a>
-      </li>
+      <% if link[:text] != nil && link[:href] != nil %>
+        <li class="rtl:rotate-180">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd" />
+          </svg>
+        </li>
+        <li class="overflow-x-visible whitespace-nowrap">
+          <a href="<%= link[:href] %>" class=" block transition hover:text-gray-700 "><%= link[:text] %></a>
+        </li>
+      <% end %>
     <% end %>
   </ol>
 </nav>
