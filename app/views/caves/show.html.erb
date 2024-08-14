@@ -4,6 +4,7 @@
   <h2>Locations</h2>
   <%= render 'locations/locations', cave: @cave %>
   <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave) %>
+  <%= link_to "Add location", new_cave_location_path(@cave) %>
 </section>
 <section>
   <h2>Your logs</h2>

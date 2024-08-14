@@ -38,5 +38,12 @@
         <td><%= location.description || "" %></td>
       </tr>
     <% end %>
+    <% if cave.subsystems.length == 0 && cave.locations.length == 0 %>
+      <tr>
+        <td colspan="2">
+          No locations yet
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
