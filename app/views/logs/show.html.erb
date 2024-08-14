@@ -1,17 +1,20 @@
 <h1>Log entry <span class="text-2xl text-gray-700">#<%= @log.id %></span></h1>
-<%= turbo_frame_tag "log_details" do %>
-  <div class="flex justify-between">
-    <h2>Trip details</h2>
-    <%= link_to "Edit details", edit_log_path(@log.id) %>
-  </div>
-  <h3>Trip length</h3>
-  <ul>
-    <li>Started trip at <%= @log.format_datetime(@log.start_datetime) %></li>
-    <li>Took <%= @log.length_of_log %></li>
-  </ul>
-  <h3>Personal comments</h3>
-  <p><%= @log.personal_comments %></p>
-<% end %>
+<section>
+  <%= turbo_frame_tag "log_details" do %>
+    <div class="flex justify-between">
+      <h2>Trip details</h2>
+      <%= link_to "Edit details", edit_log_path(@log.id) %>
+    </div>
+    <h3>Trip length</h3>
+    <ul>
+      <li>Started trip at <%= @log.format_datetime(@log.start_datetime) %></li>
+      <li>Took <%= @log.length_of_log %></li>
+    </ul>
+    <h3>Personal comments</h3>
+    <p><%= @log.personal_comments %></p>
+  <% end %>
+</section>
+<section>
 <%= turbo_frame_tag "log_caves_#{@log.id}" do %>
   <div class="flex justify-between">
     <h2>Caves visited</h2>
@@ -33,5 +36,8 @@
     No caves attached to this log yet!
   <% end %>
 <% end %>
+</section>
+<section>
 <%= render 'locations-visited', locations_data: @locations_data, log: @log %>
 <%= render 'unconnected_locations_visited', unconnected_locations: @unconnected_locations, log: @log %>
+</section>

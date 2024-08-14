@@ -8,7 +8,7 @@
   }
 
   section {
-    @apply flex flex-col gap-2;
+    @apply rounded-xl bg-slate-50 p-4 ring ring-indigo-100 sm:p-6 lg:p-8 flex flex-col gap-2;
   }
 
   h1 {

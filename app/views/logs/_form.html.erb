@@ -1,5 +1,4 @@
 <%= form_for [cave, log] do |form| %>
-  <h3>Trip length</h3>
   <div>
     <%= form.label :start_datetime %>
     <%= form.datetime_local_field :start_datetime %>
@@ -10,7 +9,6 @@
     <%= form.datetime_local_field :end_datetime %>
     <%= render 'components/forms/errors', error_messages: @log.errors.full_messages_for(:end_datetime) %>
   </div>
-  <h3>Personal comments</h3>
   <div>
     <%= form.label :personal_comments %>
     <%= form.text_area :personal_comments %>
