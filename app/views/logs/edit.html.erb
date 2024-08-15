@@ -1,0 +1,11 @@
+<%= page_padding do %>
+  <h1>
+    Edit log <span class="text-2xl text-gray-700">#<%= @log.id %></span>
+  </h1>
+  <%= turbo_frame_tag "log_details" do %>
+    <%= content_spacing do %>
+      <h2>Trip details</h2>
+      <%= render 'form', log: @log, cave: nil %>
+    <% end %>
+  <% end %>
+<% end %>

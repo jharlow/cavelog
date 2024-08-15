@@ -1,24 +1,28 @@
-<h1><%= @cave.title %></h1>
-<p><%= @cave.description %></p>
-<section>
-  <h2>Locations</h2>
-  <%= render 'locations/locations', cave: @cave %>
-  <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave) %>
-</section>
-<section>
-  <h2>Your logs</h2>
-  <ul>
-    <% @user_logs.each do |log| %>
-      <li><%= link_to log.personal_comments, log_path(log) %></li>
-    <% end %>
-  </ul>
-  <%= link_to 'Create your first log', new_cave_log_path(@cave) %>
-</section>
-<section>
-  <h2>Actions</h2>
-  <ul>
-    <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
-    <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>
-  </ul>
-</section>
-<%= link_to "Back to home", root_path %>
+<%= render 'components/breadcrumb-topper', links: [{ text: @cave.title, href: cave_path(@cave)}] %>
+<%= page_padding do %>
+  <h1><%= @cave.title %></h1>
+  <p><%= @cave.description %></p>
+  <section>
+    <h2>Locations</h2>
+    <%= render 'locations/locations', cave: @cave %>
+    <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave) %>
+    <%= link_to "Add location", new_cave_location_path(@cave) %>
+  </section>
+  <section>
+    <h2>Your logs</h2>
+    <ul>
+      <% @user_logs.each do |log| %>
+        <li><%= link_to log.personal_comments, log_path(log) %></li>
+      <% end %>
+    </ul>
+    <%= link_to 'Create your first log', new_cave_log_path(@cave) %>
+  </section>
+  <section>
+    <h2>Actions</h2>
+    <ul>
+      <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
+      <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red' %></li>
+    </ul>
+  </section>
+  <%= link_to "Back to home", root_path %>
+<% end %>

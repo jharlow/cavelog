@@ -1,5 +1,10 @@
 <%= form_with(model: [@parent, @locatable, @location], local: true) do |form| %>
   <div>
+    <%= form.label :attached_to %>
+    <%= form.collection_select :subsystem_id, @parent == nil ? @locatable.subsystems : @parent.subsystems, :id, :title, selected: @parent == nil ? nil : @locatable.id, prompt: "No subsystem" %>
+    <%= render 'components/forms/errors', error_messages: @location.errors.full_messages_for(:subsystem_id) %>
+  </div>
+  <div>
     <%= form.label :title %>
     <%= form.text_field :title %>
     <%= render 'components/forms/errors', error_messages: @location.errors.full_messages_for(:title) %>

@@ -1,42 +1,51 @@
-<table class="w-full">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% cave.subsystems.each do |subsystem| %>
-      <tr class="collapsible">
-        <th colspan="2">
-          <%= link_to subsystem.title, cave_subsystem_path(cave, subsystem) %>
-        </th>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
       </tr>
-      <% if subsystem.locations.length == 0 %>
+    </thead>
+    <tbody>
+      <% cave.subsystems.each do |subsystem| %>
+        <tr class="collapsible">
+          <th colspan="2">
+            <%= link_to subsystem.title, cave_subsystem_path(cave, subsystem) %>
+          </th>
+        </tr>
+        <% if subsystem.locations.length == 0 %>
+          <tr>
+            <td colspan="2">
+              No locations yet
+            </td>
+          </tr>
+        <% else %>
+          <% subsystem.locations.each do |location| %>
+            <tr>
+              <td><%= link_to location.title, cave_subsystem_location_path(cave, subsystem, location) %></td>
+              <td><%= location.description || "" %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% if cave.subsystems.length != 0 && cave.locations.length > 0 %>
+        <tr>
+          <th colspan="2">Miscellaneous</th>
+        </tr>
+      <% end %>
+      <% cave.locations.each do |location| %>
+        <tr>
+          <td><%= link_to location.title, cave_location_path(cave, location) %></td>
+          <td><%= location.description || "" %></td>
+        </tr>
+      <% end %>
+      <% if cave.subsystems.length == 0 && cave.locations.length == 0 %>
         <tr>
           <td colspan="2">
             No locations yet
           </td>
         </tr>
-      <% else %>
-        <% subsystem.locations.each do |location| %>
-          <tr>
-            <td><%= link_to location.title, cave_subsystem_location_path(cave, subsystem, location) %></td>
-            <td><%= location.description || "" %></td>
-          </tr>
-        <% end %>
       <% end %>
-    <% end %>
-    <% if cave.subsystems.length != 0 && cave.locations.length > 0 %>
-      <tr>
-        <th colspan="2">Miscellaneous</th>
-      </tr>
-    <% end %>
-    <% cave.locations.each do |location| %>
-      <tr>
-        <td><%= link_to location.title, cave_location_path(cave, location) %></td>
-        <td><%= location.description || "" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

@@ -23,9 +23,14 @@ class LocationsController < ApplicationController
   end
 
   def update
+    logger.info(params)
     @location = Location.find(params[:id])
-    if @location.update(location_params)
-      redirect_to(@locatable.path)
+    location_params = params.require(:location).permit(:title, :description, :subsystem_id)
+    is_cave = (location_params[:subsystem_id] != "")
+    @locatable = is_cave ? Subsystem.find(location_params[:subsystem_id]) : Cave.find(params[:cave_id])
+    logger.info(@locatable)
+    if @location.update(location_params.except(:subsystem_id).merge(locatable: @locatable))
+      redirect_to(@location.path)
     else
       render(:edit, status: :unprocessable_entity)
     end

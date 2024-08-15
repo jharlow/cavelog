@@ -1,7 +1,10 @@
-<h1>Create new log 
-  <% if @cave %> 
-    in 
-    <%= @cave.title %> 
-  <% end %></h1>
-
-<%= render 'form', log: @log, cave: @cave %>
+<%= page_padding do %>
+  <h1>
+    Create new log
+    <% if @cave %>
+      in
+      <%= @cave.title %>
+    <% end %>
+  </h1>
+  <%= render 'form', log: @log, cave: @cave %>
+<% end %>
