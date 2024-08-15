@@ -16,6 +16,8 @@
   </div>
   <div class="flex gap-2 items-center">
     <%= form.submit class: 'btn' %>
-    <%= link_to "Cancel", log_path(log) %>
+    <% if log.id.present? %>
+      <%= link_to "Cancel", log_path(log) %>
+    <% end %>
   </div>
 <% end %>

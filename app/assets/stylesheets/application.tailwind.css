@@ -58,16 +58,19 @@
   }
 
   table {
-    @apply overflow-x-auto rounded-lg border border-gray-200 min-w-full divide-y-2 divide-gray-200 bg-white text-sm;
+    @apply table-auto w-full divide-y-2 divide-gray-200 bg-white text-sm;
   }
   thead {
-    @apply text-left ltr:text-left rtl:text-right;
+    @apply text-left ltr:text-left rtl:text-right w-full;
   }
   tbody {
     @apply divide-y divide-gray-200;
   }
   thead th {
     @apply bg-slate-100;
+  }
+  tr {
+    @apply w-full;
   }
   th {
     @apply whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-left bg-slate-50;
@@ -89,6 +92,10 @@
   }
   .btn-sm {
     @apply px-2 py-1;
+  }
+
+  .table-container {
+    @apply block overflow-x-auto w-full rounded-lg border border-gray-200;
   }
 
   .card {

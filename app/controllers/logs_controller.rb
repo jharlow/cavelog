@@ -48,6 +48,12 @@ class LogsController < ApplicationController
     end
   end
 
+  def destroy
+    @log = Log.find(params[:id])
+    @log.destroy
+    redirect_to(root_path, status: :see_other)
+  end
+
   def add_location
     @log = Log.find(params[:id])
     @location = Location.find(params[:location_id])
@@ -66,7 +72,7 @@ class LogsController < ApplicationController
           turbo_stream: turbo_stream.replace(
             "edit_location_frame_#{params[:location_id]}",
             partial: "locations/attached-location-form",
-            locals: {action: "Remove", path: remove_location_log_path(@log), location: @location}
+            locals: { action: "Remove", path: remove_location_log_path(@log), location: @location }
           )
         )
       }
@@ -92,7 +98,7 @@ class LogsController < ApplicationController
           turbo_stream: turbo_stream.replace(
             "edit_location_frame_#{params[:location_id]}",
             partial: "locations/attached-location-form",
-            locals: {action: "Add", path: add_location_log_path(@log), location: @location}
+            locals: { action: "Add", path: add_location_log_path(@log), location: @location }
           )
         )
       }
@@ -132,12 +138,12 @@ class LogsController < ApplicationController
             turbo_stream.replace(
               "log_caves_#{@log.id}",
               partial: "logs/edit-caves-form",
-              locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+              locals: { log: @log, current_caves: current_caves, available_caves: available_caves }
             ),
             turbo_stream.replace(
               "locations_visited",
               partial: "logs/locations-visited",
-              locals: {locations_data: @log.locations_data, log: @log}
+              locals: { locations_data: @log.locations_data, log: @log }
             )
           ]
         )
@@ -169,12 +175,12 @@ class LogsController < ApplicationController
             turbo_stream.replace(
               "log_caves_#{@log.id}",
               partial: "logs/edit-caves-form",
-              locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+              locals: { log: @log, current_caves: current_caves, available_caves: available_caves }
             ),
             turbo_stream.replace(
               "locations_visited",
               partial: "logs/locations-visited",
-              locals: {locations_data: @log.locations_data, log: @log}
+              locals: { locations_data: @log.locations_data, log: @log }
             )
           ]
         )
@@ -205,12 +211,12 @@ class LogsController < ApplicationController
             turbo_stream.replace(
               "log_caves_#{@log.id}",
               partial: "logs/edit-caves-form",
-              locals: {log: @log, current_caves: current_caves, available_caves: available_caves}
+              locals: { log: @log, current_caves: current_caves, available_caves: available_caves }
             ),
             turbo_stream.replace(
               "locations_visited",
               partial: "logs/locations-visited",
-              locals: {locations_data: @log.locations_data, log: @log}
+              locals: { locations_data: @log.locations_data, log: @log }
             )
           ]
         )
@@ -244,7 +250,7 @@ class LogsController < ApplicationController
           turbo_stream: turbo_stream.replace(
             "unconnected_locations_visited",
             partial: "logs/edit-unconnected-locations-form",
-            locals: {unconnected_locations: @log.unconnected_locations, log: @log}
+            locals: { unconnected_locations: @log.unconnected_locations, log: @log }
           )
         )
       }

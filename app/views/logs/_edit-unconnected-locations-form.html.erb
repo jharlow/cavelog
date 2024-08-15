@@ -5,28 +5,30 @@
         <h3>Miscellaneous locations</h3>
         <%= link_to "Done editing", log_path(log) %>
       </div>
-      <table class="w-full">
-        <thead>
-          <tr>
-            <th>Location</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% unconnected_locations.each do |llc| %>
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-              <td><%= llc.location_title %></td>
-              <td>
-                <%=
-                  render 'remove-unconnected-location-copy-form',
-                  path: remove_unconnected_location_log_path(log),
-                  llc: llc
-                %>
-              </td>
+              <th>Location</th>
+              <th>Action</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% unconnected_locations.each do |llc| %>
+              <tr>
+                <td><%= llc.location_title %></td>
+                <td>
+                  <%=
+                    render 'remove-unconnected-location-copy-form',
+                    path: remove_unconnected_location_log_path(log),
+                    llc: llc
+                  %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   <% end %>
 <% end %>

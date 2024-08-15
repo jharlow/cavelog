@@ -21,7 +21,7 @@
     <h2>Actions</h2>
     <ul>
       <li><%= link_to "Edit", edit_cave_path(@cave) %></li>
-      <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' } %></li>
+      <li><%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red' %></li>
     </ul>
   </section>
   <%= link_to "Back to home", root_path %>

@@ -24,7 +24,9 @@
             </div>
             <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Personal comments</dt>
-              <dd class="text-gray-700 sm:col-span-2"><%= @log.personal_comments %></dd>
+              <dd class="text-gray-700 sm:col-span-2 flex flex-col gap-2">
+                <%= simple_format(@log.personal_comments, class: "text-sm") %>
+              </dd>
             </div>
           </dl>
         </div>
@@ -67,5 +69,10 @@
   <section>
     <%= render 'locations-visited', locations_data: @locations_data, log: @log %>
     <%= render 'unconnected_locations_visited', unconnected_locations: @unconnected_locations, log: @log %>
+  </section>
+  <section>
+    <h2>Danger zone</h2>
+    <p>Please note that deleting a log is unrecoverable and you will also remove any votes applied from this log.</p>
+    <%= link_to 'Delete log', log_path(@log), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
   </section>
 <% end %>
