@@ -1,25 +1,27 @@
 <%= turbo_frame_tag "unconnected_locations_visited" do %>
   <% if @unconnected_locations.length > 0 %>
-    <div class="flex justify-between">
-      <h3>Miscellaneous locations</h3>
-      <%= link_to "Edit locations", edit_unconnected_locations_log_path(log) %>
-    </div>
-    <p class="alert">These locations are not currently connected to any data, this may happen because a reported cave/location was deleted</p>
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th>Location</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% unconnected_locations.each do |un_loc| %>
+    <div class="flex flex-col gap-2">
+      <div class="flex justify-between">
+        <h3>Miscellaneous locations</h3>
+        <%= link_to "Edit locations", edit_unconnected_locations_log_path(log) %>
+      </div>
+      <p class="alert">These locations are not currently connected to any data, this may happen because a reported cave/location was deleted</p>
+      <table class="w-full">
+        <thead>
           <tr>
-            <td>
-              <%= un_loc.location_title %>
-            </td>
+            <th>Location</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% unconnected_locations.each do |un_loc| %>
+            <tr>
+              <td>
+                <%= un_loc.location_title %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end %>
 <% end %>

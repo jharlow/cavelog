@@ -2,7 +2,7 @@
   <div>
     <%= form.label :attached_to %>
     <%= form.collection_select :subsystem_id, @parent == nil ? @locatable.subsystems : @parent.subsystems, :id, :title, selected: @parent == nil ? nil : @locatable.id, prompt: "Select a Subsystem" %>
-    <%= render 'components/forms/errors', error_messages: @location.errors.full_messages_for(:title) %>
+    <%= render 'components/forms/errors', error_messages: @location.errors.full_messages_for(:subsystem_id) %>
   </div>
   <div>
     <%= form.label :title %>

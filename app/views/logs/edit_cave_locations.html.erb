@@ -1,58 +1,60 @@
 <%= page_padding do %>
   <%= turbo_frame_tag "locations_cave_#{@cave.id}" do %>
-    <div class="flex justify-between">
-      <h3 id="<%= "locations_cave_#{@cave.id}" %>"><%= @cave.title %></h3>
-      <%= link_to "Done editing", log_path(@log) %>
-    </div>
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th>Location</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @cave_locations_data[:subsystems].each do |subsystem| %>
-          <% if subsystem[:locations].length > 0 %>
-            <tr>
-              <th colspan="2">
-                <%= subsystem[:data].title %>
-              </th>
-            </tr>
-            <% subsystem[:locations].each do |location| %>
+    <div class="flex flex-col gap-2">
+      <div class="flex justify-between">
+        <h3 id="<%= "locations_cave_#{@cave.id}" %>"><%= @cave.title %></h3>
+        <%= link_to "Done editing", log_path(@log) %>
+      </div>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @cave_locations_data[:subsystems].each do |subsystem| %>
+            <% if subsystem[:locations].length > 0 %>
               <tr>
-                <td><%= location[:data].title %></td>
-                <td>
-                  <%=
-                    render 'locations/attached-location-form',
-                    action: location[:is_in_log] ? "Remove" : "Add",
-                    path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
-                    location: location[:data]
-                  %>
-                </td>
+                <th colspan="2">
+                  <%= subsystem[:data].title %>
+                </th>
               </tr>
+              <% subsystem[:locations].each do |location| %>
+                <tr>
+                  <td><%= location[:data].title %></td>
+                  <td>
+                    <%=
+                      render 'locations/attached-location-form',
+                      action: location[:is_in_log] ? "Remove" : "Add",
+                      path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
+                      location: location[:data]
+                    %>
+                  </td>
+                </tr>
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
-        <% if @cave_locations_data[:subsystems].length != 0 && @cave_locations_data[:cave][:locations].length > 0 %>
-          <tr>
-            <th colspan="2">Miscellaneous</th>
-          </tr>
-        <% end %>
-        <% @cave_locations_data[:cave][:locations].each do |location| %>
-          <tr>
-            <td><%= location[:data].title %></td>
-            <td>
-              <%=
-                render 'locations/attached-location-form',
-                action: location[:is_in_log] ? "Remove" : "Add",
-                path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
-                location: location[:data]
-              %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+          <% if @cave_locations_data[:subsystems].length != 0 && @cave_locations_data[:cave][:locations].length > 0 %>
+            <tr>
+              <th colspan="2">Miscellaneous</th>
+            </tr>
+          <% end %>
+          <% @cave_locations_data[:cave][:locations].each do |location| %>
+            <tr>
+              <td><%= location[:data].title %></td>
+              <td>
+                <%=
+                  render 'locations/attached-location-form',
+                  action: location[:is_in_log] ? "Remove" : "Add",
+                  path: location[:is_in_log] ? remove_location_log_path(@log) : add_location_log_path(@log),
+                  location: location[:data]
+                %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end %>
 <% end %>
