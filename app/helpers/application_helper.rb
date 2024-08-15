@@ -4,4 +4,10 @@ module ApplicationHelper
       capture(&block)
     end
   end
+
+  def content_spacing(&block)
+    content_tag(:div, class: "flex flex-col gap-3") do
+      capture(&block)
+    end
+  end
 end
