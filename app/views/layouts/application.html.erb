@@ -20,7 +20,7 @@
       <%= link_to "CaveLog", root_path %>
       <div class="flex gap-4 items-center">
         <% if user_signed_in? %>
-          <div> Welcome <%= current_user.email %> </div>
+          <%= link_to "My profile", my_profile_path %>
           <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
         <% else %>
           <%= button_to "Sign in", new_user_session_path %>

@@ -1,0 +1,62 @@
+<%= page_padding do %>
+  <h1>Edit <%= current_user.username %>&apos;s profile</h1>
+  <section>
+    <div class='flex justify-between items-center'>
+      <h2>Change profile details</h2>
+      <%= link_to "Return to profile", my_profile_path, class: 'btn btn-sm' %>
+    </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form', }) do |f| %>
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:email) %>
+      </div>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+      <div class="field">
+        <%= f.label :username %>
+        <%= f.text_field :username, value: resource.username == "caver" ? "" : resource.username %>
+        <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:username) %>
+      </div>
+      <div class="field">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name, value: resource.first_name %>
+        <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:first_name) %>
+      </div>
+      <div class="field">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name, value: resource.last_name %>
+        <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:last_name) %>
+      </div>
+      <div class="field">
+        <%= f.label :password %>
+        <%= render 'components/forms/label-hint', hint: "Leave blank if you don't want to change it" %>
+        <% if @minimum_password_length %>
+          <%= render 'components/forms/label-hint', hint: "#{@minimum_password_length} characters minimum" %>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password" %>
+        <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:password) %>
+      </div>
+      <div class="field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+        <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:password_confirmation) %>
+      </div>
+      <div class="field">
+        <%= f.label :current_password %>
+        <%= render 'components/forms/label-hint', hint: "We need your current password to confirm your changes" %>
+        <%= f.password_field :current_password, autocomplete: "current-password" %>
+        <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:current_password) %>
+      </div>
+      <div class="actions">
+        <%= f.submit "Update" %>
+      </div>
+    <% end %>
+  </section>
+  <section>
+    <h3>Danger zone</h3>
+    <div>You can cancel your account anytime. Be warned! This action permanently and irreversibly deletes all your account data.</div>
+    <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: 'btn-red w-fit' %>
+  </section>
+<% end %>

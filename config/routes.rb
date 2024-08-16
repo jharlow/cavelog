@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
   devise_for(:users)
+  get("/me", to: "users#show", as: :my_profile)
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do
-    resources(:logs, only: [:new, :create])
-    resources(:locations, only: [:new, :create, :show, :edit, :update])
-    resources(:subsystems, only: [:new, :create, :show, :edit, :update]) do
-      resources(:locations, only: [:new, :create, :show, :edit, :update])
+    resources(:logs, only: [ :new, :create ])
+    resources(:locations, only: [ :new, :create, :show, :edit, :update ])
+    resources(:subsystems, only: [ :new, :create, :show, :edit, :update ]) do
+      resources(:locations, only: [ :new, :create, :show, :edit, :update ])
     end
   end
 

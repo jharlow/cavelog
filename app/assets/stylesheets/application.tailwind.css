@@ -43,8 +43,10 @@
     @apply block text-sm font-medium text-gray-700;
   }
 
+  input[type="email"],
   input[type="text"],
   input[type="datetime-local"],
+  input[type="password"],
   textarea,
   select {
     @apply w-full rounded-md border-gray-200 shadow-sm sm:text-sm;
@@ -53,8 +55,9 @@
     @apply min-h-24;
   }
 
+  input[type="submit"],
   button {
-    @apply rounded-md border bg-white shadow-sm inline-block px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:cursor-pointer focus:relative focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+    @apply rounded-md border bg-white shadow-sm px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:cursor-pointer focus:relative focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
   }
 
   table {
@@ -106,7 +109,13 @@
     @apply bg-orange-50 border-t-orange-500 border border-t-4 rounded-md py-2 px-4 text-slate-700 text-sm;
   }
 
+  .form {
+    @apply flex flex-col gap-2;
+  }
   .err-msgs {
-    @apply block text-sm font-medium text-red-600;
+    @apply list-none pl-0 block text-sm font-medium text-red-600;
+  }
+  .field {
+    @apply flex flex-col gap-0.5;
   }
 }

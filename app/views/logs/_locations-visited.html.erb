@@ -11,9 +11,9 @@
       <% else %>
         <%= turbo_frame_tag "locations_cave_#{cave[:cave][:data].id}" do %>
           <div class="flex flex-col gap-2">
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center">
               <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
-              <%= link_to "Edit locations", edit_cave_locations_log_path(log.id, cave[:cave][:data].id) %>
+              <%= link_to "Edit", edit_cave_locations_log_path(log.id, cave[:cave][:data].id), aria: { label: "Edit locations logged in #{cave[:cave][:data][:title]}"}, class: 'btn btn-sm' %>
             </div>
             <div class="table-container">
               <table>
