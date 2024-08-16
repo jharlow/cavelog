@@ -43,8 +43,10 @@
     @apply block text-sm font-medium text-gray-700;
   }
 
+  input[type="email"],
   input[type="text"],
   input[type="datetime-local"],
+  input[type="password"],
   textarea,
   select {
     @apply w-full rounded-md border-gray-200 shadow-sm sm:text-sm;
