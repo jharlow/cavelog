@@ -4,9 +4,9 @@
   <section>
     <%= turbo_frame_tag "log_details" do %>
       <%= content_spacing do %>
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
           <h2>Details</h2>
-          <%= link_to "Edit details", edit_log_path(@log.id) %>
+          <%= link_to "Edit", edit_log_path(@log.id), aria: { label: "Edit details" }, class: 'btn btn-sm' %>
         </div>
         <div class="flow-root">
           <dl class="-my-3 divide-y divide-gray-200 text-sm">
@@ -36,9 +36,9 @@
   <section>
     <%= turbo_frame_tag "log_caves_#{@log.id}" do %>
       <%= content_spacing do %>
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
           <h2>Caves visited</h2>
-          <%= link_to "Edit caves", edit_caves_log_path(@log.id) %>
+          <%= link_to "Edit", edit_caves_log_path(@log.id), aria: { label: "Edit caves" }, class: 'btn btn-sm' %>
         </div>
         <% if @log.caves.length > 0 || @unconnected_caves.length > 0 %>
           <% if @unconnected_caves.length > 0 %>

@@ -1,9 +1,9 @@
 <%= turbo_frame_tag "unconnected_locations_visited" do %>
   <% if unconnected_locations.length > 0 %>
     <div class="flex flex-col gap-2">
-      <div class="flex justify-between">
+      <div class="flex justify-between items-center">
         <h3>Miscellaneous locations</h3>
-        <%= link_to "Done editing", log_path(log) %>
+        <%= link_to "Done", log_path(log), aria: { label: "Done editing" }, class: 'btn btn-sm' %>
       </div>
       <div class="table-container">
         <table>

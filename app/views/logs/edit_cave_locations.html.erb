@@ -1,9 +1,9 @@
 <%= page_padding do %>
   <%= turbo_frame_tag "locations_cave_#{@cave.id}" do %>
     <div class="flex flex-col gap-2">
-      <div class="flex justify-between">
+      <div class="flex justify-between items-center">
         <h3 id="<%= "locations_cave_#{@cave.id}" %>"><%= @cave.title %></h3>
-        <%= link_to "Done editing", log_path(@log) %>
+        <%= link_to "Done", log_path(@log), aria: { label: "Done editing" }, class: 'btn btn-sm' %>
       </div>
       <div class="table-container">
         <table>
