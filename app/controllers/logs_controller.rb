@@ -167,7 +167,7 @@ class LogsController < ApplicationController
     respond_to do |format|
       current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
       available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
-        @log.caves.pluck(:id) == cave.id
+        @log.caves.pluck(:id).include?(cave.id)
       } : Cave.where.not(id: @log.caves.pluck(:id))
       format.turbo_stream {
         render(
@@ -204,7 +204,7 @@ class LogsController < ApplicationController
       format.turbo_stream {
         current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
         available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
-          @log.caves.pluck(:id) == cave.id
+          @log.caves.pluck(:id).include?(cave.id)
         } : Cave.where.not(id: @log.caves.pluck(:id))
         render(
           turbo_stream: [
@@ -229,7 +229,7 @@ class LogsController < ApplicationController
     @log = Log.find(params[:id])
     @current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
     @available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
-      @log.caves.pluck(:id) == cave.id
+      @log.caves.pluck(:id).include?(cave.id)
     } : Cave.where.not(id: @log.caves.pluck(:id))
   end
 
