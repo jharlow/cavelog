@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_16_042624) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_16_212557) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,27 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_16_042624) do
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
+  create_table "partnership_requests", force: :cascade do |t|
+    t.bigint "requested_by_id", null: false
+    t.bigint "requested_to_id", null: false
+    t.boolean "accepted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["requested_by_id"], name: "index_partnership_requests_on_requested_by_id"
+    t.index ["requested_to_id"], name: "index_partnership_requests_on_requested_to_id"
+  end
+
+  create_table "partnerships", force: :cascade do |t|
+    t.bigint "user1_id", null: false
+    t.bigint "user2_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user1_id", "user2_id"], name: "index_partnerships_on_user1_id_and_user2_id", unique: true
+    t.index ["user1_id"], name: "index_partnerships_on_user1_id"
+    t.index ["user2_id", "user1_id"], name: "index_partnerships_on_user2_id_and_user1_id", unique: true
+    t.index ["user2_id"], name: "index_partnerships_on_user2_id"
+  end
+
   create_table "subsystems", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -92,5 +113,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_16_042624) do
   add_foreign_key "log_location_copies", "locations"
   add_foreign_key "log_location_copies", "logs"
   add_foreign_key "logs", "users"
+  add_foreign_key "partnership_requests", "users", column: "requested_by_id"
+  add_foreign_key "partnership_requests", "users", column: "requested_to_id"
+  add_foreign_key "partnerships", "users", column: "user1_id"
+  add_foreign_key "partnerships", "users", column: "user2_id"
   add_foreign_key "subsystems", "caves"
 end

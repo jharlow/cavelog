@@ -1,0 +1,10 @@
+<%= form_with model: @partnership_request, url: partnership_requests_path, local: true do |f| %>
+  <div class="field">
+    <%= f.label :requested_to_id, "Select a User to Partner With" %>
+    <%= f.collection_select :requested_to_id, User.all, :id, :name, prompt: "Choose a User" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Send Partnership Request" %>
+  </div>
+<% end %>

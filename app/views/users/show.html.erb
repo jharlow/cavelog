@@ -1,9 +1,28 @@
 <%= page_padding do %>
-  <h1><%= @user.username %>'s Profile</h1>
+  <div class="flex gap-4 justify-between items-center">
+    <h1><%= @user.username %>'s profile</h1>
+    <% if @user != current_user %>
+      <% if current_user.is_partner_of?(@user) %>
+        <span class="inline-flex items-center justify-center rounded-full border border-green-500 bg-green-100 px-2.5 py-0.5 text-green-700">
+          <p class="whitespace-nowrap text-sm">Partner</p>
+        </span>
+      <% elsif current_user.has_pending_request_with_user?(@user) %>
+        <%= button_to "Accept partnership request", accept_partnership_request_path(@partnership_request.id), method: :patch, class: 'btn-green' %>
+      <% elsif current_user.has_sent_request_to_user?(@user) %>
+        <span class="inline-flex items-center justify-center rounded-full border border-amber-500 bg-amber-100 px-2.5 py-0.5 text-amber-700">
+          <p class="whitespace-nowrap text-sm">Partnership request sent!</p>
+        </span>
+      <% else %>
+        <%= button_to "Send partnership request", partnership_requests_path, method: :post, params: { partnership_request: { requested_to_id: @user.id}}, class: 'btn' %>
+      <% end %>
+    <% end %>
+  </div>
   <section class="gap-4">
     <div class="flex gap-4 justify-between items-center">
       <h2>Details</h2>
-      <%= link_to "Edit", edit_user_registration_path(@user), class: 'btn btn-sm' %>
+      <% if @user == current_user %>
+        <%= link_to "Edit", edit_user_registration_path(@user), class: 'btn btn-sm' %>
+      <% end %>
     </div>
     <div class="flow-root">
       <dl class="-my-3 divide-y divide-gray-200 text-sm">
@@ -11,23 +30,41 @@
           <dt class="font-medium text-gray-900">Username</dt>
           <dd class="text-gray-700 sm:col-span-2"><%= @user.username %></dd>
         </div>
-        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-          <dt class="font-medium text-gray-900">First name</dt>
-          <dd class="text-gray-700 sm:col-span-2"><%= @user.first_name %></dd>
-        </div>
-        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-          <dt class="font-medium text-gray-900">Last name</dt>
-          <dd class="text-gray-700 sm:col-span-2"><%= @user.last_name %></dd>
-        </div>
-        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-          <dt class="font-medium text-gray-900">Email</dt>
-          <dd class="text-gray-700 sm:col-span-2"><%= @user.email %></dd>
-        </div>
+        <% if @user == current_user || current_user.is_partner_of?(@user) %>
+          <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+            <dt class="font-medium text-gray-900">First name</dt>
+            <dd class="text-gray-700 sm:col-span-2"><%= @user.first_name %></dd>
+          </div>
+          <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+            <dt class="font-medium text-gray-900">Last name</dt>
+            <dd class="text-gray-700 sm:col-span-2"><%= @user.last_name %></dd>
+          </div>
+        <% end %>
+        <% if @user == current_user %>
+          <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+            <dt class="font-medium text-gray-900">Email</dt>
+            <dd class="text-gray-700 sm:col-span-2"><%= @user.email %></dd>
+          </div>
+        <% end %>
         <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
           <dt class="font-medium text-gray-900">Member since</dt>
           <dd class="text-gray-700 sm:col-span-2"><%= @user.created_at.strftime("%d/%m/%Y") %></dd>
         </div>
       </dl>
     </div>
+  </section>
+  <section>
+    <div class="flex gap-4 justify-between items-center">
+      <h2><%= @user == current_user ? "My partners" : "Partners" %></h2>
+    </div>
+    <% if @user.partners.length > 0 %>
+      <ul>
+        <% @user.partners.each do |partner| %>
+          <li><%= link_to partner.username, user_path(partner) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No partners yet!</p>
+    <% end %>
   </section>
 <% end %>

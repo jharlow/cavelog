@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  requested_by: one
+  requested_to: one
+  accepted: false
+
+two:
+  requested_by: two
+  requested_to: two
+  accepted: false

@@ -1,0 +1,6 @@
+  <%= form_with model: partnership_request, url: partnership_requests_path, local: true do |f| %>
+    <%= f.hidden_field :requested_to_id, value: user.id %>
+    <div class="actions">
+      <%= f.submit "Send Partnership Request" %>
+    </div>
+  <% end %>
