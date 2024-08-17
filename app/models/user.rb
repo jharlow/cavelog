@@ -59,4 +59,12 @@ class User < ApplicationRecord
       partners.exists?(user.id)
     end
   end
+
+  def partnership_with(user)
+    if self == user || !partners.exists?(user.id)
+      nil
+    else
+      Partnership.find_by(user1_id: user.id) || Partnership.find_by(user2_id: user.id)
+    end
+  end
 end

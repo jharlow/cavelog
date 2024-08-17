@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources(:partnerships, only: [ :destroy ])
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do

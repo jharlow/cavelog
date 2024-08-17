@@ -53,6 +53,13 @@
       </dl>
     </div>
   </section>
+  <% if current_user.is_partner_of?(@user) %>
+    <section>
+      <div class="flex gap-4 justify-between items-center">
+        <h2>Your partnership</h2>
+      </div>
+    </section>
+  <% end %>
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2><%= @user == current_user ? "My partners" : "Partners" %></h2>
@@ -67,4 +74,11 @@
       <p>No partners yet!</p>
     <% end %>
   </section>
+  <% if current_user.is_partner_of?(@user) %>
+    <section>
+      <h2>Danger zone</h2>
+      <p>Please note that removing <%= @user.username %> as a partner is unrecoverable and you will also lose access any logs that <%= @user.username %> has tagged you in.</p>
+      <%= link_to "Remove #{@user.username} as partner", partnership_path(@user.partnership_with(current_user)), data: { 'turbo-method': :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
+    </section>
+  <% end %>
 <% end %>
