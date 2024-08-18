@@ -1,6 +1,6 @@
 <%= page_padding do %>
   <div class="flex flex-wrap gap-4 justify-between items-center">
-    <h1><%= @user.username %>'s profile</h1>
+    <h1><%= @user != current_user ? "#{@user.name_for(current_user)}'s" : "Your" %> profile</h1>
     <% if @user != current_user %>
       <% if current_user.is_partner_of?(@user) %>
         <span class="inline-flex items-center justify-center rounded-full border border-green-500 bg-green-100 px-2.5 py-0.5 text-green-700">
@@ -60,13 +60,6 @@
       </dl>
     </div>
   </section>
-  <% if current_user.is_partner_of?(@user) %>
-    <section>
-      <div class="flex gap-4 justify-between items-center">
-        <h2>Your partnership</h2>
-      </div>
-    </section>
-  <% end %>
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2><%= @user == current_user ? "My partners" : "Partners" %></h2>
@@ -110,7 +103,8 @@
   </section>
   <% if current_user.is_partner_of?(@user) %>
     <section>
-      <h2>Danger zone</h2>
+      <h2>Your partnership</h2>
+      <h3>Danger zone</h3>
       <p>Please note that removing <%= @user.username %> as a partner is unrecoverable and you will also lose access any logs that <%= @user.username %> has tagged you in.</p>
       <%= link_to "Remove #{@user.username} as partner", partnership_path(@user.partnership_with(current_user)), data: { 'turbo-method': :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
     </section>

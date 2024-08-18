@@ -31,6 +31,10 @@ class LogPartnerConnectionsController < ApplicationController
 
   def edit
     @log = Log.find(params[:id])
+    if @log.user != current_user
+      flash[:alert] = "You cannot edit partners on a log you do not own."
+      redirect_to(log_path(@log))
+    end
   end
 
   def destroy

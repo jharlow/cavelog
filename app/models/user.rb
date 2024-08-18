@@ -61,7 +61,7 @@ class User < ApplicationRecord
   end
 
   def name_for(user)
-    if !first_name || !is_partner_of?(user)
+    if !first_name || self == user || !is_partner_of?(user)
       username
     elsif !last_name
       first_name + " (#{username})"

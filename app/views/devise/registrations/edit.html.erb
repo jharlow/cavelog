@@ -16,7 +16,7 @@
       <% end %>
       <div class="field">
         <%= f.label :username %>
-        <%= f.text_field :username, value: resource.username == "caver" ? "" : resource.username %>
+        <%= f.text_field :username, value: resource.username %>
         <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:username) %>
       </div>
       <div class="field">
@@ -52,7 +52,7 @@
         <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:current_password) %>
       </div>
       <div class="actions">
-        <%= f.submit "Update" %>
+        <%= f.submit "Update", class: 'btn' %>
       </div>
     <% end %>
   </section>

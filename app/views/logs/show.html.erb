@@ -6,10 +6,20 @@
       <%= content_spacing do %>
         <div class="flex justify-between items-center">
           <h2>Details</h2>
-          <%= link_to "Edit", edit_log_path(@log.id), aria: { label: "Edit details" }, class: 'btn btn-sm' %>
+          <% if @log.user == current_user %>
+            <%= link_to "Edit", edit_log_path(@log.id), aria: { label: "Edit details" }, class: 'btn btn-sm' %>
+          <% end %>
         </div>
         <div class="flow-root">
           <dl class="-my-3 divide-y divide-gray-200 text-sm">
+            <% if @log.user != current_user %>
+              <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Log created by</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                  <%= link_to @log.user.name_for(current_user), user_path(@log.user), data: { turbo: false} %>
+                </dd>
+              </div>
+            <% end %>
             <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Group size</dt>
               <% if @log.log_partner_connections.length > 0 %>
@@ -45,17 +55,11 @@
   <section>
     <%= turbo_frame_tag "log_partners_#{@log.id}" do %>
       <%= content_spacing do %>
-        <% if @log.user != current_user %>
-          <h2>Log created by</h2>
-          <ul class="grid-list">
-            <li class="grid-list-item">
-              <%= link_to @log.user.name_for(current_user), user_path(@log.user), data: { turbo: false } %>
-            </li>
-          </ul>
-        <% end %>
         <div class="flex justify-between items-center">
           <h2>Trip partners</h2>
-          <%= link_to "Edit", edit_log_partner_connections_path(@log.id), aria: { label: "Edit partners" }, class: 'btn btn-sm' %>
+          <% if @log.user == current_user %>
+            <%= link_to "Edit", edit_log_partner_connections_path(@log.id), aria: { label: "Edit partners" }, class: 'btn btn-sm' %>
+          <% end %>
         </div>
         <% if @log.log_partner_connections.length > 0 %>
           <ul class="grid-list">
@@ -80,7 +84,9 @@
       <%= content_spacing do %>
         <div class="flex justify-between items-center">
           <h2>Caves visited</h2>
-          <%= link_to "Edit", edit_caves_log_path(@log.id), aria: { label: "Edit caves" }, class: 'btn btn-sm' %>
+          <% if @log.user == current_user %>
+            <%= link_to "Edit", edit_caves_log_path(@log.id), aria: { label: "Edit caves" }, class: 'btn btn-sm' %>
+          <% end %>
         </div>
         <% if @log.caves.length > 0 || @unconnected_caves.length > 0 %>
           <% if @unconnected_caves.length > 0 %>
@@ -112,9 +118,11 @@
     <%= render 'locations-visited', locations_data: @locations_data, log: @log %>
     <%= render 'unconnected_locations_visited', unconnected_locations: @unconnected_locations, log: @log %>
   </section>
-  <section>
-    <h2>Danger zone</h2>
-    <p>Please note that deleting a log is unrecoverable and you will also remove any votes applied from this log.</p>
-    <%= link_to 'Delete log', log_path(@log), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
-  </section>
+  <% if @log.user == current_user %>
+    <section>
+      <h2>Danger zone</h2>
+      <p>Please note that deleting a log is unrecoverable and you will also remove any votes applied from this log.</p>
+      <%= link_to 'Delete log', log_path(@log), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
+    </section>
+  <% end %>
 <% end %>
