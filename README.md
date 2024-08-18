@@ -34,14 +34,24 @@ $ ./bin/dev
 - [x] delete a log
 - [x] edit location subsystem
 - [x] breadcrumb trail
+- [x] create partnership request
+- [x] delete sent partnership request
+- [x] view pending partnership requests
+- [x] deny pending partnership
+- [x] accept partnership request adds partner
+- [x] delete partnership
+- [ ] add partner connection to log
+- [ ] remove partner connection from log
 
 ## Feature ideas
 
-- [ ] User page (name, username, logs)
+- [ ] User page (name, username) (ON DECK)
   - [ ] logbooks
-  - [ ] Edit user page
+  - [x] Edit user page
+  - [ ] Permissions
   - [ ] Connect partners to users
     - [ ] Add partners to a log (high)
+- [ ] Pagination - HIGH
 - [ ] Add cave connections
   - [ ] Adding cave to log suggests relevant cave connections
 - [ ] searchable/paginating locations

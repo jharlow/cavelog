@@ -1,0 +1,2 @@
+module PartnershipRequestsHelper
+end

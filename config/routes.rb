@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
+  get("partnership_requests/new")
+  get("partnership_requests/create")
   devise_for(:users)
-  get("/me", to: "users#show", as: :my_profile)
+  resources(:users)
+  resources(:partnership_requests, only: [ :create, :destroy ]) do
+    member do
+      patch(:accept)
+    end
+  end
+
+  resources(:partnerships, only: [ :destroy ])
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")

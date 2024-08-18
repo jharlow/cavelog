@@ -1,9 +1,9 @@
 <%= page_padding do %>
-  <h1>Edit <%= current_user.username %>&apos;s profile</h1>
+  <h1><%= current_user.username %>&apos;s profile</h1>
   <section>
     <div class='flex justify-between items-center'>
       <h2>Change profile details</h2>
-      <%= link_to "Return to profile", my_profile_path, class: 'btn btn-sm' %>
+      <%= link_to "Return to profile", user_path(current_user), class: 'btn btn-sm' %>
     </div>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form', }) do |f| %>
       <div class="field">
@@ -21,11 +21,13 @@
       </div>
       <div class="field">
         <%= f.label :first_name %>
+        <%= render 'components/forms/label-hint', hint: "Will be visible to your partners" %>
         <%= f.text_field :first_name, value: resource.first_name %>
         <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:first_name) %>
       </div>
       <div class="field">
         <%= f.label :last_name %>
+        <%= render 'components/forms/label-hint', hint: "Will be visible to your partners" %>
         <%= f.text_field :last_name, value: resource.last_name %>
         <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:last_name) %>
       </div>

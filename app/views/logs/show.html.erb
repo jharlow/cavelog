@@ -44,15 +44,15 @@
           <% if @unconnected_caves.length > 0 %>
             <p class="alert">At least one cave is not currently connected to any data, this may happen because a reported cave was deleted</p>
           <% end %>
-          <ul class="pl-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <ul class="grid-list">
             <% @locations_data[:caves].each do |cave| %>
-              <li class="flex flex-col gap-0.5 rounded-lg border border-gray-200 p-3">
+              <li class="grid-list-item">
                 <%= link_to cave[:cave][:data][:title], cave_path(cave[:cave][:data]), class: "text-lg font-medium", data: { turbo: false } %>
                 <p class="text-xs text-gray-500">Logged <%= cave[:locations_visited_count] %> locations</p>
               </li>
             <% end %>
             <% @unconnected_caves.each do |unconnected_cave| %>
-              <li class="flex flex-col rounded-lg border border-gray-200 p-3">
+              <li class="grid-list-item">
                 <p class="text-lg font-medium flex items-center gap-1">
                   <span class="h-3 w-3 rounded-full bg-orange-500"></span><%= unconnected_cave.cave_title %>
                 </p>
@@ -61,7 +61,7 @@
             <% end %>
           </ul>
         <% else %>
-          No caves attached to this log yet!
+          <%= render 'components/empty-section', message: 'No caves attached to this log yet' %>
         <% end %>
       <% end %>
     <% end %>
