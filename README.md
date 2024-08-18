@@ -40,8 +40,20 @@ $ ./bin/dev
 - [x] deny pending partnership
 - [x] accept partnership request adds partner
 - [x] delete partnership
-- [ ] add partner connection to log
-- [ ] remove partner connection from log
+- [x] add partner connection to log
+- [x] remove partner connection from log
+- [ ] refactor logs paths/routes
+  - [ ] move cave/location functions out to the cave copies/location copies controllers
+  - [ ] change the routes to use /log/:id{{caves|locations}}
+  - [ ] use button_to instead of a bunch of forms
+  - [ ] must be log owner to
+    - [ ] add/remove caves
+    - [ ] add/remove locations
+    - [ ] edit details
+    - [ ] delete log
+    - [ ] see edit buttons
+- [ ] search for partners on log
+- [ ] pagination for caves/partners
 
 ## Feature ideas
 

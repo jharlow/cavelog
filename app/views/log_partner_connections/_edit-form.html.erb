@@ -1,0 +1,45 @@
+<%= turbo_frame_tag "log_partners_#{@log.id}" do %>
+  <%= content_spacing do %>
+    <div class="flex justify-between items-center">
+      <h2>Trip partners</h2>
+      <%= link_to "Done", log_path(log), aria: { label: 'Done editing' }, class: 'btn btn-sm' %>
+    </div>
+    <% if log.log_partner_connections.length > 0 %>
+      <div class="flex flex-col gap-2">
+        <h3>Currently on log</h3>
+        <ul class="grid-list">
+          <% log.log_partner_connections.each do |lpc| %>
+            <li class="grid-list-item">
+              <% if lpc.partnership %>
+                <%= link_to lpc.partnership.other_user_than(log.user).name_for(current_user), user_path(lpc.partnership.other_user_than(@log.user)), data: { turbo: false } %>
+                <%= button_to "Remove", log_partner_connection_path(@log, lpc), method: :delete, aria: { label: "Remove #{lpc.partnership.other_user_than(current_user).name_for(current_user)} from log" }, class: 'btn-red' %>
+              <% else %>
+                <%= lpc.partner_name %>
+                <%= button_to "Remove", log_partner_connection_path(@log, lpc), method: :delete, aria: { label: "Remove #{lpc.partner_name} from log" }, class: 'btn-red' %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="flex flex-col gap-2">
+      <h3>Add partners</h3>
+      <% if available_partners.length != 0 %>
+        <ul class="grid-list">
+          <% available_partners.each do |partner| %>
+            <li class="grid-list-item">
+              <%= link_to partner.other_user_than(current_user).name_for(current_user), user_path(partner.other_user_than(current_user)), data: { turbo: false } %>
+              <%= button_to "Add", log_partner_connections_path(log), method: :post, params: { log_partner_connection: { partnership_id: partner.id } }, aria: { label: "Add #{partner.other_user_than(current_user).name_for(current_user)} to log" }, class: 'btn-green' %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= render 'components/empty-section', message: current_user.partners.length > 0 ? 'All partners are already on log' : "You don't have any partners yet" %>
+      <% end %>
+    </div>
+    <div class="flex flex-col gap-2">
+      <h3>Add using just a name</h3>
+      <%= render 'add-using-just-a-name-form', log: @log %>
+    </div>
+  <% end %>
+<% end %>

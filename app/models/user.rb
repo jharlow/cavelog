@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   has_many :logs, dependent: :destroy
 
-  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: {case_sensitive: false}
 
   def has_pending_request_with_user?(user)
     if self == user
@@ -45,26 +45,28 @@ class User < ApplicationRecord
   end
 
   def partners
-    User
-      .joins(
-        "INNER JOIN partnerships ON (partnerships.user1_id = users.id AND partnerships.user2_id = #{id}) OR (partnerships.user2_id = users.id AND partnerships.user1_id = #{id})"
-      )
-      .distinct
+    Partnership.where("user1_id = :id OR user2_id = :id", id: id)
   end
 
   def is_partner_of?(user)
     if self == user
       nil
     else
-      partners.exists?(user.id)
+      partners.where("user1_id = :id OR user2_id = :id", id: user.id).exists?
     end
   end
 
   def partnership_with(user)
-    if self == user || !partners.exists?(user.id)
-      nil
+    partners.where("user1_id = :id OR user2_id = :id", id: user.id).first
+  end
+
+  def name_for(user)
+    if !first_name || self == user || !is_partner_of?(user)
+      username
+    elsif !last_name
+      first_name + " (#{username})"
     else
-      Partnership.find_by(user1_id: user.id) || Partnership.find_by(user2_id: user.id)
+      first_name + " " + last_name
     end
   end
 end

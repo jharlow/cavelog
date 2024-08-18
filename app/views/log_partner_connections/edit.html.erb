@@ -1,0 +1,7 @@
+<%= render 'components/breadcrumb-topper', links: [{ text: "Log entry", href: log_path(@log) }, { text: "Edit partners", href: edit_log_partner_connections_path(@log)}] %>
+<%= page_padding do %>
+  <h1>Log entry <span class="text-2xl text-gray-700">#<%= @log.id %></span></h1>
+  <section>
+    <%= render 'edit-form', log: @log, available_partners: @available_partners, current_user: current_user %>
+  </section>
+<% end %>

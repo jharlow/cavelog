@@ -10,7 +10,7 @@
         <% current_caves.each do |cc| %>
           <% if cc.cave.present? %>
             <li class="grid-list-item">
-              <p class="text-lg font-medium"><%= cc.cave.title %></p>
+              <p><%= cc.cave.title %></p>
               <%= render "caves/attached-cave-form", path: remove_cave_log_path(@log), action: "Remove", cave: cc.cave, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure? Any locations related to this cave will be deleted for this log as well." } %>
             </li>
           <% else %>
@@ -32,7 +32,7 @@
       <ul class="grid-list">
         <% available_caves.each do |cave| %>
           <li class="grid-list-item">
-            <p class="text-lg font-medium"><%= cave.title %></p>
+            <p><%= cave.title %></p>
             <%= render "caves/attached-cave-form", path: add_cave_log_path(@log), action: "Add", cave: cave, data: {} %>
           </li>
         <% end %>

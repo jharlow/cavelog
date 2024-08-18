@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_16_212557) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_18_023019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_16_212557) do
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_log_location_copies_on_location_id"
     t.index ["log_id"], name: "index_log_location_copies_on_log_id"
+  end
+
+  create_table "log_partner_connections", force: :cascade do |t|
+    t.bigint "log_id", null: false
+    t.bigint "partnership_id"
+    t.string "partner_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["log_id"], name: "index_log_partner_connections_on_log_id"
+    t.index ["partnership_id"], name: "index_log_partner_connections_on_partnership_id"
   end
 
   create_table "logs", force: :cascade do |t|
@@ -112,6 +122,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_16_212557) do
   add_foreign_key "log_cave_copies", "logs"
   add_foreign_key "log_location_copies", "locations"
   add_foreign_key "log_location_copies", "logs"
+  add_foreign_key "log_partner_connections", "logs"
+  add_foreign_key "log_partner_connections", "partnerships"
   add_foreign_key "logs", "users"
   add_foreign_key "partnership_requests", "users", column: "requested_by_id"
   add_foreign_key "partnership_requests", "users", column: "requested_to_id"

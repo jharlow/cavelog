@@ -55,7 +55,6 @@
     @apply min-h-24;
   }
 
-  input[type="submit"],
   button {
     @apply rounded-md border bg-white shadow-sm px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:cursor-pointer focus:relative focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
   }
