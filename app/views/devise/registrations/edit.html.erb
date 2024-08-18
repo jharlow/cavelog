@@ -3,7 +3,7 @@
   <section>
     <div class='flex justify-between items-center'>
       <h2>Change profile details</h2>
-      <%= link_to "Return to profile", my_profile_path, class: 'btn btn-sm' %>
+      <%= link_to "Return to profile", user_path(current_user), class: 'btn btn-sm' %>
     </div>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form', }) do |f| %>
       <div class="field">

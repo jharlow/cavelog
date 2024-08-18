@@ -35,11 +35,13 @@ $ ./bin/dev
 - [x] edit location subsystem
 - [x] breadcrumb trail
 - [x] create partnership request
-- [ ] delete sent partnership request
-- [ ] view pending partnership requests
-- [ ] deny pending partnership
+- [x] delete sent partnership request
+- [x] view pending partnership requests
+- [x] deny pending partnership
 - [x] accept partnership request adds partner
-- [ ] delete partnership
+- [x] delete partnership
+- [ ] add partner connection to log
+- [ ] remove partner connection from log
 
 ## Feature ideas
 

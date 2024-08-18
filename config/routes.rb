@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   get("partnership_requests/create")
   devise_for(:users)
   resources(:users)
-  get("/me", to: "users#show", as: :my_profile)
-  resources(:partnership_requests, only: [ :create ]) do
+  resources(:partnership_requests, only: [ :create, :destroy ]) do
     member do
       patch(:accept)
     end

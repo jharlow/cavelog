@@ -20,7 +20,7 @@
       <%= link_to "CaveLog", root_path %>
       <div class="flex gap-4 items-center">
         <% if user_signed_in? %>
-          <%= link_to "My profile", my_profile_path %>
+          <%= link_to "My profile", user_path(current_user) %>
           <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
         <% else %>
           <%= button_to "Sign in", new_user_session_path %>
@@ -28,10 +28,10 @@
       </div>
     </div>
     <% if notice.present? %>
-      <p class="notice"><%= notice %></p>
+      <p class="sticky top-12 w-[calc(100% + 2rem)] bg-green-200 bg-opacity-75 backdrop-blur-md shadow-sm z-40 overflow-x-clip flex items-center gap-1 text-sm text-gray-600 py-2 px-6"><%= notice %></p>
     <% end %>
     <% if alert.present? %>
-      <p class="alert"><%= alert %></p>
+      <p class="sticky top-12 w-[calc(100% + 2rem)] bg-orange-200 bg-opacity-75 backdrop-blur-md shadow-sm z-40 overflow-x-clip flex items-center gap-1 text-sm text-gray-600 py-2 px-6"><%= alert %></p>
     <% end %>
     <%= yield %>
   </body>
