@@ -34,6 +34,12 @@ Rails.application.routes.draw do
       post("remove_cave")
       post("remove_unconnected_cave")
       get("edit_caves")
+
+      resources(:log_partner_connections, path: "partners", only: [ :new, :create, :destroy ]) do
+        collection do
+          get("edit", to: "log_partner_connections#edit")
+        end
+      end
     end
   end
 

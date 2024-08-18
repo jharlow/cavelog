@@ -5,6 +5,18 @@ class Partnership < ApplicationRecord
   validate :users_are_different
   validate :no_other_partnerships_exist, on: :create
 
+  def includes_user?(user)
+    user1 == user || user2 == user
+  end
+
+  def other_user_than(user)
+    if includes_user?(user)
+      return (user1 != user) ? user1 : user2
+    end
+
+    nil
+  end
+
   private
 
   def users_are_different

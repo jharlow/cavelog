@@ -2,13 +2,14 @@ class Log < ApplicationRecord
   belongs_to :user
   has_many :log_location_copies, dependent: :destroy
   has_many :log_cave_copies, dependent: :destroy
+  has_many :log_partner_connections, dependent: :destroy
   accepts_nested_attributes_for :log_cave_copies
   has_many :caves, through: :log_cave_copies
   has_many :locations, through: :log_location_copies
 
-  validates :personal_comments, presence: true, length: {minimum: 10}
+  validates :personal_comments, presence: true, length: { minimum: 10 }
   validates :start_datetime, presence: true, not_in_future: true
-  validates :end_datetime, presence: true, not_in_future: true, not_before_other_attribute: {with: :start_datetime}
+  validates :end_datetime, presence: true, not_in_future: true, not_before_other_attribute: { with: :start_datetime }
 
   def unconnected_caves
     log_cave_copies.where(cave_id: nil)
@@ -19,7 +20,7 @@ class Log < ApplicationRecord
   end
 
   def locations_data
-    {caves: caves.map { |cave| cave_locations_data(cave) }}
+    { caves: caves.map { |cave| cave_locations_data(cave) } }
   end
 
   def cave_locations_data(cave)
@@ -42,7 +43,7 @@ class Log < ApplicationRecord
   def locations_data_for_locatable(locatable)
     locations = locatable.locations.map do |location|
       connected_copy = location.log_location_copies.where(log_id: id)
-      {data: location, is_in_log: connected_copy.present?}
+      { data: location, is_in_log: connected_copy.present? }
     end
 
     {

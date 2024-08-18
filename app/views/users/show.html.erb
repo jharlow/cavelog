@@ -74,7 +74,7 @@
     <% if @user.partners.length > 0 %>
       <ul class="grid-list">
         <% @user.partners.each do |partner| %>
-          <li class="grid-list-item"><%= link_to partner.username, user_path(partner) %></li>
+          <li class="grid-list-item"><%= link_to partner.other_user_than(@user).username, user_path(partner.other_user_than(@user)) %></li>
         <% end %>
       </ul>
     <% else %>

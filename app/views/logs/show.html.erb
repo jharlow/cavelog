@@ -34,6 +34,21 @@
     <% end %>
   </section>
   <section>
+    <%= turbo_frame_tag "log_partners_#{@log.id}" do %>
+      <%= content_spacing do %>
+        <div class="flex justify-between items-center">
+          <h2>Trip partners</h2>
+          <%= link_to "Edit", edit_log_partner_connections_path(@log.id), aria: { label: "Edit partners" }, class: 'btn btn-sm' %>
+        </div>
+        <% if @log.log_partner_connections.length > 0 %>
+          Yay you logged a partner connection!
+        <% else %>
+          <%= render 'components/empty-section', message: 'No partners added' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </section>
+  <section>
     <%= turbo_frame_tag "log_caves_#{@log.id}" do %>
       <%= content_spacing do %>
         <div class="flex justify-between items-center">
