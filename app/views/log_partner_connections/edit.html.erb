@@ -11,8 +11,8 @@
           <ul class="grid-list">
             <% @log.log_partner_connections.each do |lpc| %>
               <li class="grid-list-item">
-                <% if lpc.partnership.present? %>
-                  <% link_to lpc.partnership.other_user_than(@log.user).username, user_path(lpc.partnership.other_user_than(@log.user).username) %>
+                <% if lpc.partnership %>
+                  <%= link_to lpc.partnership.other_user_than(@log.user).username, user_path(lpc.partnership.other_user_than(@log.user).username) %>
                 <% else %>
                   No user linked
                 <% end %>

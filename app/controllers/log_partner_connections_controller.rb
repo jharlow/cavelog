@@ -12,6 +12,8 @@ class LogPartnerConnectionsController < ApplicationController
         flash[:alert] = "Associated partner could not be found."
       elsif !@partnership.includes_user?(current_user)
         flash[:alert] = "You cannot associate a partnership you are not a member of."
+      elsif @log.log_partner_connections.where(partnership_id: @partnership.id).exists?
+        flash[:alert] = "Partner has already been added to log."
       else
         @log_partner_connection = LogPartnerConnection.new(log_partner_connections_params)
         @log_partner_connection.log = @log

@@ -64,9 +64,9 @@ class User < ApplicationRecord
     if !first_name || !is_partner_of?(user)
       username
     elsif !last_name
-      first_name + "(#{username})"
+      first_name + " (#{username})"
     else
-      first_name + last_name
+      first_name + " " + last_name
     end
   end
 end
