@@ -13,7 +13,8 @@
             <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Group size</dt>
               <% if @log.log_partner_connections.length > 0 %>
-                <dd class="text-gray-700 sm:col-span-2"><%= @log.log_partner_connections.length + 1 %></dd> <!-- Account for user -->
+                <!-- Account for user -->
+                <dd class="text-gray-700 sm:col-span-2"><%= @log.log_partner_connections.length + 1 %></dd>
               <% else %>
                 <dd class="text-gray-700 sm:col-span-2">Solo trip</dd>
               <% end %>
@@ -44,6 +45,14 @@
   <section>
     <%= turbo_frame_tag "log_partners_#{@log.id}" do %>
       <%= content_spacing do %>
+        <% if @log.user != current_user %>
+          <h2>Log created by</h2>
+          <ul class="grid-list">
+            <li class="grid-list-item">
+              <%= link_to @log.user.name_for(current_user), user_path(@log.user), data: { turbo: false } %>
+            </li>
+          </ul>
+        <% end %>
         <div class="flex justify-between items-center">
           <h2>Trip partners</h2>
           <%= link_to "Edit", edit_log_partner_connections_path(@log.id), aria: { label: "Edit partners" }, class: 'btn btn-sm' %>
@@ -53,7 +62,7 @@
             <% @log.log_partner_connections.each do |lpc| %>
               <li class="grid-list-item">
                 <% if lpc.partnership %>
-                  <%= link_to lpc.partnership.other_user_than(@log.user).username, user_path(lpc.partnership.other_user_than(@log.user)), data: { turbo: false } %>
+                  <%= link_to lpc.partnership.other_user_than(@log.user).name_for(current_user), user_path(lpc.partnership.other_user_than(@log.user)), data: { turbo: false } %>
                 <% else %>
                   <%= lpc.partner_name %>
                 <% end %>
