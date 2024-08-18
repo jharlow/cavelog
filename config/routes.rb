@@ -30,12 +30,13 @@ Rails.application.routes.draw do
       post("remove_unconnected_location")
       get("edit_unconnected_locations")
 
-      post("add_cave")
-      post("remove_cave")
-      post("remove_unconnected_cave")
-      get("edit_caves")
+      resources(:log_cave_copies, path: "caves", only: [:create, :destroy], param: :cave_id) do
+        collection do
+          get("edit", to: "log_cave_copies#edit")
+        end
+      end
 
-      resources(:log_partner_connections, path: "partners", only: [:new, :create, :destroy], param: :partner_id) do
+      resources(:log_partner_connections, path: "partners", only: [:create, :destroy], param: :partner_id) do
         collection do
           get("edit", to: "log_partner_connections#edit")
         end

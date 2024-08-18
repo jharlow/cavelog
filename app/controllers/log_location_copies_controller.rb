@@ -1,0 +1,2 @@
+class LogLocationCopiesController < ApplicationController
+end

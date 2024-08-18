@@ -49,7 +49,7 @@
         <div class="flex justify-between items-center">
           <h2>Caves visited</h2>
           <% if @log.user == current_user %>
-            <%= link_to "Edit", edit_caves_log_path(@log.id), aria: { label: "Edit caves" }, class: 'btn btn-sm' %>
+            <%= link_to "Edit", edit_log_cave_copies_path(@log), aria: { label: "Edit caves" }, class: 'btn btn-sm' %>
           <% end %>
         </div>
         <% if @log.caves.length > 0 || @unconnected_caves.length > 0 %>

@@ -52,8 +52,9 @@ $ ./bin/dev
     - [ ] edit details
     - [ ] delete log
     - [ ] see edit buttons
-- [ ] search for partners on log
-- [ ] pagination for caves/partners
+- [ ] add mock data to dev
+  - [ ] search for partners on log
+  - [ ] pagination for caves/partners
 
 ## Feature ideas
 
