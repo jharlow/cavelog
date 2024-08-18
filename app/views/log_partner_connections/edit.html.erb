@@ -1,36 +1,7 @@
+<%= render 'components/breadcrumb-topper', links: [{ text: "Log entry", href: log_path(@log) }, { text: "Edit partners", href: edit_log_partner_connections_path(@log)}] %>
 <%= page_padding do %>
-  <%= turbo_frame_tag "log_partners_#{@log.id}" do %>
-    <%= content_spacing do %>
-      <div class="flex justify-between items-center">
-        <h2>Trip partners</h2>
-        <%= link_to "Done", log_path(@log), aria: { label: 'Done editing' }, class: 'btn btn-sm' %>
-      </div>
-      <% if @log.log_partner_connections.length > 0 %>
-        <div class="flex flex-col gap-2">
-          <h3>Currently on log</h3>
-          <ul class="grid-list">
-            <% @log.log_partner_connections.each do |lpc| %>
-              <li class="grid-list-item">
-                <% if lpc.partnership %>
-                  <%= link_to lpc.partnership.other_user_than(@log.user).username, user_path(lpc.partnership.other_user_than(@log.user).username) %>
-                <% else %>
-                  No user linked
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <div class="flex flex-col gap-2">
-        <h3>Add partners</h3>
-        <ul class="grid-list">
-          <% current_user.partners.each do |partner| %>
-            <li class="grid-list-item">
-              <%= link_to partner.other_user_than(current_user).username, user_path(partner.other_user_than(current_user)), data: { turbo: false } %>
-              <%= button_to "Add", log_partner_connections_path(@log), method: :post, params: { log_partner_connections: { partnership_id: partner.id } }, aria: { label: "Add #{partner.other_user_than(current_user).username} to log" }, class: 'btn-green' %>
-            </li>
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-  <% end %>
+  <h1>Log entry <span class="text-2xl text-gray-700">#<%= @log.id %></span></h1>
+  <section>
+    <%= render 'edit-form', log: @log, available_partners: @available_partners, current_user: current_user %>
+  </section>
+<% end %>

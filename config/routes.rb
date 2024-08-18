@@ -3,21 +3,21 @@ Rails.application.routes.draw do
   get("partnership_requests/create")
   devise_for(:users)
   resources(:users)
-  resources(:partnership_requests, only: [ :create, :destroy ]) do
+  resources(:partnership_requests, only: [:create, :destroy]) do
     member do
       patch(:accept)
     end
   end
 
-  resources(:partnerships, only: [ :destroy ])
+  resources(:partnerships, only: [:destroy])
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do
-    resources(:logs, only: [ :new, :create ])
-    resources(:locations, only: [ :new, :create, :show, :edit, :update ])
-    resources(:subsystems, only: [ :new, :create, :show, :edit, :update ]) do
-      resources(:locations, only: [ :new, :create, :show, :edit, :update ])
+    resources(:logs, only: [:new, :create])
+    resources(:locations, only: [:new, :create, :show, :edit, :update])
+    resources(:subsystems, only: [:new, :create, :show, :edit, :update]) do
+      resources(:locations, only: [:new, :create, :show, :edit, :update])
     end
   end
 
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       post("remove_unconnected_cave")
       get("edit_caves")
 
-      resources(:log_partner_connections, path: "partners", only: [ :new, :create, :destroy ]) do
+      resources(:log_partner_connections, path: "partners", only: [:new, :create, :destroy], param: :partner_id) do
         collection do
           get("edit", to: "log_partner_connections#edit")
         end

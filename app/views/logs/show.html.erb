@@ -10,45 +10,9 @@
             <%= link_to "Edit", edit_log_path(@log.id), aria: { label: "Edit details" }, class: 'btn btn-sm' %>
           <% end %>
         </div>
-        <div class="flow-root">
-          <dl class="-my-3 divide-y divide-gray-200 text-sm">
-            <% if @log.user != current_user %>
-              <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                <dt class="font-medium text-gray-900">Log created by</dt>
-                <dd class="text-gray-700 sm:col-span-2">
-                  <%= link_to @log.user.name_for(current_user), user_path(@log.user), data: { turbo: false} %>
-                </dd>
-              </div>
-            <% end %>
-            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-              <dt class="font-medium text-gray-900">Group size</dt>
-              <% if @log.log_partner_connections.length > 0 %>
-                <!-- Account for user -->
-                <dd class="text-gray-700 sm:col-span-2"><%= @log.log_partner_connections.length + 1 %></dd>
-              <% else %>
-                <dd class="text-gray-700 sm:col-span-2">Solo trip</dd>
-              <% end %>
-            </div>
-            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-              <dt class="font-medium text-gray-900">Started trip at </dt>
-              <dd class="text-gray-700 sm:col-span-2"><%= @log.format_datetime(@log.start_datetime) %></dd>
-            </div>
-            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-              <dt class="font-medium text-gray-900">Ended trip at </dt>
-              <dd class="text-gray-700 sm:col-span-2"><%= @log.format_datetime(@log.end_datetime) %></dd>
-            </div>
-            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-              <dt class="font-medium text-gray-900">Trip duration</dt>
-              <dd class="text-gray-700 sm:col-span-2"><%= @log.length_of_log %></dd>
-            </div>
-            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-              <dt class="font-medium text-gray-900">Personal comments</dt>
-              <dd class="text-gray-700 sm:col-span-2 flex flex-col gap-2">
-                <%= simple_format(@log.personal_comments, class: "text-sm") %>
-              </dd>
-            </div>
-          </dl>
-        </div>
+        <%= turbo_frame_tag "log_details_#{@log.id}" do %>
+          <%= render 'details-section', log: @log, current_user: current_user %>
+        <% end %>
       <% end %>
     <% end %>
   </section>
@@ -95,7 +59,7 @@
           <ul class="grid-list">
             <% @locations_data[:caves].each do |cave| %>
               <li class="grid-list-item">
-                <%= link_to cave[:cave][:data][:title], cave_path(cave[:cave][:data]), class: "text-lg font-medium", data: { turbo: false } %>
+                <%= link_to cave[:cave][:data][:title], cave_path(cave[:cave][:data]), data: { turbo: false } %>
                 <p class="text-xs text-gray-500">Logged <%= cave[:locations_visited_count] %> locations</p>
               </li>
             <% end %>
