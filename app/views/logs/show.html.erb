@@ -44,39 +44,7 @@
     <% end %>
   </section>
   <section>
-    <%= turbo_frame_tag "log_caves_#{@log.id}" do %>
-      <%= content_spacing do %>
-        <div class="flex justify-between items-center">
-          <h2>Caves visited</h2>
-          <% if @log.user == current_user %>
-            <%= link_to "Edit", edit_caves_log_path(@log.id), aria: { label: "Edit caves" }, class: 'btn btn-sm' %>
-          <% end %>
-        </div>
-        <% if @log.caves.length > 0 || @unconnected_caves.length > 0 %>
-          <% if @unconnected_caves.length > 0 %>
-            <p class="alert">At least one cave is not currently connected to any data, this may happen because a reported cave was deleted</p>
-          <% end %>
-          <ul class="grid-list">
-            <% @locations_data[:caves].each do |cave| %>
-              <li class="grid-list-item">
-                <%= link_to cave[:cave][:data][:title], cave_path(cave[:cave][:data]), data: { turbo: false } %>
-                <p class="text-xs text-gray-500">Logged <%= cave[:locations_visited_count] %> locations</p>
-              </li>
-            <% end %>
-            <% @unconnected_caves.each do |unconnected_cave| %>
-              <li class="grid-list-item">
-                <p class="text-lg font-medium flex items-center gap-1">
-                  <span class="h-3 w-3 rounded-full bg-orange-500"></span><%= unconnected_cave.cave_title %>
-                </p>
-                <p class="text-xs text-gray-500">Not connected</p>
-              </li>
-            <% end %>
-          </ul>
-        <% else %>
-          <%= render 'components/empty-section', message: 'No caves attached to this log yet' %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <%= render 'caves-visited', log: @log, unconnected_caves: @unconnected_caves, locations_data: @locations_data %>
   </section>
   <section>
     <%= render 'locations-visited', locations_data: @locations_data, log: @log %>

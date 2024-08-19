@@ -10,15 +10,15 @@
         <% current_caves.each do |cc| %>
           <% if cc.cave.present? %>
             <li class="grid-list-item">
-              <p><%= cc.cave.title %></p>
-              <%= render "caves/attached-cave-form", path: remove_cave_log_path(@log), action: "Remove", cave: cc.cave, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure? Any locations related to this cave will be deleted for this log as well." } %>
+              <p><%= link_to cc.cave.title, cave_path(cc.cave), data: {turbo: false} %></p>
+              <%= button_to "Remove", log_cave_copy_path(@log, cc), method: :delete, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure? Any locations related to this cave will be deleted for this log as well." }, aria: { label: "Remove #{cc.cave.title} from log" }, class: 'btn-red' %>
             </li>
           <% else %>
             <li class="grid-list-item">
-              <p class="text-lg font-medium flex items-center gap-1">
+              <p class="flex items-center gap-1">
                 <span class="h-3 w-3 rounded-full bg-orange-500"></span><%= cc.cave_title %>
               </p>
-              <%= render "remove-unconnected-cave-copy-form", path: remove_unconnected_cave_log_path(@log), lcc: cc %>
+              <%= button_to "Remove", log_cave_copy_path(@log, cc), method: :delete, aria: { label: "Remove #{cc.cave_title} from log" }, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure?" }, class: 'btn-red' %>
             </li>
           <% end %>
         <% end %>
@@ -26,14 +26,14 @@
     </div>
     <div class="flex flex-col gap-2">
       <h3>Add additional caves</h3>
-      <%= render "caves/search-bar", path: edit_caves_log_path(@log) %>
+      <%= render "caves/search-bar", path: edit_log_cave_copies_path(@log) %>
     </div>
     <% if available_caves.length > 0 %>
       <ul class="grid-list">
         <% available_caves.each do |cave| %>
           <li class="grid-list-item">
-            <p><%= cave.title %></p>
-            <%= render "caves/attached-cave-form", path: add_cave_log_path(@log), action: "Add", cave: cave, data: {} %>
+            <p><%= link_to cave.title, cave_path(cave), data: {turbo: false} %></p>
+            <%= button_to "Add", log_cave_copies_path(log), method: :post, params: { log_cave_copy: { cave_id: cave.id } }, aria: { label: "Add #{cave.title} to log" }, class: 'btn-green' %>
           </li>
         <% end %>
       </ul>

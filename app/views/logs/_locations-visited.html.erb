@@ -10,12 +10,12 @@
             <%= link_to "Add a location in #{cave[:cave][:data].title}", new_cave_location_path(cave[:cave][:data]), data: { turbo: false } %>
           </div>
         <% else %>
-          <%= turbo_frame_tag "locations_cave_#{cave[:cave][:data].id}" do %>
+          <%= turbo_frame_tag "log_locations_cave_#{cave[:cave][:data].id}" do %>
             <div class="flex flex-col gap-2">
               <div class="flex justify-between items-center">
                 <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
                 <% if @log.user == current_user %>
-                  <%= link_to "Edit", edit_cave_locations_log_path(log.id, cave[:cave][:data].id), aria: { label: "Edit locations logged in #{cave[:cave][:data][:title]}"}, class: 'btn btn-sm' %>
+                  <%= link_to "Edit", edit_cave_log_location_copies_path(log, cave[:cave][:data]), aria: { label: "Edit locations logged in #{cave[:cave][:data][:title]}"}, class: 'btn btn-sm' %>
                 <% end %>
               </div>
               <div class="table-container">
@@ -30,7 +30,7 @@
                       <tr>
                         <td class="bg-orange-50">
                           Cave visited but no locations logged
-                          <%= link_to "Edit", edit_cave_locations_log_path(log.id, cave[:cave][:data].id) %>
+                          <%= link_to "Edit", edit_cave_log_location_copies_path(log, cave[:cave][:data]) %>
                         </td>
                       </tr>
                     <% else %>
@@ -42,7 +42,7 @@
                             </th>
                           </tr>
                           <% subsystem[:locations].each do |location| %>
-                            <% if location[:is_in_log] %>
+                            <% if location[:connection] %>
                               <tr>
                                 <td><%= location[:data].title %></td>
                               </tr>
@@ -56,7 +56,7 @@
                         </tr>
                       <% end %>
                       <% cave[:cave][:locations].each do |location| %>
-                        <% if location[:is_in_log] %>
+                        <% if location[:connection].present? %>
                           <tr>
                             <td><%= location[:data].title %></td>
                           </tr>

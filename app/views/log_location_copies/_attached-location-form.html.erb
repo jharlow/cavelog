@@ -1,0 +1,7 @@
+<turbo-frame id="edit_log_<%= log.id %>_location_<%= location ? location.id : log_location_copy.id %>">
+  <% if log_location_copy.present? %>
+    <%= button_to "Remove", log_location_copy_path(log, log_location_copy), method: :delete, aria: { label: "Remove #{location ? location.title : log_location_copy.location_title} from log" }, class: "btn btn-red btn-sm" %>
+  <% else %>
+    <%= button_to "Add", log_location_copies_path(log), method: :post, params: { log_location_copy: { location_id: location.id } }, aria: { label: "Add #{location.title} to log" }, class: "btn btn-green btn-sm" %>
+  <% end %>
+</turbo-frame>

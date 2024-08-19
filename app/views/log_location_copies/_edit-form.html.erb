@@ -1,0 +1,77 @@
+<%= turbo_frame_tag "log_locations_cave_#{cave ? cave.id : "misc"}" do %>
+  <div class="flex flex-col gap-2">
+    <div class="flex justify-between items-center">
+      <h3><%= cave ? cave.title : "Miscellaneous locations" %></h3>
+      <%= link_to "Done", log_path(log), aria: { label: "Done editing" }, class: 'btn btn-sm' %>
+    </div>
+    <% if cave_locations_data.present? %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cave_locations_data[:subsystems].each do |subsystem| %>
+              <% if subsystem[:locations].length > 0 %>
+                <tr>
+                  <th colspan="2">
+                    <%= subsystem[:data].title %>
+                  </th>
+                </tr>
+                <% subsystem[:locations].each do |location| %>
+                  <tr>
+                    <td><%= location[:data].title %></td>
+                    <td>
+                      <%= render 'attached-location-form', log: log, log_location_copy: location[:connection], location: location[:data] %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if cave_locations_data[:subsystems].length != 0 && cave_locations_data[:cave][:locations].length > 0 %>
+              <tr>
+                <th colspan="2">Miscellaneous</th>
+              </tr>
+            <% end %>
+            <% cave_locations_data[:cave][:locations].each do |location| %>
+              <tr>
+                <td><%= location[:data].title %></td>
+                <td>
+                  <%= render 'attached-location-form', log: log, log_location_copy: location[:connection], location: location[:data] %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <% if unconnected_locations.length > 0 %>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% unconnected_locations.each do |llc| %>
+                <tr>
+                  <td><%= llc.location_title %></td>
+                  <td>
+                    <%= render 'attached-location-form', log: log, log_location_copy: llc, location: nil %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <%= render 'components/empty-section', message: "No more locations to remove." %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
