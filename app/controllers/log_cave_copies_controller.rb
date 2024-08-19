@@ -64,16 +64,8 @@ class LogCaveCopiesController < ApplicationController
   def rerender_cave_relevant_partials(log)
     render(
       turbo_stream: [
-        turbo_stream.replace(
-          "log_caves_#{log.id}",
-          partial: "log_cave_copies/edit-form",
-          locals: log_cave_context(log)
-        ),
-        turbo_stream.replace(
-          "locations_visited",
-          partial: "logs/locations-visited",
-          locals: log_locations_context(log)
-        )
+        turbo_stream.replace("log_caves_#{log.id}", partial: "log_cave_copies/edit-form", locals: log_cave_context(log)),
+        turbo_stream.replace("locations_visited", partial: "logs/locations-visited", locals: log_locations_context(log))
       ]
     )
   end
