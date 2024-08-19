@@ -84,6 +84,6 @@ class LogCaveCopiesController < ApplicationController
   end
 
   def log_cave_copy_params
-    params.require(:log_cave_copy).permit(:id, :log_id, :cave_id, :cave_name)
+    params.require(:log_cave_copy).permit(:id, :log_id, :cave_id, :cave_title)
   end
 end

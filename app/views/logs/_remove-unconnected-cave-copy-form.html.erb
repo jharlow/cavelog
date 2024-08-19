@@ -1,4 +1,0 @@
-<%= form_with url: path, method: :post  do |f| %>
-  <%= f.hidden_field :log_cave_copy_id, value: lcc.id %>
-  <%= f.submit :Remove, aria: { label: "Remove #{lcc.cave_title} from log" }, data: { "turbo-method": :delete, "turbo-confirm": "Are you sure? This cave will be lost" }, class: 'btn btn-red btn-sm' %>
-<% end %>

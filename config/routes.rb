@@ -30,6 +30,12 @@ Rails.application.routes.draw do
       post("remove_unconnected_location")
       get("edit_unconnected_locations")
 
+      resources(:log_location_copies, path: "locations", only: [:create, :destroy], param: :location_id) do
+        collection do
+          get("/edit/:cave_id", to: "log_location_copies#edit", as: "edit_cave")
+        end
+      end
+
       resources(:log_cave_copies, path: "caves", only: [:create, :destroy], param: :cave_id) do
         collection do
           get("edit", to: "log_cave_copies#edit")

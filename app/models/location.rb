@@ -12,6 +12,10 @@ class Location < ApplicationRecord
     end
   end
 
+  def get_cave
+    locatable.is_a?(Subsystem) ? locatable.cave : locatable
+  end
+
   before_destroy :strip_location_id_from_log_location_copies
   def strip_location_id_from_log_location_copies
     log_location_copies.update_all(location_id: nil)
