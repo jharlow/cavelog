@@ -27,13 +27,13 @@ class LogLocationCopiesController < ApplicationController
     @log = Log.find(params[:id])
     if @log.user != current_user
       redirect_to(log_path(@log), alert: "You are not authorized to edit locations on this log.")
-    end
-
-    @cave = @log.caves.where(id: params[:cave_id]).first
-    if @cave.present?
-      @cave_locations_data = @log.locations_data[:caves].find { |cave| cave[:cave][:data].id == @cave.id }
     else
-      @unconnected_locations = @log.unconnected_locations
+      @cave = @log.caves.where(id: params[:cave_id]).first
+      if @cave.present?
+        @cave_locations_data = @log.locations_data[:caves].find { |cave| cave[:cave][:data].id == @cave.id }
+      else
+        @unconnected_locations = @log.unconnected_locations
+      end
     end
   end
 

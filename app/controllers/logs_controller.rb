@@ -39,9 +39,7 @@ class LogsController < ApplicationController
     @log = Log.find(params[:id])
     if @log.user != current_user
       redirect_to(log_path(@log), alert: "You are not authorized to access this page.")
-    end
-
-    if @log.update(log_params)
+    elsif @log.update(log_params)
       redirect_to(log_path(@log))
     else
       render(:edit, status: :unprocessable_entity)
@@ -50,8 +48,12 @@ class LogsController < ApplicationController
 
   def destroy
     @log = Log.find(params[:id])
-    @log.destroy
-    redirect_to(root_path, status: :see_other)
+    if @log.user != current_user
+      redirect_to(log_path(@log), alert: "You are not authorized to delete this log.")
+    else
+      @log.destroy
+      redirect_to(root_path, status: :see_other)
+    end
   end
 
   private
