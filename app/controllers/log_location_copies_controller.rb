@@ -30,9 +30,9 @@ class LogLocationCopiesController < ApplicationController
     end
 
     @cave = @log.caves.where(id: params[:cave_id]).first
-    @cave_locations_data = @log.locations_data[:caves].find { |cave| cave[:cave][:data].id == @cave.id }
-
-    if !@cave.present? && @cave_locations_data.present?
+    if @cave.present?
+      @cave_locations_data = @log.locations_data[:caves].find { |cave| cave[:cave][:data].id == @cave.id }
+    else
       @unconnected_locations = @log.unconnected_locations
     end
   end
@@ -54,12 +54,31 @@ class LogLocationCopiesController < ApplicationController
     end
 
     respond_to do |format|
-      format.turbo_stream { rerender_location_relevant_partials(@log, location, nil) }
+      format.turbo_stream {
+        if location
+          # only needs location button to switch from remove to add or vice-versa
+          rerender_location_relevant_partials(@log, location, nil)
+        else
+          # needs whole form because entire location needs to be removed
+          rerender_misc_edit_form(@log)
+        end
+      }
       format.html { redirect_to(edit_cave_log_location_copies(@log, location.get_cave)) }
     end
   end
 
   private
+
+  def rerender_misc_edit_form(log)
+    locals = {unconnected_locations: log.unconnected_locations, log: log, cave: nil, cave_locations_data: nil}
+    render(
+      turbo_stream: turbo_stream.replace(
+        "log_locations_cave_misc",
+        partial: "log_location_copies/edit-form",
+        locals: locals
+      )
+    )
+  end
 
   def rerender_location_relevant_partials(log, location, log_location_copy)
     render(
