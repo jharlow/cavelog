@@ -42,16 +42,16 @@ $ ./bin/dev
 - [x] delete partnership
 - [x] add partner connection to log
 - [x] remove partner connection from log
-- [ ] refactor logs paths/routes
-  - [ ] move cave/location functions out to the cave copies/location copies controllers
-  - [ ] change the routes to use /log/:id{{caves|locations}}
-  - [ ] use button_to instead of a bunch of forms
-  - [ ] must be log owner to
-    - [ ] add/remove caves
-    - [ ] add/remove locations
-    - [ ] edit details
-    - [ ] delete log
-    - [ ] see edit buttons
+- [x] refactor logs paths/routes
+  - [x] move cave/location functions out to the cave copies/location copies controllers
+  - [x] change the routes to use /log/:id{{caves|locations}}
+  - [x] use button_to instead of a bunch of forms
+  - [x] must be log owner to
+    - [x] add/remove caves
+    - [x] add/remove locations
+    - [x] edit details
+    - [x] delete log
+    - [x] see edit buttons
 - [ ] add mock data to dev
   - [ ] search for partners on log
   - [ ] pagination for caves/partners
@@ -61,9 +61,9 @@ $ ./bin/dev
 - [ ] User page (name, username) (ON DECK)
   - [ ] logbooks
   - [x] Edit user page
-  - [ ] Permissions
-  - [ ] Connect partners to users
-    - [ ] Add partners to a log (high)
+  - [x] Permissions
+  - [x] Connect partners to users
+    - [x] Add partners to a log (high)
 - [ ] Pagination - HIGH
 - [ ] Add cave connections
   - [ ] Adding cave to log suggests relevant cave connections
