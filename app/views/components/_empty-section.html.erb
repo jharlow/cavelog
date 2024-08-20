@@ -1,1 +1,6 @@
-<p class="w-full text-slate-600 p-12 flex items-center justify-center h-24 border-2 border-dashed rounded-md"><%= message %></p>
+<div class="w-full text-slate-600 p-12 flex flex-col items-center min-h-24 border-2 border-dashed rounded-md">
+  <p><%= message %></p>
+  <% if link ||= nil %>
+    <%= link_to link[:text], link[:href], data: { turbo: false } %>
+  <% end %>
+</div>

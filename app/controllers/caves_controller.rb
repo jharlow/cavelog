@@ -1,6 +1,10 @@
 class CavesController < ApplicationController
   def index
-    @caves = params[:q].present? ? Cave.search(params[:q]).records : Cave.all
+    @caves = if params[:q].present?
+      Cave.search_by_text_or_location(params[:q])
+    else
+      Cave.all
+    end
   end
 
   def show
@@ -40,7 +44,9 @@ class CavesController < ApplicationController
     redirect_to(root_path, status: :see_other)
   end
 
-  private def cave_params
-    params.require(:cave).permit(:title, :description)
+  private
+
+  def cave_params
+    params.require(:cave).permit(:title, :description, :longitude, :latitude)
   end
 end
