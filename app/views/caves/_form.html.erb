@@ -1,13 +1,27 @@
-<%= form_with model: cave do |form| %>
-  <div>
+<%= form_with model: cave, class: "form" do |form| %>
+  <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>
     <%= render 'components/forms/errors', error_messages: cave.errors.full_messages_for(:title) %>
   </div>
-  <div>
+  <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description %>
     <%= render 'components/forms/errors', error_messages: cave.errors.full_messages_for(:description) %>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="field">
+      <%= form.label :latitude %>
+      <%= render 'components/forms/label-hint', hint: "Optional" %>
+      <%= form.text_field :latitude %>
+      <%= render 'components/forms/errors', error_messages: cave.errors.full_messages_for(:latitude) %>
+    </div>
+    <div class="field">
+      <%= form.label :longitude %>
+      <%= render 'components/forms/label-hint', hint: "Optional" %>
+      <%= form.text_field :longitude %>
+      <%= render 'components/forms/errors', error_messages: cave.errors.full_messages_for(:longitude) %>
+    </div>
   </div>
   <div>
     <%= form.submit class: "btn" %>

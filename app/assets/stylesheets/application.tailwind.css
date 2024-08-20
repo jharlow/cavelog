@@ -8,7 +8,7 @@
   }
 
   section {
-    @apply rounded-md shadow bg-slate-50 p-4 ring ring-slate-200 sm:p-4 lg:p-6 flex flex-col gap-2;
+    @apply rounded-md shadow bg-slate-50 p-4 ring ring-slate-200 sm:p-4 lg:p-6 flex flex-col gap-4;
   }
 
   h1 {
@@ -37,6 +37,10 @@
 
   p {
     @apply text-base;
+  }
+
+  form {
+    @apply flex flex-col gap-3;
   }
 
   label {

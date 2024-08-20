@@ -1,4 +1,6 @@
-<%= form_tag path, method: :get, role: 'search', class: 'flex justify-between items-center gap-2' do %>
-  <%= text_field_tag :q, params[:q], placeholder: 'Search cave...' %>
-  <%= submit_tag 'Search', class: "btn h-full" %>
+<%= form_tag path, method: :get, role: 'search' do %>
+  <div class="flex flex-row justify-between items-center gap-2">
+    <%= text_field_tag :q, params[:q], placeholder: 'Search cave...' %>
+    <%= submit_tag 'Search', class: "btn h-full" %>
+  </div>
 <% end %>
