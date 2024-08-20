@@ -1,11 +1,9 @@
 class CavesController < ApplicationController
   def index
-    if params[:q].present?
-      geocoded_caves = geocodable?(params[:q]) ? Cave.near(params[:q]) : Cave.none
-      title_caves = Cave.fuzzy_search(params[:q]).records
-      @caves = (geocoded_caves + title_caves).uniq
+    @caves = if params[:q].present?
+      Cave.search_by_text_or_location(params[:q])
     else
-      @caves = Cave.all
+      Cave.all
     end
   end
 
@@ -50,13 +48,5 @@ class CavesController < ApplicationController
 
   def cave_params
     params.require(:cave).permit(:title, :description, :longitude, :latitude)
-  end
-
-  def geocodable?(query)
-    # Attempt to geocode the query to see if it returns a valid location
-    results = Geocoder.search(query)
-    results.present? && results.first.coordinates.present?
-  rescue
-    false
   end
 end

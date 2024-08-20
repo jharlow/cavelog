@@ -40,6 +40,19 @@ class Cave < ApplicationRecord
     log_cave_copies.update_all(cave_id: nil)
   end
 
+  def self.search_by_text_or_location(query)
+    geocodable = begin
+      results = Geocoder.search(query)
+      results.present? && results.first.coordinates.present?
+    rescue
+      false
+    end
+
+    geocoded_caves = geocodable ? Cave.near(query) : Cave.none
+    title_caves = Cave.fuzzy_search(query).records
+    (geocoded_caves + title_caves).uniq
+  end
+
   def self.fuzzy_search(query)
     __elasticsearch__.search(
       {
