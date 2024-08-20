@@ -7,6 +7,7 @@ class Cave < ApplicationRecord
   has_many :locations, as: :locatable, dependent: :destroy
   has_many :log_cave_copies
   has_many :logs, through: :log_cave_copies
+  attr_accessor :address
 
   validates :title, presence: true
   validates :description, presence: true, length: {minimum: 10}
