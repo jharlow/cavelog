@@ -11,8 +11,24 @@ class Cave < ApplicationRecord
 
   validates :title, presence: true
   validates :description, presence: true, length: {minimum: 10}
-  validates :longitude, numericality: {greater_than_or_equal_to: -180, less_than_or_equal_to: 180}, allow_blank: true
-  validates :latitude, numericality: {greater_than_or_equal_to: -90, less_than_or_equal_to: 90}, allow_blank: true
+  validates(
+    :longitude,
+    numericality: {
+      greater_than_or_equal_to: -180,
+      less_than_or_equal_to: 180,
+      message: "must be a valid floating point number, positive for East, negative for West."
+    },
+    allow_blank: true
+  )
+  validates(
+    :latitude,
+    numericality: {
+      greater_than_or_equal_to: -90,
+      less_than_or_equal_to: 90,
+      message: "must be a valid floating point number, positive for North, negative for South"
+    },
+    allow_blank: true
+  )
 
   # Custom validation method for parsing
   validate :parse_coordinates
@@ -84,7 +100,7 @@ class Cave < ApplicationRecord
         self.longitude = parse_float(longitude)
       end
     rescue ArgumentError
-      errors.add(:longitude, "must be a valid floating point number")
+      errors.add(:longitude, "must be a valid floating point number, positive for East, negative for West")
     end
 
     begin
@@ -94,7 +110,7 @@ class Cave < ApplicationRecord
         self.latitude = parse_float(latitude)
       end
     rescue ArgumentError
-      errors.add(:latitude, "must be a valid floating point number")
+      errors.add(:latitude, "must be a valid floating point number, positive for North, negative for South")
     end
   end
 
