@@ -40,6 +40,26 @@ class Cave < ApplicationRecord
     log_cave_copies.update_all(cave_id: nil)
   end
 
+  def self.fuzzy_search(query)
+    __elasticsearch__.search(
+      {
+        query: {
+          match: {
+            title: {
+              query: query,
+              # Automatically determines the right fuzziness level
+              fuzziness: 5,
+              # Limits the number of variations generated for a fuzzy query
+              max_expansions: 5,
+              # Length of the common prefix before fuzziness is applied
+              prefix_length: 1
+            }
+          }
+        }
+      }
+    )
+  end
+
   private
 
   def parse_coordinates
