@@ -6,8 +6,11 @@
         <% if cave[:total_locations] == 0 %>
           <div class="flex flex-col gap-2">
             <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
-            <p>This cave doesn't have any locations yet to log!</p>
-            <%= link_to "Add a location in #{cave[:cave][:data].title}", new_cave_location_path(cave[:cave][:data]), data: { turbo: false } %>
+            <%= 
+              render 'components/empty-section', 
+              message: "This cave doesn't have any locations yet to log!", 
+              link: { text:  "Add a location in #{cave[:cave][:data].title}", href: new_cave_location_path(cave[:cave][:data]) } 
+            %>
           </div>
         <% else %>
           <%= turbo_frame_tag "log_locations_cave_#{cave[:cave][:data].id}" do %>
