@@ -37,6 +37,7 @@ class Cave < ApplicationRecord
       cave.address = geo.address
     end
   end
+
   # auto-fetch coordinates
   after_validation :geocode
   # auto-fetch address
@@ -66,7 +67,7 @@ class Cave < ApplicationRecord
 
     geocoded_caves = geocodable ? Cave.near(query) : Cave.none
     title_caves = Cave.fuzzy_search(query).records
-    (geocoded_caves + title_caves).uniq
+    (title_caves + geocoded_caves).uniq
   end
 
   def self.fuzzy_search(query)
@@ -98,6 +99,7 @@ class Cave < ApplicationRecord
       elsif longitude
         self.longitude = parse_float(longitude)
       end
+
     rescue ArgumentError
       errors.add(:longitude, "must be a valid floating point number, positive for East, negative for West")
     end
@@ -108,6 +110,7 @@ class Cave < ApplicationRecord
       elsif latitude
         self.latitude = parse_float(latitude)
       end
+
     rescue ArgumentError
       errors.add(:latitude, "must be a valid floating point number, positive for North, negative for South")
     end

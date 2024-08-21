@@ -54,8 +54,12 @@ $ ./bin/dev
     - [x] see edit buttons
 - [x] add long and lat options to cave
 - [x] add mock data to dev
+- [ ] add cave address data at save time
   - [ ] pagination for caves/partners
+- [ ] dark mode
 - [ ] search for partners on log
+- [ ] cave: no description/location if not present
+- [ ] cave: no details if no lon && lat && desc
 
 ## Feature ideas
 

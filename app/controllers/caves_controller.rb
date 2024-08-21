@@ -1,14 +1,18 @@
 class CavesController < ApplicationController
   def index
     @caves = if params[:q].present?
-      Cave.search_by_text_or_location(params[:q])
+      caves = Cave.search_by_text_or_location(params[:q])
+      Kaminari.paginate_array(caves).page(params[:page]).per(10)
     else
-      Cave.all
+      Cave
+        .page(params[:page])
+        .per(10)
     end
   end
 
   def show
     @cave = Cave.find(params[:id])
+    logger.info(@cave)
     @user_logs = @cave.logs.where(user: current_user)
   end
 
