@@ -1,4 +1,6 @@
 <%= form_with model: LogPartnerConnection.new, url: log_partner_connections_path(log), method: :post, class: 'flex justify-between items-center gap-2' do |f| %>
-  <%= f.text_field :partner_name,  placeholder: 'Partner name' %>
-  <%= f.submit 'Add', class: "btn h-full" %>
+  <div class="flex gap-3 items-center w-full">
+    <%= f.text_field :partner_name,  placeholder: 'Partner name' %>
+    <%= f.submit 'Add', class: "btn h-max" %>
+  </div>
 <% end %>

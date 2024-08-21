@@ -52,20 +52,21 @@ $ ./bin/dev
     - [x] edit details
     - [x] delete log
     - [x] see edit buttons
-- [ ] add mock data to dev
-  - [ ] add entrance model
-    - [ ] add long and lat options to entrance
-  - [ ] search for partners on log
+- [x] add long and lat options to cave
+- [x] add mock data to dev
   - [ ] pagination for caves/partners
+- [ ] search for partners on log
 
 ## Feature ideas
 
+- [ ] deployments!
 - [x] User page (name, username) (ON DECK)
   - [x] Edit user page
   - [x] Permissions
   - [x] Connect partners to users
     - [x] Add partners to a log (high)
 - [ ] edit history on caves/subsystem/location and permission based on refferal (from UKC?)
+- [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
 - [ ] Pagination - HIGH
 - [ ] add cave id to log locations copy
 - [ ] add button to add a new location to cave on table footer of edit locations on log table
@@ -74,7 +75,7 @@ $ ./bin/dev
 - [ ] searchable/paginating locations
 - [ ] location comments
 - [ ] Locations metadata - star rating, physical difficulty rating, mental grimness rating (1)
-  - [ ] tier ranking
+  - [ ] tier ranking/access difficulty grade
   - [ ] Cave metadata - entrance location - region - distribution of grades
 - [ ] Report cave/locations
 - [ ] Number log entries accoring to how many the user has logged?
