@@ -10,7 +10,6 @@ class Cave < ApplicationRecord
   attr_accessor :address
 
   validates :title, presence: true
-  validates :description, presence: true, length: {minimum: 10}
   validates(
     :longitude,
     numericality: {
