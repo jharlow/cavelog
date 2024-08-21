@@ -1,0 +1,40 @@
+<%# The container tag
+  - available local variables
+    current_page:  a page object for the currently displayed page
+    total_pages:   total number of pages
+    per_page:      number of items to fetch per page
+    remote:        data-remote
+    paginator:     the paginator that renders the pagination tags inside -%>
+<%= paginator.render do -%>
+  <nav class="flex flex-nowrap gap-4 items-center justify-between" role="navigation" aria-label="pager">
+    <div class="flex gap-2 items-center divide-x border-r">
+      <span class="px-3 py-2 max-md:hidden">
+        <%= first_page_tag %>
+      </span>
+      <span class="px-3 py-2">
+        <%= prev_page_tag %>
+      </span>
+    </div>
+    <div class="flex gap-1 items-center max-sm:hidden">
+      <% each_page do |page| -%>
+        <% if page.display_tag? -%>
+          <span class="px-0.5 py-2">
+            <%= page_tag page %>
+          </span>
+        <% elsif !page.was_truncated? -%>
+          <span class="px-0.5 py-2">
+            <%= gap_tag %>
+          </span>
+        <% end -%>
+      <% end -%>
+    </div>
+    <div class="flex gap-2 items-center divide-x border-l">
+      <span class="px-3 py-2">
+        <%= next_page_tag %>
+      </span>
+      <span class="px-3 py-2 max-md:hidden">
+        <%= last_page_tag %>
+      </span>
+    </div>
+  </nav>
+<% end -%>

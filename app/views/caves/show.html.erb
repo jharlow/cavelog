@@ -1,38 +1,45 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: @cave.title, href: cave_path(@cave)}] %>
 <%= page_padding do %>
   <h1><%= @cave.title %></h1>
-  <section>
-    <div class="flex gap-4 justify-between items-center">
-      <h2>Details</h2>
-      <%= link_to "Edit", edit_cave_path(@cave), class: 'btn btn-sm' %>
-    </div>
-    <div class="flow-root">
-      <dl class="-my-3 divide-y divide-gray-200 text-sm">
-        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-          <dt class="font-medium text-gray-900">Description</dt>
-          <dd class="text-gray-700 sm:col-span-2"><%= simple_format(@cave.description, class: "text-sm") %></dd>
+    <section>
+      <div class="flex gap-4 justify-between items-center">
+        <h2>Details</h2>
+        <%= link_to "Edit", edit_cave_path(@cave), class: 'btn btn-sm' %>
+      </div>
+      <% if @cave.description != "" || (@cave.longitude && @cave.latitude) %>
+        <div class="flow-root">
+          <dl class="-my-3 divide-y divide-gray-200 text-sm">
+            <% unless !@cave.description.present? %>
+              <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Description</dt>
+                <dd class="text-gray-700 sm:col-span-2"><%= simple_format(@cave.description, class: "text-sm") %></dd>
+              </div>
+            <% end %>
+            <% if @cave.longitude && @cave.latitude %>
+              <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Approx location</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                  <%= link_to @cave.address, "http://maps.google.com/maps?z=10&t=m&q=loc:#{@cave.latitude}+#{@cave.longitude}", target: '_blank' %>
+                  <br>
+                  <% if @cave.latitude <= 0 %>
+                    <%= @cave.latitude.round(5).abs() %>S
+                  <% else %>
+                    <%= @cave.latitude.round(5) %>N
+                  <% end %>
+                  <% if @cave.longitude <= 0 %>
+                    <%= (@cave.longitude).round(5).abs() %>W
+                  <% else %>
+                    <%= @cave.longitude.round(5) %>E
+                  <% end %>
+                </dd>
+              </div>
+            <% end %>
+          </dl>
         </div>
-        <% if @cave.longitude && @cave.latitude %>
-          <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-            <dt class="font-medium text-gray-900">Approx location</dt>
-            <dd class="text-gray-700 sm:col-span-2"><%= link_to @cave.address, "http://maps.google.com/maps?z=10&t=m&q=loc:#{@cave.latitude}+#{@cave.longitude}", target: '_blank' %></dd>
-            <dd class="text-gray-700 sm:col-span-2 sm:col-start-2">
-              <% if @cave.latitude <= 0 %>
-                <%= @cave.latitude.round(5).abs() %>S
-              <% else %>
-                <%= @cave.latitude.round(5) %>N
-              <% end %>
-              <% if @cave.longitude <= 0 %>
-                <%= (@cave.longitude).round(5).abs() %>W
-              <% else %>
-                <%= @cave.longitude.round(5) %>E
-              <% end %>
-            </dd>
-          </div>
-        <% end %>
-      </dl>
-    </div>
-  </section>
+      <% else %>
+        <%= render 'components/empty-section', message: "No details yet!" %>
+      <% end %>
+    </section>
   <section>
     <h2>Locations</h2>
     <%= render 'locations/locations', cave: @cave %>

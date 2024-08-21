@@ -3,13 +3,31 @@
   <section>
     <h2>Caves</h2>
     <%= render "search-bar", path: caves_path %>
-    <ul>
-      <% @caves.each do |cave| %>
-        <li>
-          <%= link_to cave.title, cave %>
-        </li>
-      <% end %>
-    </ul>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Cave</th>
+            <th>Info</th>
+          </tr>
+        </thead>
+        <tbody class="list-none pl-0 divide-y divide-slate-200 opcaity-25">
+          <% @caves.each do |cave| %>
+            <tr>
+              <td><%= link_to cave.title, cave_path(cave) %></td>
+              <td>No info yet</td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot class="bg-slate-50">
+          <tr>
+            <td colspan="2" class="p-0">
+              <%= paginate @caves %>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
     <%= link_to "New Cave", new_cave_path %>
     <%= link_to "New Log", new_log_path %>
   </section>
