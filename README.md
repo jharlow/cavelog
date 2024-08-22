@@ -54,6 +54,9 @@ $ ./bin/dev
     - [x] see edit buttons
 - [x] add long and lat options to cave
 - [x] add mock data to dev
+- [x] Pagination
+  - [x] Simple cave pagination
+  - [x] Pagination in turbo
 - [ ] add cave address data at save time
   - [ ] pagination for caves/partners
 - [ ] dark mode
@@ -64,14 +67,13 @@ $ ./bin/dev
 ## Feature ideas
 
 - [ ] deployments!
-- [x] User page (name, username) (ON DECK)
+- [x] User page (name, username)
   - [x] Edit user page
   - [x] Permissions
   - [x] Connect partners to users
     - [x] Add partners to a log (high)
 - [ ] edit history on caves/subsystem/location and permission based on refferal (from UKC?)
 - [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
-- [ ] Pagination - HIGH
 - [ ] add cave id to log locations copy
 - [ ] add button to add a new location to cave on table footer of edit locations on log table
 - [ ] Add cave connections

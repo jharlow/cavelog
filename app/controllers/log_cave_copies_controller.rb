@@ -33,9 +33,15 @@ class LogCaveCopiesController < ApplicationController
     end
 
     @current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
-    @available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
-      @log.caves.pluck(:id).include?(cave.id)
-    } : Cave.where.not(id: @log.caves.pluck(:id))
+
+    @available_caves = if params[:q].present?
+      caves = Cave.search_by_text_or_location(params[:q])
+      Kaminari.paginate_array(caves).page(params[:page]).per(10)
+    else
+      Cave
+        .page(params[:page])
+        .per(10)
+    end
   end
 
   def destroy
@@ -75,11 +81,16 @@ class LogCaveCopiesController < ApplicationController
   end
 
   def log_cave_context(log)
-    log_connected_cave_ids = log.caves.pluck(:id)
     current_caves = log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
-    available_caves = params[:q].present? ? Cave.search(params[:q]).records.reject { |cave|
-      log_connected_cave_ids == cave.id
-    } : Cave.where.not(id: log_connected_cave_ids)
+    available_caves = if params[:q].present?
+      caves = Cave.search_by_text_or_location(params[:q])
+      Kaminari.paginate_array(caves).page(params[:page]).per(10)
+    else
+      Cave
+        .page(params[:page])
+        .per(10)
+    end
+
     {log: log, current_caves: current_caves, available_caves: available_caves}
   end
 
