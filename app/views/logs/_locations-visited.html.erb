@@ -31,7 +31,7 @@
                   <tbody>
                     <% if cave[:locations_visited_count] == 0 %>
                       <tr>
-                        <td class="bg-orange-50">
+                        <td class="bg-orange-50 dark:bg-orange-950">
                           Cave visited but no locations logged
                           <%= link_to "Edit", edit_cave_log_location_copies_path(log, cave[:cave][:data]) %>
                         </td>

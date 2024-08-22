@@ -11,7 +11,7 @@
             <th>Info</th>
           </tr>
         </thead>
-        <tbody class="list-none pl-0 divide-y divide-slate-200 opcaity-25">
+        <tbody class="list-none pl-0 divide-y divide-slate-200 dark:divide-slate-800 opcaity-25">
           <% @caves.each do |cave| %>
             <tr>
               <td><%= link_to cave.title, cave_path(cave) %></td>
@@ -19,7 +19,7 @@
             </tr>
           <% end %>
         </tbody>
-        <tfoot class="bg-slate-50">
+        <tfoot>
           <tr>
             <td colspan="2" class="p-0">
               <%= paginate @caves, theme: 'table' %>
