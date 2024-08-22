@@ -1,13 +1,18 @@
 class Cave < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+
   include Geocoder::Model::ActiveRecord
+  reverse_geocoded_by(:latitude, :longitude) do |cave, results|
+    if (geo = results.first)
+      cave.address = geo.address
+    end
+  end
 
   has_many :subsystems, dependent: :destroy
   has_many :locations, as: :locatable, dependent: :destroy
   has_many :log_cave_copies
   has_many :logs, through: :log_cave_copies
-  attr_accessor :address
 
   validates :title, presence: true
   validates(
@@ -28,25 +33,13 @@ class Cave < ApplicationRecord
     },
     allow_blank: true
   )
-
-  # Custom validation method for parsing
   validate :parse_coordinates
-
-  reverse_geocoded_by(:latitude, :longitude) do |cave, results|
-    if (geo = results.first)
-      cave.address = geo.address
-    end
-  end
+  after_validation :set_address, if: -> { latitude_changed? || longitude_changed? }
 
   # auto-fetch coordinates
   after_validation :geocode
   # auto-fetch address
   after_validation :reverse_geocode
-
-  def address
-    results = Geocoder.search([ latitude, longitude ])
-    results.first.address if results.any?
-  end
 
   def path
     Rails.application.routes.url_helpers.cave_path(self)
@@ -120,5 +113,11 @@ class Cave < ApplicationRecord
     Float(value)
   rescue ArgumentError, TypeError
     raise ArgumentError, "Invalid float format"
+  end
+
+  def set_address
+    logger.info("SET ADDRESS CALLED")
+    reverse_geocode if latitude.present? && longitude.present?
+    logger.info(self)
   end
 end

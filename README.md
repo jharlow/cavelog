@@ -2,21 +2,36 @@
 
 ## Getting started
 
-Ensure that you are using the correct Ruby version
+Ensure that you are using the correct Ruby version:
 
 ```sh
 $ asdf current ruby
 > 3.3.3
 ```
 
-Ensure that all the correct dependencies have been installed
+Install the correct dependencies:
 
 ```sh
 $ bundle install
 > Bundle complete!
 ```
 
-Run the dev environment
+(Optional) - Seed database with caves - may take some time:
+
+```sh
+$ rake data:load_cave_csv
+> Data loaded successfully!
+```
+
+Startup Elasticsearch server:
+
+```sh
+$ docker run --name es01-test --net elastic -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
+# or
+$ docker start es01-test
+```
+
+Run the dev environment:
 
 ```sh
 $ ./bin/dev
@@ -57,12 +72,23 @@ $ ./bin/dev
 - [x] Pagination
   - [x] Simple cave pagination
   - [x] Pagination in turbo
-- [ ] add cave address data at save time
-  - [ ] pagination for caves/partners
+- [x] add cave address data at save time
+- [ ] pagination for caves/partners
 - [x] dark mode
 - [ ] search for partners on log
 - [x] cave: no description/location if not present
 - [x] cave: no details if no lon && lat && desc
+- [ ] general ui cleanup
+  - [ ] remove actions section (danger zone for delete edit in detils section)
+  - [ ] consistent styling for all edit/new forms
+  - [ ] better buttons on cave locations section
+  - [ ] partnership badges need darkmode
+  - [ ] Cancel links on edit forms
+- [ ] consistent log views on all locations/caves
+- [ ] checkmarks on logs/caves once visited
+- [ ] add info on the caves table
+- [ ] add location button when editing cave location copies on a log
+- [ ] shared logs on my partnership section
 - [ ] better footer
 - [ ] tests!!!
 
@@ -75,7 +101,7 @@ $ ./bin/dev
   - [x] Connect partners to users
     - [x] Add partners to a log (high)
 - [ ] edit history on caves/subsystem/location and permission based on refferal (from UKC?)
-- [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
+  - [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
 - [ ] add cave id to log locations copy
 - [ ] add button to add a new location to cave on table footer of edit locations on log table
 - [ ] Add cave connections
