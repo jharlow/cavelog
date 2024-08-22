@@ -19,13 +19,7 @@
             </tr>
           <% end %>
         </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="2" class="p-0">
               <%= paginate @caves, theme: 'table' %>
-            </td>
-          </tr>
-        </tfoot>
       </table>
     </div>
     <%= link_to "New Cave", new_cave_path %>
