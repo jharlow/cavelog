@@ -34,6 +34,8 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem "net-pop", github: "ruby/net-pop"
+
 gem "devise"
 
 gem "elasticsearch-model"
@@ -41,7 +43,7 @@ gem "elasticsearch-rails"
 
 gem "geocoder"
 
-gem "dotenv-rails", groups: [:development, :test]
+gem "dotenv-rails", groups: [ :development, :test ]
 
 gem "kaminari"
 

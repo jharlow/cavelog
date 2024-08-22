@@ -44,7 +44,7 @@ class Cave < ApplicationRecord
   after_validation :reverse_geocode
 
   def address
-    results = Geocoder.search([latitude, longitude])
+    results = Geocoder.search([ latitude, longitude ])
     results.first.address if results.any?
   end
 

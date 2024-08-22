@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   has_many :logs, dependent: :destroy
 
-  validates :username, presence: true, uniqueness: {case_sensitive: false}
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
 
   def has_pending_request_with_user?(user)
     if self == user
