@@ -7,7 +7,7 @@
     paginator:     the paginator that renders the pagination tags inside -%>
 <%= paginator.render do -%>
   <nav class="flex flex-nowrap gap-4 items-center justify-between" role="navigation" aria-label="pager">
-    <div class="flex gap-2 items-center divide-x border-r">
+    <div class="flex gap-2 items-center divide-x dark:divide-gray-700 border-r dark:border-r-gray-700">
       <span class="px-3 py-2 max-md:hidden">
         <%= first_page_tag %>
       </span>
@@ -28,7 +28,7 @@
         <% end -%>
       <% end -%>
     </div>
-    <div class="flex gap-2 items-center divide-x border-l">
+    <div class="flex gap-2 items-center divide-x dark:divide-gray-700 border-l dark:border-l-gray-700">
       <span class="px-3 py-2">
         <%= next_page_tag %>
       </span>

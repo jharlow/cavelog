@@ -1,20 +1,20 @@
 <%= form_for [cave, log] do |form| %>
-  <div>
+  <div class="field">
     <%= form.label :start_datetime %>
     <%= form.datetime_local_field :start_datetime %>
     <%= render 'components/forms/errors', error_messages: @log.errors.full_messages_for(:start_datetime) %>
   </div>
-  <div>
+  <div class="field">
     <%= form.label :end_datetime %>
     <%= form.datetime_local_field :end_datetime %>
     <%= render 'components/forms/errors', error_messages: @log.errors.full_messages_for(:end_datetime) %>
   </div>
-  <div>
+  <div class="field">
     <%= form.label :personal_comments %>
     <%= form.text_area :personal_comments %>
     <%= render 'components/forms/errors', error_messages: @log.errors.full_messages_for(:personal_comments) %>
   </div>
-  <div class="flex gap-2 items-center">
+  <div class="action flex gap-2 items-center">
     <%= form.submit class: 'btn' %>
     <% if log.id.present? %>
       <%= link_to "Cancel", log_path(log) %>

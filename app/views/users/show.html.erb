@@ -28,34 +28,34 @@
       <% end %>
     </div>
     <div class="flow-root">
-      <dl class="-my-3 divide-y divide-gray-200 text-sm">
-        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-          <dt class="font-medium text-gray-900">Username</dt>
-          <dd class="text-gray-700 sm:col-span-2"><%= @user.username %></dd>
+      <dl class="dl">
+        <div class="dr">
+          <dt class="dt">Username</dt>
+          <dd class="dd"><%= @user.username %></dd>
         </div>
         <% if @user == current_user || current_user.is_partner_of?(@user) %>
           <% if @user.first_name %>
-            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-              <dt class="font-medium text-gray-900">First name</dt>
-              <dd class="text-gray-700 sm:col-span-2"><%= @user.first_name %></dd>
+            <div class="dr">
+              <dt class="dt">First name</dt>
+              <dd class="dd"><%= @user.first_name %></dd>
             </div>
           <% end %>
           <% if @user.last_name %>
-            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-              <dt class="font-medium text-gray-900">Last name</dt>
-              <dd class="text-gray-700 sm:col-span-2"><%= @user.last_name %></dd>
+            <div class="dr">
+              <dt class="dt">Last name</dt>
+              <dd class="dd"><%= @user.last_name %></dd>
             </div>
           <% end %>
         <% end %>
         <% if @user == current_user %>
-          <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-            <dt class="font-medium text-gray-900">Email</dt>
-            <dd class="text-gray-700 sm:col-span-2"><%= @user.email %></dd>
+          <div class="dr">
+            <dt class="dt">Email</dt>
+            <dd class="dd"><%= @user.email %></dd>
           </div>
         <% end %>
-        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-          <dt class="font-medium text-gray-900">Member since</dt>
-          <dd class="text-gray-700 sm:col-span-2"><%= @user.created_at.strftime("%d/%m/%Y") %></dd>
+        <div class="dr">
+          <dt class="dt">Member since</dt>
+          <dd class="dd"><%= @user.created_at.strftime("%d/%m/%Y") %></dd>
         </div>
       </dl>
     </div>

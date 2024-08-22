@@ -10,7 +10,9 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @location = @locatable.locations.new(location_params)
+    is_cave = (location_params[:subsystem_id] != "")
+    locatable = is_cave ? Subsystem.find(location_params[:subsystem_id]) : Cave.find(params[:cave_id])
+    @location = locatable.locations.new(location_params.except(:subsystem_id))
     if @location.save
       redirect_to(@locatable.path)
     else
@@ -25,11 +27,9 @@ class LocationsController < ApplicationController
   def update
     logger.info(params)
     @location = Location.find(params[:id])
-    location_params = params.require(:location).permit(:title, :description, :subsystem_id)
     is_cave = (location_params[:subsystem_id] != "")
-    @locatable = is_cave ? Subsystem.find(location_params[:subsystem_id]) : Cave.find(params[:cave_id])
-    logger.info(@locatable)
-    if @location.update(location_params.except(:subsystem_id).merge(locatable: @locatable))
+    locatable = is_cave ? Subsystem.find(location_params[:subsystem_id]) : Cave.find(params[:cave_id])
+    if @location.update(location_params.except(:subsystem_id).merge(locatable: locatable))
       redirect_to(@location.path)
     else
       render(:edit, status: :unprocessable_entity)
@@ -48,6 +48,6 @@ class LocationsController < ApplicationController
   end
 
   def location_params
-    params.require(:location).permit(:title, :description)
+    params.require(:location).permit(:title, :description, :subsystem_id)
   end
 end

@@ -4,47 +4,47 @@
 
 @layer base {
   body {
-    @apply flex flex-col bg-slate-100 w-full h-screen;
+    @apply flex flex-col bg-slate-100 dark:bg-slate-950 w-full h-screen text-black dark:text-white;
   }
 
   section {
-    @apply rounded-md shadow bg-slate-50 p-4 ring ring-slate-200 sm:p-4 lg:p-6 flex flex-col gap-4;
+    @apply rounded-md shadow bg-slate-50 dark:bg-slate-900 p-4 ring ring-slate-200 dark:ring-slate-700 sm:p-4 lg:p-6 flex flex-col gap-4;
   }
 
   h1 {
-    @apply text-4xl;
+    @apply text-4xl dark:text-white;
   }
 
   h2 {
-    @apply text-2xl;
+    @apply text-2xl dark:text-white;
   }
 
   h3 {
-    @apply text-xl;
+    @apply text-xl dark:text-white;
   }
 
   h4 {
-    @apply text-lg;
+    @apply text-lg dark:text-white;
   }
 
   ul {
-    @apply list-disc pl-4;
+    @apply list-disc pl-4 dark:text-white;
   }
 
   a {
-    @apply text-sky-600 hover:underline underline-offset-2 focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+    @apply text-sky-600 dark:text-sky-300 hover:underline underline-offset-2 focus:outline-slate-800 dark:focus:outline-slate-300 focus:outline-dashed focus:outline-offset-2;
   }
 
   p {
-    @apply text-base;
+    @apply text-base dark:text-white;
   }
 
   form {
-    @apply flex flex-col gap-3;
+    @apply flex flex-col gap-4;
   }
 
   label {
-    @apply block text-sm font-medium text-gray-700;
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-200;
   }
 
   input[type="email"],
@@ -53,42 +53,45 @@
   input[type="password"],
   textarea,
   select {
-    @apply w-full rounded-md border-gray-200 shadow-sm sm:text-sm;
+    @apply w-full rounded-md border-gray-200 dark:border-slate-700 dark:bg-gray-900 dark:text-white shadow-sm sm:text-sm;
   }
   textarea {
     @apply min-h-24;
   }
 
   button {
-    @apply rounded-md border bg-white shadow-sm px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:cursor-pointer focus:relative focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+    @apply rounded-md border bg-white dark:bg-slate-900 dark:border dark:border-gray-700 dark:text-white shadow-sm px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 dark:hover:bg-slate-800 hover:cursor-pointer focus:relative focus:outline-slate-800 dark:focus:outline-slate-300 focus:outline-dashed focus:outline-offset-2;
   }
 
   table {
-    @apply table-auto w-full divide-y-2 divide-gray-200 bg-white text-sm;
+    @apply table-auto w-full divide-y-2 divide-gray-200 dark:divide-gray-800 bg-white dark:bg-slate-900 text-sm;
   }
   thead {
-    @apply text-left ltr:text-left rtl:text-right w-full;
+    @apply text-left ltr:text-left rtl:text-right w-full dark:border-b-2 dark:border-b-gray-700;
+  }
+  tfoot {
+    @apply bg-slate-50 dark:bg-slate-800 text-left ltr:text-left rtl:text-right w-full;
   }
   tbody {
-    @apply divide-y divide-gray-200;
+    @apply divide-y divide-gray-200 dark:divide-gray-800;
   }
   thead th {
-    @apply bg-slate-100;
+    @apply bg-slate-100 dark:bg-slate-800;
   }
   tr {
     @apply w-full;
   }
   th {
-    @apply whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-left bg-slate-50;
+    @apply whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-gray-100 text-left bg-slate-50 dark:bg-slate-700;
   }
   td {
-    @apply whitespace-nowrap px-4 py-2 text-gray-700;
+    @apply whitespace-nowrap px-4 py-2 text-gray-700 dark:text-gray-300;
   }
 }
 
 @layer components {
   .btn {
-    @apply rounded-md border bg-white shadow-sm inline-block px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 hover:cursor-pointer focus:relative focus:outline-slate-800 focus:outline-dashed focus:outline-offset-2;
+    @apply rounded-md border bg-white dark:bg-slate-900 dark:border dark:border-gray-700 dark:text-white shadow-sm px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-50 dark:hover:bg-slate-800 hover:cursor-pointer focus:relative focus:outline-slate-800 dark:focus:outline-slate-300 focus:outline-dashed focus:outline-offset-2;
   }
   .btn-red {
     @apply bg-red-600 hover:bg-red-700 text-white;
@@ -101,7 +104,7 @@
   }
 
   .table-container {
-    @apply block overflow-x-auto w-full rounded-lg border border-gray-200;
+    @apply block overflow-x-auto w-full rounded-lg border border-gray-200 dark:border-gray-700;
   }
 
   .card {
@@ -113,19 +116,32 @@
   }
 
   .form {
-    @apply flex flex-col gap-2;
+    @apply flex flex-col gap-4;
   }
   .err-msgs {
     @apply list-none pl-0 block text-sm font-medium text-red-600;
   }
   .field {
-    @apply flex flex-col gap-0.5;
+    @apply flex flex-col gap-1.5;
   }
 
   .grid-list {
     @apply pl-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2;
   }
   .grid-list-item {
-    @apply flex gap-4 justify-between items-center rounded-lg border border-gray-200 p-3;
+    @apply flex gap-4 justify-between items-center rounded-lg border border-gray-200 dark:border-gray-700 p-3;
+  }
+
+  .dl {
+    @apply -my-3 divide-y divide-gray-200 dark:divide-gray-700 text-sm;
+  }
+  .dr {
+    @apply grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4;
+  }
+  .dt {
+    @apply font-medium text-gray-900 dark:text-gray-100;
+  }
+  .dd {
+    @apply text-gray-700 dark:text-gray-300 sm:col-span-2;
   }
 }

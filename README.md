@@ -59,10 +59,10 @@ $ ./bin/dev
   - [x] Pagination in turbo
 - [ ] add cave address data at save time
   - [ ] pagination for caves/partners
-- [ ] dark mode
+- [x] dark mode
 - [ ] search for partners on log
-- [ ] cave: no description/location if not present
-- [ ] cave: no details if no lon && lat && desc
+- [x] cave: no description/location if not present
+- [x] cave: no details if no lon && lat && desc
 
 ## Feature ideas
 

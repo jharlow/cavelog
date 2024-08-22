@@ -16,7 +16,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="h-full">
-    <div class="flex gap-4 justify-between bg-white dark:bg-black items-center py-2 px-6 sticky top-0 h-12 shadow-sm z-50">
+    <div class="flex gap-4 justify-between bg-white dark:bg-black dark:border-b dark:border-slate-700 items-center py-2 px-6 sticky top-0 h-12 shadow-sm z-50">
       <%= link_to "CaveLog", root_path %>
       <div class="flex gap-4 items-center">
         <% if user_signed_in? %>
@@ -28,26 +28,28 @@
       </div>
     </div>
     <% if notice.present? %>
-      <p class="sticky top-12 w-[calc(100% + 2rem)] bg-green-200 bg-opacity-75 backdrop-blur-md shadow-sm z-40 overflow-x-clip flex items-center gap-1 text-sm text-gray-600 py-2 px-6"><%= notice %></p>
+      <p class="sticky top-12 w-[calc(100% + 2rem)] bg-green-200 dark:bg-green-800 dark:text-white bg-opacity-75 backdrop-blur-md shadow-sm z-40 overflow-x-clip flex items-center gap-1 text-sm text-gray-600 py-2 px-6"><%= notice %></p>
     <% end %>
     <% if alert.present? %>
-      <p class="sticky top-12 w-[calc(100% + 2rem)] bg-orange-200 bg-opacity-75 backdrop-blur-md shadow-sm z-40 overflow-x-clip flex items-center gap-1 text-sm text-gray-600 py-2 px-6"><%= alert %></p>
+      <p class="sticky top-12 w-[calc(100% + 2rem)] bg-orange-200 dark:bg-orange-800 dark:text-white bg-opacity-75 backdrop-blur-md shadow-sm z-40 overflow-x-clip flex items-center gap-1 text-sm text-gray-600 py-2 px-6"><%= alert %></p>
     <% end %>
     <%= yield %>
     <footer>
-      <p>Author: John Harlow</p>
-      <p><a href="mailto:hello@jharlow.dev">hello@jharlow.dev</a></p>
-      <button id="toggle-dark-mode">Toggle Dark Mode</button>
+      <%= page_padding do %>
+        <p>Author: John Harlow</p>
+        <p><a href="mailto:hello@jharlow.dev">hello@jharlow.dev</a></p>
+        <button id="toggle-dark-mode">Toggle Dark Mode</button>
+      <% end %>
     </footer>
     <script>
       // Function to toggle dark mode and update button text
       function toggleDarkMode() {
         document.documentElement.classList.toggle('dark');
         const isDarkMode = document.documentElement.classList.contains('dark');
-        
+
         // Update button text
         document.getElementById('toggle-dark-mode').textContent = isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-        
+
         // Save the preference in localStorage
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
       }
