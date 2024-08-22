@@ -64,7 +64,7 @@ $ ./bin/dev
 - [x] cave: no description/location if not present
 - [x] cave: no details if no lon && lat && desc
 - [ ] better footer
-      blah
+- [ ] tests!!!
 
 ## Feature ideas
 
