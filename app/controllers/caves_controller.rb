@@ -12,7 +12,6 @@ class CavesController < ApplicationController
 
   def show
     @cave = Cave.find(params[:id])
-    logger.info(@cave)
     @user_logs = @cave.logs.where(user: current_user)
   end
 

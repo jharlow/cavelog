@@ -37,6 +37,7 @@
           </li>
         <% end %>
       </ul>
+      <%= paginate available_caves, theme: 'list' %>
     <% else %>
       <%= render 'components/empty-section', message: 'No caves meeting your criteria' %>
     <% end %>
