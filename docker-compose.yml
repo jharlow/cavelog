@@ -1,0 +1,45 @@
+services:
+  app: # That's the name of our application container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000 # Map localhost:3000 to the container's port 3000
+    env_file:
+      - .env
+    environment:
+      DB_DATABASE: postgres
+      DB_TIMEOUT: 5000
+      DB_PORT: 5432
+      DB_HOST: db
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
+      RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: true
+      RAILS_LOG_TO_STDOUT: true
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    depends_on:
+      - db
+      - elasticsearch
+  db:
+    image: postgres:14
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.23
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+    volumes:
+      - elasticsearch:/var/lib/elasticsearch/data
+volumes:
+  postgres:
+  elasticsearch:

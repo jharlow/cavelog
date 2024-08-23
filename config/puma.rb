@@ -21,11 +21,11 @@
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
-threads threads_count, threads_count
+threads(threads_count, threads_count)
 
 # Specifies the `environment` that Puma will run in.
 rails_env = ENV.fetch("RAILS_ENV", "development")
-environment rails_env
+environment(rails_env)
 
 case rails_env
 when "production"
@@ -34,21 +34,22 @@ when "production"
   #
   # Automatically detect the number of available processors in production.
   require "concurrent-ruby"
+
   workers_count = Integer(ENV.fetch("WEB_CONCURRENCY") { Concurrent.available_processor_count })
-  workers workers_count if workers_count > 1
+  workers(workers_count) if workers_count > 1
 
   preload_app!
 when "development"
   # Specifies a very generous `worker_timeout` so that the worker
   # isn't killed by Puma when suspended by a debugger.
-  worker_timeout 3600
+  worker_timeout(3600)
 end
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT", 3000)
+port(ENV.fetch("PORT", 3000))
 
 # Allow puma to be restarted by `bin/rails restart` command.
-plugin :tmp_restart
+plugin(:tmp_restart)
 
 # Only use a pidfile when requested
-pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+pidfile(ENV["PIDFILE"]) if ENV["PIDFILE"]

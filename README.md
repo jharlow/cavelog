@@ -37,6 +37,18 @@ Run the dev environment:
 $ ./bin/dev
 ```
 
+## Deploying to production
+
+```sh
+$ docker compose up --build -d
+$ docker compose exec app bundle exec rake elasticsearch:initialize_elasticsearch
+$ docker compose exec app bundle exec rake data:load_cave_csv
+```
+
+```sh
+$docker compose down
+```
+
 ## TODOs
 
 - [x] Add locations to log
@@ -78,6 +90,8 @@ $ ./bin/dev
 - [ ] search for partners on log
 - [x] cave: no description/location if not present
 - [x] cave: no details if no lon && lat && desc
+- [ ] Missing permissions
+  - [ ] Must be logged in to perform all actions!
 - [ ] general ui cleanup
   - [ ] remove actions section (danger zone for delete edit in detils section)
   - [ ] consistent styling for all edit/new forms
