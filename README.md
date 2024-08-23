@@ -16,7 +16,30 @@ $ bundle install
 > Bundle complete!
 ```
 
-(Optional) - Seed database with caves - may take some time:
+Make sure you have your `.env` file set up according to the `.env.example`
+
+```sh
+# Master key
+RAILS_MASTER_KEY=""
+
+# Database configuration
+DB_DATABASE=""
+DB_TIMEOUT=5000
+DB_PORT=5432
+DB_HOST=""
+DB_USERNAME=""
+DB_PASSWORD=""
+
+# Elasticsearch configuration
+ELASTICSEARCH_URL=""
+
+# Geocoder configuration
+GOOGLE_MAPS_API_KEY=""
+```
+
+### TODO: db setup
+
+Optionally, seed your database with caves (may take some time):
 
 ```sh
 $ rake data:load_cave_csv
@@ -26,27 +49,55 @@ $ rake data:load_cave_csv
 Startup Elasticsearch server:
 
 ```sh
-$ docker run --name es01-test --net elastic -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
-# or
-$ docker start es01-test
+$ docker run -d --name elasticsearch-dev --net elastic -p 127.0.0.1:9201:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
+> SHA code for new container
+# or if you already have a elasticsearch-dev
+$ docker start elasticsearch-dev
+> elasticsearch-dev
+```
+
+If starting up for the first time, remember to initialize the indexes:
+
+```sh
+$ rake elasticsearch:initialize_elasticsearch
+> Indexes created!
 ```
 
 Run the dev environment:
 
 ```sh
 $ ./bin/dev
+> Log output from rails
 ```
 
 ## Deploying to production
 
-```sh
-$ docker compose up --build -d
-$ docker compose exec app bundle exec rake elasticsearch:initialize_elasticsearch
-$ docker compose exec app bundle exec rake data:load_cave_csv
-```
+Set up container
 
 ```sh
-$docker compose down
+$ docker compose up --build -d
+> Docker output
+```
+
+If running for first time, you need to initialize Elasticsearch
+
+```sh
+$ docker compose exec app bundle exec rake elasticsearch:initialize_elasticsearch
+> Indexes created!
+```
+
+Optionally, you can also see the database with caves
+
+```sh
+$ docker compose exec app bundle exec rake data:load_cave_csv
+> Data loaded successfully!
+```
+
+To end the process, run:
+
+```sh
+$ docker compose down
+> Docker output
 ```
 
 ## TODOs
