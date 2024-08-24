@@ -1,5 +1,9 @@
 <%= page_padding do %>
-  <h1>Welcome back! Test</h1>
+  <% if current_user %>
+    <h1>Welcome back, <%= current_user.username %>!</h1>
+  <% else %>
+    <h1>Welcome to CaveLog!</h1>
+  <% end %>
   <section>
     <h2>Caves</h2>
     <%= render "search-bar", path: caves_path %>
