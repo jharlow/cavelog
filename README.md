@@ -16,26 +16,7 @@ $ bundle install
 > Bundle complete!
 ```
 
-Make sure you have your `.env` file set up according to the `.env.example`
-
-```sh
-# Master key
-RAILS_MASTER_KEY=""
-
-# Database configuration
-DB_DATABASE=""
-DB_TIMEOUT=5000
-DB_PORT=5432
-DB_HOST=""
-DB_USERNAME=""
-DB_PASSWORD=""
-
-# Elasticsearch configuration
-ELASTICSEARCH_URL=""
-
-# Geocoder configuration
-GOOGLE_MAPS_API_KEY=""
-```
+Make sure you have your `.env` file set up according to the `.dev.env.example`
 
 ### TODO: db setup
 
@@ -71,6 +52,8 @@ $ ./bin/dev
 ```
 
 ## Deploying to production
+
+Make sure you have your `.env` file set up according to the `.dev.env.example`
 
 Set up container
 
