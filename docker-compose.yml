@@ -5,8 +5,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000 # Map localhost:3000 to the container's port 3000
-    env_file:
-      - .env
     environment:
       DB_DATABASE: postgres
       DB_TIMEOUT: 5000
@@ -23,10 +21,15 @@ services:
     depends_on:
       - db
       - elasticsearch
+  nginx:
+    image: nginx:1.16.0-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./public/maintenance.html:/etc/nginx/html/maintenance.html
+    ports:
+      - "80:80"
   db:
     image: postgres:14
-    env_file:
-      - .env
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -41,5 +44,6 @@ services:
     volumes:
       - elasticsearch:/var/lib/elasticsearch/data
 volumes:
+  nginx:
   postgres:
   elasticsearch:

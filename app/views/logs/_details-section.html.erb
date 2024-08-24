@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "log_details_#{@log.id}" do %>
   <div class="flow-root">
     <dl class="dl">
-      <% if log.user != current_user %>
+      <% if current_user && log.user != current_user %>
         <div class="dr">
           <dt class="dt">Log created by</dt>
           <dd class="dd">

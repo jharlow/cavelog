@@ -1,5 +1,5 @@
 <%= page_padding do %>
-  <h1>Welcome back!</h1>
+  <h1>Welcome back! Test</h1>
   <section>
     <h2>Caves</h2>
     <%= render "search-bar", path: caves_path %>
@@ -19,7 +19,7 @@
             </tr>
           <% end %>
         </tbody>
-              <%= paginate @caves, theme: 'table' %>
+        <%= paginate @caves, theme: 'table' %>
       </table>
     </div>
     <%= link_to "New Cave", new_cave_path %>
