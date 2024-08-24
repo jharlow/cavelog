@@ -28,6 +28,8 @@ services:
       - ./public/maintenance.html:/etc/nginx/html/maintenance.html
     ports:
       - "80:80"
+    depends_on:
+      - app
   db:
     image: postgres:14
     environment:
