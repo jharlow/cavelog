@@ -16,14 +16,7 @@ $ bundle install
 > Bundle complete!
 ```
 
-(Optional) - Seed database with caves - may take some time:
-
-```sh
-$ rake data:load_cave_csv
-> Data loaded successfully!
-```
-
-Startup Elasticsearch server:
+Startup Postgres container:
 
 ```sh
 docker run -d --name cavelog-db -p 5432:5432 -e "POSTGRES_USER=cavelog" -e "POSTGRES_PASSWORD={{password}}" postgres:14
@@ -31,10 +24,28 @@ docker run -d --name cavelog-db -p 5432:5432 -e "POSTGRES_USER=cavelog" -e "POST
 $ docker start cavelog-db
 ```
 
+**Important:** Now set up your `.env` file according to the `.env.example`, using the `{{password}}` you defined in the step above!
+
+You can optionally seed your database with a standard set of UK caves:
+
 ```sh
-$ docker run -d --name cavelog-elasticsearh -p 127.0.0.1:9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23 -d
+$ rake data:load_cave_csv
+> Data loaded successfully!
+```
+
+Startup Elasticsearch container:
+
+```sh
+$ docker run -d --name cavelog-elasticsearch -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
 # or (if you have already created this container)
 $ docker start cavelog-elasticsearh
+```
+
+Now initialize the indexes:
+
+```sh
+$ rake elasticsearch:initialize_elasticsearch
+> Indexes created!
 ```
 
 Run the dev environment:
