@@ -1,1 +1,3 @@
-Elasticsearch::Model.client = Elasticsearch::Client.new(url: ENV["ELASTICSEARCH_URL"] || "http://localhost:9200")
+Elasticsearch::Model.client = Elasticsearch::Client.new(
+  url: "http://#{ENV["ELASTICSEARCH_HOST"]}:#{ENV["ELASTICSEARCH_PORT"]}"
+)

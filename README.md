@@ -26,9 +26,9 @@ $ rake data:load_cave_csv
 Startup Elasticsearch server:
 
 ```sh
-$ docker run --name es01-test --net elastic -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
+$ docker run --name cavelog-elasticsearh --net elastic -p 127.0.0.1:9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
 # or
-$ docker start es01-test
+$ docker start cavelog-elasticsearh
 ```
 
 Run the dev environment:
