@@ -26,8 +26,14 @@ $ rake data:load_cave_csv
 Startup Elasticsearch server:
 
 ```sh
-$ docker run --name cavelog-elasticsearh --net elastic -p 127.0.0.1:9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
-# or
+docker run -d --name cavelog-db -p 5432:5432 -e "POSTGRES_USER=cavelog" -e "POSTGRES_PASSWORD={{password}}" postgres:14
+# or (if you have already created this container)
+$ docker start cavelog-db
+```
+
+```sh
+$ docker run -d --name cavelog-elasticsearh -p 127.0.0.1:9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23 -d
+# or (if you have already created this container)
 $ docker start cavelog-elasticsearh
 ```
 
