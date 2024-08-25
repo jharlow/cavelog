@@ -54,6 +54,14 @@ Run the dev environment:
 $ ./bin/dev
 ```
 
+If you want to use Docker instead:
+
+```sh
+$ docker compose up --build -d
+```
+
+Remember that you may need to change the values of `HOST` environment variables as documented in `.env.example`
+
 ## TODOs
 
 - [x] Add locations to log
