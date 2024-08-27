@@ -54,13 +54,37 @@ Run the dev environment:
 $ ./bin/dev
 ```
 
-If you want to use Docker instead:
+## Deploying to production
+
+Make sure you have your `.env` file set up according to the `.dev.env.example`
+
+Set up container
 
 ```sh
 $ docker compose up --build -d
+> Docker output
 ```
 
-Remember that you may need to change the values of `HOST` environment variables as documented in `.env.example`
+If running for first time, you need to initialize Elasticsearch
+
+```sh
+$ docker compose exec app bundle exec rake elasticsearch:initialize_elasticsearch
+> Indexes created!
+```
+
+Optionally, you can also see the database with caves
+
+```sh
+$ docker compose exec app bundle exec rake data:load_cave_csv
+> Data loaded successfully!
+```
+
+To end the process, run:
+
+```sh
+$ docker compose down
+> Docker output
+```
 
 ## TODOs
 
