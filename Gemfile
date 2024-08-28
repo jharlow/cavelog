@@ -38,12 +38,8 @@ gem "net-pop", github: "ruby/net-pop"
 
 gem "devise"
 
-gem "elasticsearch-model"
-gem "elasticsearch-rails"
 
-gem "geocoder"
-
-gem "dotenv-rails", groups: [ :development, :test ]
+gem "dotenv-rails", groups: [:development, :test]
 
 gem "kaminari"
 
@@ -70,3 +66,5 @@ group :test do
 end
 
 gem "tailwindcss-rails"
+
+gem "geocoder", "~> 1.8"
