@@ -16,25 +16,74 @@ $ bundle install
 > Bundle complete!
 ```
 
-(Optional) - Seed database with caves - may take some time:
+Startup Postgres container:
+
+```sh
+docker run -d --name cavelog-db -p 5432:5432 -e "POSTGRES_USER=cavelog" -e "POSTGRES_PASSWORD={{password}}" postgres:14
+# or (if you have already created this container)
+$ docker start cavelog-db
+```
+
+**Important:** Now set up your `.env` file according to the `.env.example`, using the `{{password}}` you defined in the step above!
+
+You can optionally seed your database with a standard set of UK caves:
 
 ```sh
 $ rake data:load_cave_csv
 > Data loaded successfully!
 ```
 
-Startup Elasticsearch server:
+Startup Elasticsearch container:
 
 ```sh
-$ docker run --name es01-test --net elastic -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
-# or
-$ docker start es01-test
+$ docker run -d --name cavelog-elasticsearch -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
+# or (if you have already created this container)
+$ docker start cavelog-elasticsearh
+```
+
+Now initialize the indexes:
+
+```sh
+$ rake elasticsearch:initialize_elasticsearch
+> Indexes created!
 ```
 
 Run the dev environment:
 
 ```sh
 $ ./bin/dev
+```
+
+## Deploying to production
+
+Make sure you have your `.env` file set up according to the `.dev.env.example`
+
+Set up container
+
+```sh
+$ docker compose up --build -d
+> Docker output
+```
+
+If running for first time, you need to initialize Elasticsearch
+
+```sh
+$ docker compose exec app bundle exec rake elasticsearch:initialize_elasticsearch
+> Indexes created!
+```
+
+Optionally, you can also see the database with caves
+
+```sh
+$ docker compose exec app bundle exec rake data:load_cave_csv
+> Data loaded successfully!
+```
+
+To end the process, run:
+
+```sh
+$ docker compose down
+> Docker output
 ```
 
 ## TODOs
