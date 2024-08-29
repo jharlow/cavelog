@@ -1,7 +1,4 @@
 class Cave < ApplicationRecord
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-
   include Geocoder::Model::ActiveRecord
   reverse_geocoded_by(:latitude, :longitude) do |cave, results|
     if (geo = results.first)
@@ -34,12 +31,13 @@ class Cave < ApplicationRecord
     allow_blank: true
   )
   validate :parse_coordinates
-  after_validation :set_address, if: -> { latitude_changed? || longitude_changed? }
+  after_validation :set_address, if: -> { latitude_changed? || longitude_changed? }, unless: :skip_geocoding
 
+  attr_accessor :skip_geocoding
   # auto-fetch coordinates
-  after_validation :geocode
+  after_validation :geocode, unless: :skip_geocoding
   # auto-fetch address
-  after_validation :reverse_geocode
+  after_validation :reverse_geocode, unless: :skip_geocoding
 
   def path
     Rails.application.routes.url_helpers.cave_path(self)
@@ -48,6 +46,14 @@ class Cave < ApplicationRecord
   before_destroy :strip_cave_id_from_log_cave_copies
   def strip_cave_id_from_log_cave_copies
     log_cave_copies.update_all(cave_id: nil)
+  end
+
+  def self.search(search)
+    if search
+      where([ "title ILIKE ?", "%#{search}%" ])
+    else
+      all
+    end
   end
 
   def self.search_by_text_or_location(query)
@@ -59,28 +65,8 @@ class Cave < ApplicationRecord
     end
 
     geocoded_caves = geocodable ? Cave.near(query) : Cave.none
-    title_caves = Cave.fuzzy_search(query).records
+    title_caves = Cave.search(query).records
     (title_caves + geocoded_caves).uniq
-  end
-
-  def self.fuzzy_search(query)
-    __elasticsearch__.search(
-      {
-        query: {
-          match: {
-            title: {
-              query: query,
-              # Automatically determines the right fuzziness level
-              fuzziness: 5,
-              # Limits the number of variations generated for a fuzzy query
-              max_expansions: 5,
-              # Length of the common prefix before fuzziness is applied
-              prefix_length: 1
-            }
-          }
-        }
-      }
-    )
   end
 
   private
@@ -116,8 +102,6 @@ class Cave < ApplicationRecord
   end
 
   def set_address
-    logger.info("SET ADDRESS CALLED")
-    reverse_geocode if latitude.present? && longitude.present?
-    logger.info(self)
+    reverse_geocode if !skip_geocoding && latitude.present? && longitude.present?
   end
 end

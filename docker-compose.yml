@@ -12,16 +12,12 @@ services:
       DB_HOST: db
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
-      ELASTICSEARCH_HOST: elasticsearch
-      ELASTICSEARCH_PORT: 9200
-      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
       RAILS_ENV: production
       RAILS_SERVE_STATIC_FILES: true
       RAILS_LOG_TO_STDOUT: true
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
     depends_on:
       - db
-      - elasticsearch
   nginx:
     image: nginx:1.16.0-alpine
     volumes:
@@ -38,15 +34,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres:/var/lib/postgresql/data
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.23
-    environment:
-      - discovery.type=single-node
-    ports:
-      - 9201:9200
-    volumes:
-      - elasticsearch:/var/lib/elasticsearch/data
 volumes:
   nginx:
   postgres:
-  elasticsearch:

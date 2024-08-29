@@ -2,6 +2,8 @@
 
 ## Getting started
 
+### Local development with hot refresh
+
 Ensure that you are using the correct Ruby version:
 
 ```sh
@@ -33,28 +35,13 @@ $ rake data:load_cave_csv
 > Data loaded successfully!
 ```
 
-Startup Elasticsearch container:
-
-```sh
-$ docker run -d --name cavelog-elasticsearch -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.23
-# or (if you have already created this container)
-$ docker start cavelog-elasticsearh
-```
-
-Now initialize the indexes:
-
-```sh
-$ rake elasticsearch:initialize_elasticsearch
-> Indexes created!
-```
-
 Run the dev environment:
 
 ```sh
 $ ./bin/dev
 ```
 
-## Deploying to production
+### Local development via Docker
 
 Make sure you have your `.env` file set up according to the `.dev.env.example`
 
@@ -62,14 +49,6 @@ Set up container
 
 ```sh
 $ docker compose up --build -d
-> Docker output
-```
-
-If running for first time, you need to initialize Elasticsearch
-
-```sh
-$ docker compose exec app bundle exec rake elasticsearch:initialize_elasticsearch
-> Indexes created!
 ```
 
 Optionally, you can also see the database with caves
@@ -83,7 +62,49 @@ To end the process, run:
 
 ```sh
 $ docker compose down
-> Docker output
+```
+
+## Deployment via AWS
+
+Ensure that you have the `aws` and `npm` cli tools installed
+
+With the `aws` cli configured (`aws configure`), navigate to the CDK directory and install the packages
+
+```sh
+$ cd cdk && npm install
+```
+
+**Important:** Now set up your `.env` file according to the `.env.example`.
+
+Run the deployment script:
+
+```sh
+$ npm run cdk deploy
+```
+
+Optionally, you can also see the database with caves
+
+```sh
+$ aws ecs execute-command \
+  --cluster {{RAILS_APP_CULUSTER_ID}} \
+  --region {{AWS_REGION}} \
+  --task {{RAILS_APP_TASK_ID}} \
+  --container RailsAppContainer \
+  --interactive \
+  --command "bundle exec rake data:load_cave_csv"
+> Data loaded successfully!
+```
+
+Where:
+
+- `{{RAILS_APP_CULUSTER_ID}}` -- the ECS cluster ID of your deployed rails app
+- `{{RAILS_APP_TASK_ID}}` -- the ECS task ID contained inside the above ECC cluster
+- `{{AWS_REGION}}` -- the value of `CDK_REGION` env used when you ran the deploy script
+
+To shut down the stack:
+
+```sh
+$ npm run cdk destroy
 ```
 
 ## TODOs
@@ -128,11 +149,13 @@ $ docker compose down
 - [x] cave: no description/location if not present
 - [x] cave: no details if no lon && lat && desc
 - [ ] general ui cleanup
-  - [ ] remove actions section (danger zone for delete edit in detils section)
+  - [ ] dark mode: calendar on datetime picker should be white
+  - [ ] remove actions section (danger zone for delete edit in details section)
   - [ ] consistent styling for all edit/new forms
   - [ ] better buttons on cave locations section
   - [ ] partnership badges need darkmode
   - [ ] Cancel links on edit forms
+  - [ ] empty section when no caves to display on index view
 - [ ] consistent log views on all locations/caves
 - [ ] checkmarks on logs/caves once visited
 - [ ] add info on the caves table
