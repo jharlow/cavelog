@@ -38,8 +38,7 @@ gem "net-pop", github: "ruby/net-pop"
 
 gem "devise"
 
-
-gem "dotenv-rails", groups: [:development, :test]
+gem "dotenv-rails", groups: [ :development, :test ]
 
 gem "kaminari"
 
