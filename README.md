@@ -155,6 +155,7 @@ $ npm run cdk destroy
   - [ ] better buttons on cave locations section
   - [ ] partnership badges need darkmode
   - [ ] Cancel links on edit forms
+  - [ ] empty section when no caves to display on index view
 - [ ] consistent log views on all locations/caves
 - [ ] checkmarks on logs/caves once visited
 - [ ] add info on the caves table

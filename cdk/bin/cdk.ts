@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import {
-  CaveLogStack,
-  getCaveLogStackPropsFromEnvrionment,
-} from "../lib/cavelog-cdk-stack";
+import { CaveLogStack } from "../lib/cavelog-cdk-stack";
 import { assertAndReturn } from "../lib/assert-and-return";
 import * as dotenv from "dotenv";
+import { getCaveLogAppStackPropsFromEnvrionment } from "../lib/cavelog-app-stack";
 
 dotenv.config();
 
@@ -17,5 +15,5 @@ new CaveLogStack(app, "CaveLogStack", {
     account: assertAndReturn(process.env.CDK_ACCOUNT, "CDK_ACCOUNT"),
     region: assertAndReturn(process.env.CDK_REGION, "CDK_REGION"),
   },
-  ...getCaveLogStackPropsFromEnvrionment(),
+  ...getCaveLogAppStackPropsFromEnvrionment(),
 });
