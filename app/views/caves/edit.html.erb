@@ -1,9 +1,6 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: @cave.title, href: cave_path(@cave) }, { text: "Edit cave", href: edit_cave_path(@cave)}] %>
 <%= page_padding do %>
-  <div class="flex flex-wrap gap-4 justify-between items-center">
-    <h1>Edit <%= @cave.title %></h1>
-    <%= link_to "Back", cave_path(@cave), aria: { label: "Back to #{@cave.title}" }, class: "btn btn-sm" %>
-  </div>
+  <h1>Edit <%= @cave.title %></h1>
   <section>
     <%= render "form", cave: @cave %>
   </section>

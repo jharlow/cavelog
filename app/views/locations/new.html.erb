@@ -1,4 +1,7 @@
+<%= render 'components/breadcrumb-topper', links: [@parent ? { text: @parent.title, href: @parent.path } : nil, { text: @locatable.title, href: @locatable.path}, { text: 'New location', href: @parent ? new_cave_subsystem_location_path(@parent, @locatable) : new_cave_location_path(@locatable)}].compact %>
 <%= page_padding do %>
-  <h1>New location in <%= @parent == nil ? @locatable.title : @parent.title %></h1>
-  <%= render 'form' %>
+  <h1>New location in <%= @locatable.title %></h1>
+  <section>
+    <%= render 'form' %>
+  </section>
 <% end %>

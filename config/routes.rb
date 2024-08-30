@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   root("caves#index")
   resources(:caves) do
     resources(:logs, only: [ :new, :create ])
-    resources(:locations, only: [ :new, :create, :show, :edit, :update ])
-    resources(:subsystems, only: [ :new, :create, :show, :edit, :update ]) do
-      resources(:locations, only: [ :new, :create, :show, :edit, :update ])
+    resources(:locations, only: [ :new, :create, :show, :edit, :update, :destroy ])
+    resources(:subsystems, only: [ :new, :create, :show, :edit, :update, :destroy ]) do
+      resources(:locations, only: [ :new, :create, :show, :edit, :update, :destroy ])
     end
   end
 

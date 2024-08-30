@@ -3,7 +3,7 @@
     <h1><%= @user != current_user ? "#{@user.name_for(current_user)}'s" : "Your" %> profile</h1>
     <% if @user != current_user %>
       <% if current_user.is_partner_of?(@user) %>
-        <span class="inline-flex items-center justify-center rounded-full border border-green-500 bg-green-100 px-2.5 py-0.5 text-green-700">
+        <span class="inline-flex items-center justify-center rounded-full border border-green-500 bg-green-100 dark:border-green-600 dark:bg-green-800 px-2.5 py-0.5 text-green-700">
           <p class="whitespace-nowrap text-sm">Partner</p>
         </span>
       <% elsif current_user.has_pending_request_with_user?(@user) %>
@@ -12,7 +12,7 @@
           <%= button_to "Decline", partnership_request_path(@partnership_request.id), method: :delete, aria: { label: "Decline partnership request" }, class: 'btn-red' %>
         </div>
       <% elsif current_user.has_sent_request_to_user?(@user) %>
-        <span class="inline-flex items-center justify-center rounded-full border border-amber-500 bg-amber-100 px-2.5 py-0.5 text-amber-700">
+        <span class="inline-flex items-center justify-center rounded-full border border-amber-500 bg-amber-100 dark:border-amber-600 dark:bg-amber-800 px-2.5 py-0.5 text-amber-700">
           <p class="whitespace-nowrap text-sm">Partnership request sent!</p>
         </span>
       <% else %>

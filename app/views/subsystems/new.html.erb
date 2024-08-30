@@ -1,5 +1,7 @@
+<%= render 'components/breadcrumb-topper', links: [{ text: @cave.title, href: cave_path(@cave)}, { text: 'New subsystem', href: new_cave_subsystem_path(@cave)}] %>
 <%= page_padding do %>
-  <h2>Add a subsystem to <%= @cave.title %></h2>
-  <%= render 'form', cave: @cave, subsystem: @subsystem %>
+  <h1>Add a subsystem to <%= @cave.title %></h1>
+  <section>
+    <%= render 'form', cave: @cave, subsystem: @subsystem %>
+  </section>
 <% end %>
-

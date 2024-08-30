@@ -23,7 +23,8 @@
       <%= render 'components/forms/errors', error_messages: cave.errors.full_messages_for(:longitude) %>
     </div>
   </div>
-  <div>
+  <div class="action flex gap-2 items-center">
     <%= form.submit class: "btn" %>
+    <%= link_to "Cancel", cave.id.present? ? cave_path(cave) : root_path %>
   </div>
 <% end %>

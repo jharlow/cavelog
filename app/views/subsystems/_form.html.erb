@@ -9,7 +9,8 @@
     <%= form.text_area :description %>
     <%= render 'components/forms/errors', error_messages: subsystem.errors.full_messages_for(:description) %>
   </div>
-  <div class="action">
+  <div class="action flex gap-2 items-center">
     <%= form.submit class: 'btn' %>
+    <%= link_to "Cancel", subsystem.id.present? ? cave_subsystem_path(cave, subsystem) : cave_path(cave) %>
   </div>
 <% end %>
