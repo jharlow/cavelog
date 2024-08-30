@@ -8,13 +8,16 @@ class LogsController < ApplicationController
 
   def new
     @log = Log.new
+    if params[:cave_id]
+      @cave = Cave.find(params[:cave_id])
+    end
   end
 
   def create
-    @log = Log.new(log_params)
+    @log = Log.new(log_params.except(:cave_id))
     @log.user = current_user
-    if params[:cave_id].present?
-      @cave = Cave.find(params[:cave_id])
+    if log_params[:cave_id]
+      @cave = Cave.find(log_params[:cave_id])
       if @cave.present?
         @log_cave_copy = LogCaveCopy.new(cave: @cave, cave_title: @cave.title)
         @log.log_cave_copies << @log_cave_copy
@@ -59,6 +62,6 @@ class LogsController < ApplicationController
   private
 
   def log_params
-    params.require(:log).permit(:start_datetime, :end_datetime, :personal_comments)
+    params.require(:log).permit(:start_datetime, :end_datetime, :personal_comments, :cave_id)
   end
 end

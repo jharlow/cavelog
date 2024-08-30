@@ -1,14 +1,29 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: @parent&.title, href: @parent&.path }, { text: @locatable.title, href: @locatable.path }, { text: @location.title, href: @location.path }] %>
 <%= page_padding do %>
   <h1><%= @location.title %></h1>
-  <% if @location.description.present? %>
-    <p><%= @location.description %></p>
-  <% end %>
   <section>
-    <h2>Actions</h2>
-    <ul>
-      <li><%= link_to "Edit", params[:subsystem_id].present? ? edit_cave_subsystem_location_path(@parent, @locatable, @location) : edit_cave_location_path(@locatable, @location) %></li>
-      <li><%= link_to "Back to #{@location.locatable.title}", @location.locatable.path %></li>
-    </ul>
+    <div class="flex gap-4 justify-between items-center">
+      <h2>Details</h2>
+      <%= link_to "Edit", params[:subsystem_id].present? ? edit_cave_subsystem_location_path(@parent, @locatable, @location) : edit_cave_location_path(@locatable, @location), class: 'btn btn-sm' %>
+    </div>
+    <% if @location.description.present? %>
+      <div class="flow-root">
+        <dl class="dl">
+          <% unless !@location.description.present? %>
+            <div class="dr">
+              <dt class="dt">Description</dt>
+              <dd class="dd"><%= simple_format(@location.description, class: "text-sm") %></dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+    <% else %>
+      <%= render 'components/empty-section', message: "No details yet!" %>
+    <% end %>
+  </section>
+  <section>
+    <h2>Danger zone</h2>
+    <div>Be warned! This action permanently and irreversibly deletes this location.</div>
+    <%= link_to 'Delete', params[:subsystem_id].present? ? cave_subsystem_location_path(@parent, @locatable, @location) : cave_location_path(@locatable, @location), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
   </section>
 <% end %>

@@ -1,9 +1,6 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: "New cave", href: new_cave_path(@cave)}] %>
 <%= page_padding do %>
-  <div class="flex flex-wrap gap-4 justify-between items-center">
-    <h1>New cave</h1>
-    <%= link_to "Cancel", root_path, aria: { label: "Back to home" }, class: "btn btn-sm" %>
-  </div>
+  <h1>New cave</h1>
   <section>
     <%= render "form", cave: @cave %>
   </section>

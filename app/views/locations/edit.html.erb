@@ -1,4 +1,7 @@
+<%= render 'components/breadcrumb-topper', links: [@parent ? { text: @parent.title, href: @parent.path } : nil, { text: @locatable.title, href: @locatable.path}, { text: @location.title, href: @location.path }].compact %>
 <%= page_padding do %>
   <h1>Edit <%= @location.title %></h1>
-  <%= render 'form' %>
+  <section>
+    <%= render 'form' %>
+  </section>
 <% end %>

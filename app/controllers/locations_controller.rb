@@ -36,6 +36,12 @@ class LocationsController < ApplicationController
     end
   end
 
+  def destroy
+    @location = Location.find(params[:id])
+    @location.destroy
+    redirect_to(@location.locatable.path, status: :see_other)
+  end
+
   private
 
   def set_locatable

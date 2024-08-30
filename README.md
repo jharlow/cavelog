@@ -79,7 +79,7 @@ $ cd cdk && npm install
 Run the deployment script:
 
 ```sh
-$ npm run cdk deploy
+$ npm run cdk -- deploy --all
 ```
 
 Optionally, you can also see the database with caves
@@ -104,7 +104,7 @@ Where:
 To shut down the stack:
 
 ```sh
-$ npm run cdk destroy
+$ npm run cdk -- destroy --all
 ```
 
 ## TODOs
@@ -148,30 +148,34 @@ $ npm run cdk destroy
 - [ ] search for partners on log
 - [x] cave: no description/location if not present
 - [x] cave: no details if no lon && lat && desc
-- [ ] general ui cleanup
-  - [ ] dark mode: calendar on datetime picker should be white
-  - [ ] remove actions section (danger zone for delete edit in details section)
-  - [ ] consistent styling for all edit/new forms
-  - [ ] better buttons on cave locations section
-  - [ ] partnership badges need darkmode
-  - [ ] Cancel links on edit forms
-  - [ ] empty section when no caves to display on index view
+- [x] general ui cleanup
+  - [x] dark mode: calendar on datetime picker should be white
+  - [x] remove actions section (danger zone for delete edit in details section)
+  - [x] consistent styling for all edit/new forms
+  - [x] better buttons on cave locations section
+  - [x] partnership badges need darkmode
+  - [x] Cancel links on edit forms
+  - [x] empty section when no caves to display on index view
 - [ ] consistent log views on all locations/caves
 - [ ] checkmarks on logs/caves once visited
 - [ ] add info on the caves table
 - [ ] add location button when editing cave location copies on a log
 - [ ] shared logs on my partnership section
 - [ ] better footer
-- [ ] tests!!!
+- [ ] CI/CD pr deployments/teardowns
+- [ ] CI/CD production deployments
+- [ ] DNS routing to domain
+- [ ] SSL in production
+- [ ] Tests!
 
 ## Feature ideas
 
-- [ ] deployments!
 - [x] User page (name, username)
   - [x] Edit user page
   - [x] Permissions
   - [x] Connect partners to users
     - [x] Add partners to a log (high)
+- [ ] deletion permissions
 - [ ] edit history on caves/subsystem/location and permission based on refferal (from UKC?)
   - [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
 - [ ] add cave id to log locations copy

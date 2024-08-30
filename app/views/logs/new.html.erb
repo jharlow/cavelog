@@ -1,10 +1,10 @@
+<%= render 'components/breadcrumb-topper', links: [@cave ? { text: @cave.title, href: cave_path(@cave)} : nil, { text: "New log", href: @cave ? new_cave_log_path(@cave) : new_log_path(@log) }].compact %>
 <%= page_padding do %>
-  <h1>
-    Create new log
-    <% if @cave %>
-      in
-      <%= @cave.title %>
-    <% end %>
-  </h1>
-  <%= render 'form', log: @log, cave: @cave %>
+  <div class="flex flex-wrap gap-4 justify-between items-center">
+    <h1>Create new log <%= "in #{@cave.title}" unless !@cave %></h1>
+    <%= link_to "Cancel", @cave ? cave_path(@cave) : root_path, aria: { label: "Back to #{@cave ? @cave.title : 'home'}" }, class: "btn btn-sm" %>
+  </div>
+  <section>
+    <%= render 'form', log: @log, cave: @cave %>
+  </section>
 <% end %>

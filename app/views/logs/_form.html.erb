@@ -14,10 +14,9 @@
     <%= form.text_area :personal_comments %>
     <%= render 'components/forms/errors', error_messages: @log.errors.full_messages_for(:personal_comments) %>
   </div>
+  <%= form.hidden_field :cave_id, value: cave.id unless !cave %>
   <div class="action flex gap-2 items-center">
     <%= form.submit class: 'btn' %>
-    <% if log.id.present? %>
-      <%= link_to "Cancel", log_path(log) %>
-    <% end %>
+    <%= link_to "Cancel", log_path(log) if log.id.present? %>
   </div>
 <% end %>
