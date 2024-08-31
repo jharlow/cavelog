@@ -156,11 +156,12 @@ $ npm run cdk -- destroy --all
   - [x] partnership badges need darkmode
   - [x] Cancel links on edit forms
   - [x] empty section when no caves to display on index view
-- [ ] consistent log views on all locations/caves
-- [ ] checkmarks on logs/caves once visited
+- [ ] log viewing
+  - [ ] consistent log views on all locations/caves
+  - [ ] checkmarks on logs/caves once visited
+  - [ ] shared logs on my partnership section
 - [ ] add info on the caves table
 - [ ] add location button when editing cave location copies on a log
-- [ ] shared logs on my partnership section
 - [ ] better footer
 - [ ] CI/CD pr deployments/teardowns
 - [ ] CI/CD production deployments
@@ -179,7 +180,6 @@ $ npm run cdk -- destroy --all
 - [ ] edit history on caves/subsystem/location and permission based on refferal (from UKC?)
   - [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
 - [ ] add cave id to log locations copy
-- [ ] add button to add a new location to cave on table footer of edit locations on log table
 - [ ] Add cave connections
   - [ ] Adding cave to log suggests relevant cave connections
 - [ ] searchable/paginating locations
@@ -188,7 +188,7 @@ $ npm run cdk -- destroy --all
   - [ ] tier ranking/access difficulty grade
   - [ ] Cave metadata - entrance location - region - distribution of grades
 - [ ] Report cave/locations
-- [ ] Number log entries accoring to how many the user has logged?
+- [ ] Number log entries according to how many the user has logged?
 
 ## Notes
 
