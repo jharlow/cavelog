@@ -12,7 +12,8 @@ class CavesController < ApplicationController
 
   def show
     @cave = Cave.find(params[:id])
-    @user_logs = @cave.logs.where(user: current_user)
+    @user_logs_preview = @cave.logs.where(user: current_user).order(created_at: :desc).take(4)
+    @user_logs_count = @cave.logs.where(user: current_user).count
   end
 
   def new

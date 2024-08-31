@@ -51,13 +51,57 @@
     <%= render 'locations/locations', cave: @cave %>
   </section>
   <section>
-    <h2>Your logs</h2>
-    <ul>
-      <% @user_logs.each do |log| %>
-        <li><%= link_to log.personal_comments, log_path(log) %></li>
-      <% end %>
-    </ul>
-    <%= link_to 'Create your first log', new_cave_log_path(@cave) %>
+    <h2>Logs</h2>
+    <div class="flex gap-4 justify-between items-center">
+      <h3 class="-mb-1">Your logs</h3>
+      <%= link_to 'Add log', new_cave_log_path(@cave), class: 'btn btn-sm' %>
+    </div>
+    <% if @user_logs_count > 0 %>
+      <ul class="grid-list-2">
+        <% @user_logs_preview.each do |log| %>
+          <li class="card gap-2">
+            <div class="text-sm"><%= log.format_date(log.start_datetime) %><span class="opacity-50">   &mdash;  <%= log.length_of_log %></span></div>
+            <div class="text-lg -mt-1"><%= link_to cave_titles_list(log.caves), log_path(log) %></div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <% if log.log_location_copies.size > 0 || log.log_partner_connections.size > 0 %>
+                <% if log.log_location_copies.size > 0 %>
+                  <div class="inline-flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-800 px-2.5 py-0.5 text-emerald-700 dark:text-emerald-200 text-xs">
+                    <%= "Visited #{log.log_location_copies.size} location#{"s" unless log.log_location_copies.size == 1}" %>
+                  </div>
+                <% end %>
+                <% if log.log_partner_connections.size > 0 %>
+                  <div class="inline-flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-800 px-2.5 py-0.5 text-emerald-700 dark:text-emerald-200 text-xs">
+                    <%= "With #{log.log_partner_connections.size} partner#{"s" unless log.log_partner_connections.size == 1}" %>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="inline-flex items-center justify-center rounded-full border border-gray-500 px-2.5 py-0.5 text-gray-700 dark:text-gray-400 text-xs">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="-ms-1 me-1.5 size-4">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  </svg>
+                  No details recorded yet
+                </div>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@cave)} %>
+    <% end %>
+    <% if @user_logs_count > 4 %>
+      TODO: Link to view more logs
+    <% end %>
+    <h3>Community logs</h3>
   </section>
   <section>
     <h2>Danger zone</h2>

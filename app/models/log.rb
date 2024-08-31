@@ -53,6 +53,21 @@ class Log < ApplicationRecord
     }
   end
 
+  def format_date(datetime)
+    day_suffix = case datetime.day
+    when 1, 21, 31
+      "st"
+    when 2, 22
+      "nd"
+    when 3, 23
+      "rd"
+    else
+      "th"
+    end
+
+    datetime.strftime("%b #{datetime.day}#{day_suffix} %Y")
+  end
+
   def format_datetime(datetime)
     day_suffix = case datetime.day
     when 1, 21, 31
@@ -65,7 +80,7 @@ class Log < ApplicationRecord
       "th"
     end
 
-    datetime.strftime("%I:%M%P on %b #{datetime.day}#{day_suffix} %Y")
+    datetime.strftime("%I:%M%P on ") + format_date(datetime)
   end
 
   def length_of_log
