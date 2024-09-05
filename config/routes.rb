@@ -14,8 +14,18 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do
-    resources(:logs, only: [ :new, :create ])
-    resources(:locations, only: [ :new, :create, :show, :edit, :update, :destroy ])
+    resources(:users) do
+      resources(:logs, only: [ :index ])
+    end
+
+    resources(:logs, only: [ :index, :new, :create ])
+    resources(:locations, only: [ :new, :create, :show, :edit, :update, :destroy ]) do
+      resources(:logs, only: [ :index ])
+      resources(:users) do
+        resources(:logs, only: [ :index ])
+      end
+    end
+
     resources(:subsystems, only: [ :new, :create, :show, :edit, :update, :destroy ]) do
       resources(:locations, only: [ :new, :create, :show, :edit, :update, :destroy ])
     end

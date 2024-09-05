@@ -1,0 +1,41 @@
+<li class="card gap-2">
+  <div class="flex flex-wrap gap-4 justify-between items-center">
+    <div class="text-sm"><%= log.format_date(log.start_datetime) %><span class="opacity-50">   &mdash;  <%= log.length_of_log %></span></div>
+    <% if log.user === current_user %>
+      <%= link_to "You", user_path(log.user), class: 'inline-flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs' %>
+    <% else %>
+      <%= link_to log.user.name_for(current_user), user_path(log.user), class: 'inline-flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs' %>
+    <% end %>
+  </div>
+  <div class="text-lg -mt-1"><%= link_to cave_titles_list(log.caves), log_path(log) %></div>
+  <div class="flex flex-wrap items-center gap-1.5">
+    <% if log.log_location_copies.size > 0 || log.log_partner_connections.size > 0 %>
+      <% if log.log_location_copies.size > 0 %>
+        <div class="inline-flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs">
+          <%= "Visited #{log.log_location_copies.size} location#{"s" unless log.log_location_copies.size == 1}" %>
+        </div>
+      <% end %>
+      <% if log.log_partner_connections.size > 0 %>
+        <div class="inline-flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs">
+          <%= "With #{log.log_partner_connections.size} partner#{"s" unless log.log_partner_connections.size == 1}" %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="inline-flex items-center justify-center rounded-full border border-gray-500 px-2.5 py-0.5 text-gray-700 dark:text-gray-400 text-xs">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="-ms-1 me-1.5 size-4">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+        </svg>
+        No details recorded yet
+      </div>
+    <% end %>
+  </div>
+</li>

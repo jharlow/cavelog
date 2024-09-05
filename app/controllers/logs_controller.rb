@@ -1,4 +1,41 @@
 class LogsController < ApplicationController
+  def index
+    user_id = params[:user_id]
+    cave_id = params[:cave_id]
+    location_id = params[:location_id]
+
+    if cave_id.present?
+      @cave = Cave.find(cave_id)
+      @cave_query = "log_cave_copies.cave_id = :cave_id"
+    end
+
+    if location_id.present?
+      @location = Location.find(location_id)
+      @location_query = "log_location_copies.location_id = :location_id"
+    end
+
+    if user_id.present?
+      @user = User.find(user_id)
+      @user_query = "(partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id OR user_id = :user_id)"
+    end
+
+    query = [
+      user_id.present? ? @user_query : nil,
+      location_id.present? ? @location_query : nil,
+      cave_id.present? ? @cave_query : nil
+    ].compact.join(" AND ")
+
+    # TODO: or is public
+    @logs = Log
+      .left_outer_joins(log_partner_connections: :partnership)
+      .left_outer_joins(:log_cave_copies)
+      .left_outer_joins(:log_location_copies)
+      .where(query, { user_id: user_id, cave_id: cave_id, location_id: location_id })
+      .distinct
+      .page(params[:page])
+      .per(10)
+  end
+
   def show
     @log = Log.find(params[:id])
     @locations_data = @log.locations_data

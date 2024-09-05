@@ -50,7 +50,7 @@ class Cave < ApplicationRecord
 
   def self.search(search)
     if search
-      where([ "title ILIKE ?", "%#{search}%" ])
+      where([ "title ILIKE ?", "%#{sanitize_sql_like(search)}%" ])
     else
       all
     end

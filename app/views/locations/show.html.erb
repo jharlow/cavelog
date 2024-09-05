@@ -1,12 +1,15 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: @parent&.title, href: @parent&.path }, { text: @locatable.title, href: @locatable.path }, { text: @location.title, href: @location.path }] %>
 <%= page_padding do %>
-  <h1><%= @location.title %></h1>
+  <div class="flex items-center gap-3 flex-wrap">
+    <h1><%= @location.title %></h1>
+    <%= render 'components/checked', label: "You have visited this location" %>
+  </div>
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Details</h2>
       <%= link_to "Edit", params[:subsystem_id].present? ? edit_cave_subsystem_location_path(@parent, @locatable, @location) : edit_cave_location_path(@locatable, @location), class: 'btn btn-sm' %>
     </div>
-    <% if @location.description.present? %>
+    <% if @location.description.present? || @location_logs_count > 0 %>
       <div class="flow-root">
         <dl class="dl">
           <% unless !@location.description.present? %>
@@ -15,10 +18,44 @@
               <dd class="dd"><%= simple_format(@location.description, class: "text-sm") %></dd>
             </div>
           <% end %>
+          <% if @location_logs_count > 0 %>
+            <div class="dr">
+              <dt class="dt">Logged trips</dt>
+              <dd class="dd"><%= @location_logs_count %> total trips <% if @user_logs_count > 0 %><span class="opacity-75">(<%= @user_logs_count %> by you)</span><% end %></dd>
+            </div>
+          <% end %>
         </dl>
       </div>
     <% else %>
       <%= render 'components/empty-section', message: "No details yet!" %>
+    <% end %>
+  </section>
+  <section>
+    <div class="flex gap-4 justify-between items-center">
+      <h2>Logs</h2>
+      <%= link_to 'Add log', new_cave_log_path(@parent || @locatable), class: 'btn btn-sm' %>
+    </div>
+    <h3 class="-mb-1">Your logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>
+    <% if @user_logs_count > 0 %>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @user_logs_preview, as: :log %>
+      </ul>
+    <% else %>
+      <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@cave)} %>
+    <% end %>
+    <% if @user_logs_count > @cutoff_count %>
+      <%= link_to "View more →", cave_location_user_logs_path(@parent || @locatable, @location, current_user), aria: { label: "View all logs you are featured in" } %>
+    <% end %>
+    <h3>Public logs <% if @location_logs_count > 0 %><span class="opacity-50">(<%= @location_logs_count %> total)</span><% end %></h3>
+    <% if @location_logs_count > 0 %>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @location_logs_preview, as: :log %>
+      </ul>
+    <% else %>
+      <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add the first log', href: new_cave_log_path(@cave)} %>
+    <% end %>
+    <% if @location_logs_count > @cutoff_count %>
+      <%= link_to "View all →", cave_location_logs_path(@parent || @locatable, @location), aria: { label: "View all public logs" } %>
     <% end %>
   </section>
   <section>

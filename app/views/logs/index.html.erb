@@ -1,0 +1,8 @@
+<%= page_padding do %>
+  <section>
+    <ul class="grid-list-2">
+      <%= render partial: 'preview', collection: @logs, as: :log %>
+    </ul>
+    <%= paginate @logs, theme: 'list' %>
+  </section>
+<% end %>
