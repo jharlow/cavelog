@@ -1,32 +1,57 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: @subsystem.cave.title, href: cave_path(@subsystem.cave)}, { text: @subsystem.title, href: cave_subsystem_path(@subsystem.cave, @subsystem) }] %>
 <%= page_padding do %>
   <h1><%= @subsystem.title %></h1>
-  <% if @subsystem.description.present? %>
-    <p><%= @subsystem.description %></p>
-  <% end %>
   <section>
-    <h2>Locations</h2>
-    <% if @subsystem.locations.length == 0 %>
-      <p>No locations in this subsystem yet!</p>
-      <%= link_to 'Add a location', new_cave_subsystem_location_path(@subsystem.cave, @subsystem) %>
+    <div class="flex gap-4 justify-between items-center">
+      <h2>Details</h2>
+      <%= link_to "Edit", edit_cave_subsystem_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' %>
+    </div>
+    <% if @subsystem.description.present? %>
+      <div class="flow-root">
+        <dl class="dl">
+          <% unless !@subsystem.description.present? %>
+            <div class="dr">
+              <dt class="dt">Description</dt>
+              <dd class="dd"><%= simple_format(@subsystem.description, class: "text-sm") %></dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
     <% else %>
-      <ul>
-        <% @subsystem.locations.each do |location| %>
-          <li>
-            <a href="<%= cave_subsystem_location_path(@subsystem.cave, @subsystem, location) %>">
-              <%= location.title %>
-            </a>
-          </li>
-        <% end %>
-      </ul>
-      <%= link_to 'Add a location', new_cave_subsystem_location_path(@subsystem.cave, @subsystem) %>
+      <%= render 'components/empty-section', message: "No details yet!" %>
     <% end %>
   </section>
   <section>
-    <h2>Actions</h2>
-    <ul>
-      <li><%= link_to "Edit", edit_cave_subsystem_path(@subsystem.cave, @subsystem) %></li>
-      <li><%= link_to "Back to #{@subsystem.cave.title}", cave_path(@subsystem.cave) %></li>
-    </ul>
+    <div class="flex gap-4 justify-between items-center">
+      <h2>Locations</h2>
+      <%= link_to 'Add a location', new_cave_subsystem_location_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' %>
+    </div>
+    <% if @subsystem.locations.length == 0 %>
+      <%= render 'components/empty-section', message: 'No locations in this subsystem yet!', link: { text: 'Add a location', href: new_cave_subsystem_location_path(@subsystem.cave, @subsystem) } %>
+    <% else %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @subsystem.locations.each do |location| %>
+              <tr>
+                <td><%= link_to location.title, cave_subsystem_location_path(@subsystem.cave, @subsystem, location) %></td>
+                <td><%= location.description || "" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </section>
+  <section>
+    <h2>Danger zone</h2>
+    <div>Be warned! This action permanently and irreversibly deletes this subsystem and all its location data.</div>
+    <%= link_to 'Delete', cave_subsystem_path(@subsystem.cave, @subsystem), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
   </section>
 <% end %>

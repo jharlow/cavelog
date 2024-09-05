@@ -3,25 +3,29 @@
   <section>
     <h2>Caves</h2>
     <%= render "search-bar", path: caves_path %>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Cave</th>
-            <th>Info</th>
-          </tr>
-        </thead>
-        <tbody class="list-none pl-0 divide-y divide-slate-200 dark:divide-slate-800 opcaity-25">
-          <% @caves.each do |cave| %>
+    <% if @caves.length > 0 %>
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-              <td><%= link_to cave.title, cave_path(cave) %></td>
-              <td>No info yet</td>
+              <th>Cave</th>
+              <th>Info</th>
             </tr>
-          <% end %>
-        </tbody>
-              <%= paginate @caves, theme: 'table' %>
-      </table>
-    </div>
+          </thead>
+          <tbody class="list-none pl-0 divide-y divide-slate-200 dark:divide-slate-800 opcaity-25">
+            <% @caves.each do |cave| %>
+              <tr>
+                <td><%= link_to cave.title, cave_path(cave) %></td>
+                <td>No info yet</td>
+              </tr>
+            <% end %>
+          </tbody>
+          <%= paginate @caves, theme: 'table' %>
+        </table>
+      </div>
+    <% else %>
+      <%= render 'components/empty-section', message: "No caves found in this search" %>
+    <% end %>
     <%= link_to "New Cave", new_cave_path %>
     <%= link_to "New Log", new_log_path %>
   </section>
