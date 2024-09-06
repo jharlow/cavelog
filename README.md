@@ -157,9 +157,10 @@ $ npm run cdk -- destroy --all
   - [x] Cancel links on edit forms
   - [x] empty section when no caves to display on index view
 - [ ] log viewing
+  - [ ] logs#index styling
   - [x] consistent log views on all locations/caves
   - [x] checkmarks on locations/caves once visited
-  - [ ] shared logs on my partnership section
+  - [x] shared logs on my partnership section
 - [ ] add info on the caves table
 - [ ] add location button when editing cave location copies on a log
 - [ ] better footer

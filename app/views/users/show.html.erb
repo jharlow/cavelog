@@ -101,6 +101,32 @@
       </ul>
     <% end %>
   </section>
+  <section>
+    <div class="flex gap-4 justify-between items-center">
+      <h2>Logs</h2>
+      <%= link_to 'Add log', new_log_path, class: 'btn btn-sm' unless @user != current_user %>
+    </div>
+    <h3 class="-mb-1"><%= @user == current_user ? "Your" : @user.name_for(current_user) + "'s" %> logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>
+    <% if @user_logs_count > 0 %>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @user_logs_preview, as: :log %>
+      </ul>
+    <% else %>
+      <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@cave)} %>
+    <% end %>
+    <% if @user_logs_count > @cutoff_count %>
+      <%= link_to "View more →", user_logs_path(current_user), aria: { label: "View all #{@user.name_for(current_user)}s logs" } %>
+    <% end %>
+    <% unless @user_tagged_logs_count == 0 %>
+      <h3 class="-mb-1">Logs <%= @user.name_for(current_user) %> tagged you in <% if @user_tagged_logs_count > 0 %><span class="opacity-50">(<%= @user_tagged_logs_count %> total)</span><% end %></h3>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @user_tagged_logs_preview , as: :log %>
+      </ul>
+    <% end %>
+    <% if @user_tagged_logs_count > @cutoff_count %>
+      <%= link_to "View more →", "#{user_logs_path(current_user)}?tagged", aria: { label: "View all logs #{@user.name_for(current_user)} has tagged you in" } %>
+    <% end %>
+  </section>
   <% if current_user.is_partner_of?(@user) %>
     <section>
       <h2>Your partnership</h2>
