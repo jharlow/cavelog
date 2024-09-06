@@ -16,7 +16,7 @@ class LogsController < ApplicationController
 
     if user_id.present?
       @user = User.find(user_id)
-      @user_query = "(partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id OR user_id = :user_id)"
+      @user_query = params.has_key?(:tagged) ? "partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id" : "user_id = :user_id"
     end
 
     query = [

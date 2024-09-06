@@ -2,7 +2,9 @@
 <%= page_padding do %>
   <div class="flex items-center gap-3 flex-wrap">
     <h1><%= @cave.title %></h1>
-    <%= render 'components/checked', label: "You have visited this cave" %>
+    <% unless @user_logs_count == 0 && @user_tagged_logs_count == 0 %>
+      <%= render 'components/checked', label: "You have visited this cave" %>
+    <% end %>
   </div>
   <section>
     <div class="flex gap-4 justify-between items-center">
@@ -74,6 +76,15 @@
     <% end %>
     <% if @user_logs_count > @cutoff_count %>
       <%= link_to "View more →", cave_user_logs_path(@cave, current_user), aria: { label: "View all logs you are featured in" } %>
+    <% end %>
+    <% unless @user_tagged_logs_count == 0 %>
+      <h3 class="-mb-1">Logs you are tagged in <% if @user_tagged_logs_count > 0 %><span class="opacity-50">(<%= @user_tagged_logs_count %> total)</span><% end %></h3>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @user_tagged_logs , as: :log %>
+      </ul>
+    <% end %>
+    <% if @user_tagged_logs_count > @cutoff_count %>
+      <%= link_to "View more →", "#{cave_user_logs_path(@cave, current_user)}?tagged", aria: { label: "View all logs you are featured in" } %>
     <% end %>
     <h3>Public logs <% if @cave_logs_count > 0 %><span class="opacity-50">(<%= @cave_logs_count %> total)</span><% end %></h3>
     <% if @cave_logs_count > 0 %>

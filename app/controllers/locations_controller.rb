@@ -4,21 +4,29 @@ class LocationsController < ApplicationController
   def show
     @location = Location.find(params[:id])
 
-    current_user_features_in_logs = @location
-      .logs
-      .left_outer_joins(log_partner_connections: :partnership)
-      .where(
-        "partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id OR user_id = :user_id",
-        { user_id: current_user.id }
-      )
-      .distinct
-
     @cutoff_count = 4
 
-    @user_logs_preview = current_user_features_in_logs
+    current_user_logs = @location
+      .logs
+      .left_outer_joins(log_partner_connections: :partnership)
+      .where("user_id = :user_id", {user_id: current_user.id})
+      .distinct
+
+    @user_logs_preview = current_user_logs
       .order(created_at: :desc)
       .take(@cutoff_count)
-    @user_logs_count = current_user_features_in_logs.count
+    @user_logs_count = current_user_logs.count
+
+    current_user_tagged_logs = @location
+      .logs
+      .left_outer_joins(log_partner_connections: :partnership)
+      .where("partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id", {user_id: current_user.id})
+      .distinct
+
+    @user_tagged_logs = current_user_tagged_logs
+      .order(created_at: :desc)
+      .take(@cutoff_count)
+    @user_tagged_logs_count = current_user_tagged_logs.count
 
     # TODO: only public logs
     @location_logs_preview = @location.logs.take(@cutoff_count)

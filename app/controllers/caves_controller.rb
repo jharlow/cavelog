@@ -12,21 +12,29 @@ class CavesController < ApplicationController
 
   def show
     @cave = Cave.find(params[:id])
-    current_user_features_in_logs = @cave
+    current_user_logs = @cave
       .logs
       .left_outer_joins(log_partner_connections: :partnership)
-      .where(
-        "partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id OR user_id = :user_id",
-        { user_id: current_user.id }
-      )
+      .where("user_id = :user_id", { user_id: current_user.id })
       .distinct
 
     @cutoff_count = 4
 
-    @user_logs_preview = current_user_features_in_logs
+    @user_logs_preview = current_user_logs
       .order(created_at: :desc)
       .take(@cutoff_count)
-    @user_logs_count = current_user_features_in_logs.count
+    @user_logs_count = current_user_logs.count
+
+    current_user_tagged_logs = @cave
+      .logs
+      .left_outer_joins(log_partner_connections: :partnership)
+      .where("partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id", { user_id: current_user.id })
+      .distinct
+
+    @user_tagged_logs = current_user_tagged_logs
+      .order(created_at: :desc)
+      .take(@cutoff_count)
+    @user_tagged_logs_count = current_user_tagged_logs.count
 
     # TODO: only public logs
     @cave_logs_preview = @cave.logs.take(@cutoff_count)

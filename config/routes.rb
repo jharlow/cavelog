@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   get("partnership_requests/new")
   get("partnership_requests/create")
   devise_for(:users)
-  resources(:users)
+  resources(:users) do
+    resources(:logs, only: [ :index ])
+  end
+
   resources(:partnership_requests, only: [ :create, :destroy ]) do
     member do
       patch(:accept)
