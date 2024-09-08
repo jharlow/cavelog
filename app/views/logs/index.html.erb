@@ -1,0 +1,24 @@
+<%= page_padding do %>
+  <h1>Logs</h1>
+  <section>
+    <div class="no-ul flex gap-1 flex-wrap items-center grid-list-item justify-start">
+      Showing logs
+        <% if @user %>
+          <%= @tagged_option ? "that tag" : "recorded by" %>
+          <%= link_to @user.name_for(current_user), user_path(@user), class: "inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-950 px-2.5 py-0.5 text-blue-700 dark:text-blue-200" %>
+        <% end %>
+        <% if @cave %>
+          <%= @user ? "and went to" : "that went to" %>
+          <%= link_to @cave.title, cave_path(@cave), class: "inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-950 px-2.5 py-0.5 text-blue-700 dark:text-blue-200" %>
+        <% end %>
+        <% if @location %>
+          including
+          <%= link_to @location.title, @location.path, class: "inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-950 px-2.5 py-0.5 text-blue-700 dark:text-blue-200" %>
+        <% end %>
+    </div>
+    <ul class="grid-list-2">
+      <%= render partial: 'preview', collection: @logs, as: :log %>
+    </ul>
+    <%= paginate @logs, theme: 'list' %>
+  </section>
+<% end %>

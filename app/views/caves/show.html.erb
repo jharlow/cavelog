@@ -1,6 +1,11 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: @cave.title, href: cave_path(@cave)}] %>
 <%= page_padding do %>
-  <h1><%= @cave.title %></h1>
+  <div class="flex items-center gap-3 flex-wrap">
+    <h1><%= @cave.title %></h1>
+    <% unless @user_logs_count == 0 && @user_tagged_logs_count == 0 %>
+      <%= render 'components/checked', label: "You have visited this cave" %>
+    <% end %>
+  </div>
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Details</h2>
@@ -34,6 +39,12 @@
               </dd>
             </div>
           <% end %>
+          <% if @cave_logs_count > 0 %>
+            <div class="dr">
+              <dt class="dt">Logged trips</dt>
+              <dd class="dd"><%= @cave_logs_count %> total trips <% if @user_logs_count > 0 %><span class="opacity-75">(<%= @user_logs_count %> by you)</span><% end %></dd>
+            </div>
+          <% end %>
         </dl>
       </div>
     <% else %>
@@ -51,18 +62,45 @@
     <%= render 'locations/locations', cave: @cave %>
   </section>
   <section>
-    <h2>Your logs</h2>
-    <ul>
-      <% @user_logs.each do |log| %>
-        <li><%= link_to log.personal_comments, log_path(log) %></li>
-      <% end %>
-    </ul>
-    <%= link_to 'Create your first log', new_cave_log_path(@cave) %>
+    <div class="flex gap-4 justify-between items-center">
+      <h2>Logs</h2>
+      <%= link_to 'Add log', new_cave_log_path(@cave), class: 'btn btn-sm' %>
+    </div>
+    <h3 class="-mb-1">Your logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>
+    <% if @user_logs_count > 0 %>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @user_logs_preview, as: :log %>
+      </ul>
+    <% else %>
+      <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@cave)} %>
+    <% end %>
+    <% if @user_logs_count > @cutoff_count %>
+      <%= link_to "View more →", cave_user_logs_path(@cave, current_user), aria: { label: "View all logs you are featured in" } %>
+    <% end %>
+    <% unless @user_tagged_logs_count == 0 %>
+      <h3 class="-mb-1">Logs you are tagged in <% if @user_tagged_logs_count > 0 %><span class="opacity-50">(<%= @user_tagged_logs_count %> total)</span><% end %></h3>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @user_tagged_logs , as: :log %>
+      </ul>
+    <% end %>
+    <% if @user_tagged_logs_count > @cutoff_count %>
+      <%= link_to "View more →", "#{cave_user_logs_path(@cave, current_user)}?tagged", aria: { label: "View all logs you are featured in" } %>
+    <% end %>
+    <h3>Public logs <% if @cave_logs_count > 0 %><span class="opacity-50">(<%= @cave_logs_count %> total)</span><% end %></h3>
+    <% if @cave_logs_count > 0 %>
+      <ul class="grid-list-2">
+        <%= render partial: 'logs/preview', collection: @cave_logs_preview, as: :log %>
+      </ul>
+    <% else %>
+      <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add the first log', href: new_cave_log_path(@cave)} %>
+    <% end %>
+    <% if @cave_logs_count > @cutoff_count %>
+      <%= link_to "View all →", cave_logs_path(@cave), aria: { label: "View all public logs" } %>
+    <% end %>
   </section>
   <section>
     <h2>Danger zone</h2>
     <div>Be warned! This action permanently and irreversibly deletes this cave and all its subsystem and location data.</div>
     <%= link_to 'Delete', cave_path(@cave), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
   </section>
-  <%= link_to "Back to home", root_path %>
 <% end %>

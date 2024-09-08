@@ -1,6 +1,7 @@
 class Location < ApplicationRecord
   belongs_to :locatable, polymorphic: true
   has_many :log_location_copies
+  has_many :logs, through: :log_location_copies
 
   validates :title, presence: true, length: { minimum: 5 }
 

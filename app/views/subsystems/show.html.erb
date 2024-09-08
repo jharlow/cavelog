@@ -1,9 +1,14 @@
 <%= render 'components/breadcrumb-topper', links: [{ text: @subsystem.cave.title, href: cave_path(@subsystem.cave)}, { text: @subsystem.title, href: cave_subsystem_path(@subsystem.cave, @subsystem) }] %>
 <%= page_padding do %>
-  <h1><%= @subsystem.title %></h1>
+  <div class="flex items-center gap-3 flex-wrap">
+    <h1><%= @subsystem.title %></h1>
+    <% unless @visited.length == 0 %>
+      <%= render 'components/checked', label: "You have visited this subsystem" %>
+    <% end %>
+  </div>
   <section>
     <div class="flex gap-4 justify-between items-center">
-      <h2>Details</h2>
+        <h2>Details</h2>
       <%= link_to "Edit", edit_cave_subsystem_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' %>
     </div>
     <% if @subsystem.description.present? %>

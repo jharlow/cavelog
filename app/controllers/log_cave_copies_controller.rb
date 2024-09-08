@@ -33,12 +33,15 @@ class LogCaveCopiesController < ApplicationController
     end
 
     @current_caves = @log.log_cave_copies.sort { |cc| cc.cave.present? ? 0 : 1 }
+    logger.info(@current_caves)
 
     @available_caves = if params[:q].present?
-      caves = Cave.search_by_text_or_location(params[:q])
+      caves = Cave.where.not(id: @current_caves.pluck(:id)).search_by_text_or_location(params[:q])
       Kaminari.paginate_array(caves).page(params[:page]).per(10)
     else
       Cave
+        .where
+        .not(id: @current_caves.pluck(:cave_id))
         .page(params[:page])
         .per(10)
     end
