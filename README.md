@@ -156,8 +156,8 @@ $ npm run cdk -- destroy --all
   - [x] partnership badges need darkmode
   - [x] Cancel links on edit forms
   - [x] empty section when no caves to display on index view
-- [ ] log viewing
-  - [ ] logs#index styling
+- [x] log viewing
+  - [x] logs#index styling
   - [x] consistent log views on all locations/caves
   - [x] checkmarks on locations/caves once visited
   - [x] shared logs on my partnership section

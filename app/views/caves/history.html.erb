@@ -1,0 +1,17 @@
+<%= render 'components/breadcrumb-topper', links: [{ text: @cave.title, href: cave_path(@cave)}] %>
+<%= page_padding do %>
+  <div class="flex items-center gap-3 flex-wrap justify-between">
+    <h1><%= @cave.title %></h1>
+    <%= link_to "Back to cave", cave_path(@cave), class: 'btn btn-sm' %>
+  </div>
+  <section>
+    <h2>Edit history</h2>
+    <ul>
+      <% @cave.versions.each do |version| %>
+        <li>
+          <p><%= link_to User.find(version.whodunnit).name_for(current_user), user_path(version.whodunnit) %> updated <%= pluralize(version.changeset.keys.length, 'detail') %></p>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do
+    get("history")
     resources(:users) do
       resources(:logs, only: [ :index ])
     end

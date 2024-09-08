@@ -47,6 +47,7 @@
           <% end %>
         </dl>
       </div>
+      <%= link_to "View edit history", cave_history_path(@cave) %>
     <% else %>
       <%= render 'components/empty-section', message: "No details yet!" %>
     <% end %>

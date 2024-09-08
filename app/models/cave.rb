@@ -1,4 +1,5 @@
 class Cave < ApplicationRecord
+  has_paper_trail
   include Geocoder::Model::ActiveRecord
   reverse_geocoded_by(:latitude, :longitude) do |cave, results|
     if (geo = results.first)

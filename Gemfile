@@ -42,6 +42,8 @@ gem "dotenv-rails", groups: [ :development, :test ]
 
 gem "kaminari"
 
+gem "paper_trail"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"

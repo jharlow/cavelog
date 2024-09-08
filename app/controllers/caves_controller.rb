@@ -1,4 +1,5 @@
 class CavesController < ApplicationController
+  before_action :set_paper_trail_whodunnit
   def index
     @caves = if params[:q].present?
       caves = Cave.search_by_text_or_location(params[:q])
@@ -39,6 +40,11 @@ class CavesController < ApplicationController
     # TODO: only public logs
     @cave_logs_preview = @cave.logs.take(@cutoff_count)
     @cave_logs_count = @cave.logs.count
+  end
+
+  def history
+    @cave = Cave.find(params[:cave_id])
+    @versions = @cave.versions
   end
 
   def new
