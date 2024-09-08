@@ -9,7 +9,7 @@ class SubsystemsController < ApplicationController
       .left_outer_joins(:log_location_copies)
       .where(
         "(partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id) AND log_location_copies.location_id IN (:location_ids)",
-        {user_id: current_user.id, location_ids: subsystem_location_ids}
+        { user_id: current_user.id, location_ids: subsystem_location_ids }
       )
       .distinct
   end

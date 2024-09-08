@@ -9,7 +9,7 @@ class LocationsController < ApplicationController
     current_user_logs = @location
       .logs
       .left_outer_joins(log_partner_connections: :partnership)
-      .where("user_id = :user_id", {user_id: current_user.id})
+      .where("user_id = :user_id", { user_id: current_user.id })
       .distinct
 
     @user_logs_preview = current_user_logs
@@ -20,7 +20,7 @@ class LocationsController < ApplicationController
     current_user_tagged_logs = @location
       .logs
       .left_outer_joins(log_partner_connections: :partnership)
-      .where("partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id", {user_id: current_user.id})
+      .where("partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id", { user_id: current_user.id })
       .distinct
 
     @user_tagged_logs = current_user_tagged_logs
