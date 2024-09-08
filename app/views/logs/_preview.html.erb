@@ -4,19 +4,19 @@
     <% if log.user === current_user %>
       <%= link_to "You", user_path(log.user), class: 'inline-flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs' %>
     <% else %>
-      <%= link_to log.user.name_for(current_user), user_path(log.user), class: 'inline-flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs' %>
+      <%= link_to log.user.name_for(current_user), user_path(log.user), class: 'inline-flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs' %>
     <% end %>
   </div>
   <div class="text-lg -mt-1"><%= link_to cave_titles_list(log.caves), log_path(log) %></div>
   <div class="flex flex-wrap items-center gap-1.5">
     <% if log.log_location_copies.size > 0 || log.log_partner_connections.size > 0 %>
       <% if log.log_location_copies.size > 0 %>
-        <div class="inline-flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs">
+        <div class="inline-flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs">
           <%= "Visited #{log.log_location_copies.size} location#{"s" unless log.log_location_copies.size == 1}" %>
         </div>
       <% end %>
       <% if log.log_partner_connections.size > 0 %>
-        <div class="inline-flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs">
+        <div class="inline-flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs">
           <%= "With #{log.log_partner_connections.size} partner#{"s" unless log.log_partner_connections.size == 1}" %>
         </div>
       <% end %>
