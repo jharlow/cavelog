@@ -14,7 +14,7 @@ $ asdf current ruby
 Install the correct dependencies:
 
 ```sh
-$ bundle install
+$ sudo bundle install
 > Bundle complete!
 ```
 
@@ -39,6 +39,12 @@ Run the dev environment:
 
 ```sh
 $ ./bin/dev
+```
+
+Lint the project:
+
+```sh
+$ ./bin/brakeman
 ```
 
 ### Local development via Docker
@@ -156,8 +162,8 @@ $ npm run cdk -- destroy --all
   - [x] partnership badges need darkmode
   - [x] Cancel links on edit forms
   - [x] empty section when no caves to display on index view
-- [ ] log viewing
-  - [ ] logs#index styling
+- [x] log viewing
+  - [x] logs#index styling
   - [x] consistent log views on all locations/caves
   - [x] checkmarks on locations/caves once visited
   - [x] shared logs on my partnership section
@@ -177,9 +183,9 @@ $ npm run cdk -- destroy --all
   - [x] Permissions
   - [x] Connect partners to users
     - [x] Add partners to a log (high)
-- [ ] deletion permissions
-- [ ] edit history on caves/subsystem/location and permission based on refferal (from UKC?)
-  - [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
+- [ ] deletion/edit permissions
+- [x] edit history on caves/subsystem/location
+  - [x] text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
 - [ ] add cave id to log locations copy
 - [ ] Add cave connections
   - [ ] Adding cave to log suggests relevant cave connections

@@ -8,16 +8,29 @@
   </div>
   <section>
     <div class="flex gap-4 justify-between items-center">
-        <h2>Details</h2>
+      <h2>Details</h2>
       <%= link_to "Edit", edit_cave_subsystem_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' %>
     </div>
-    <% if @subsystem.description.present? %>
+    <% if @subsystem.description.present? || @subsystem.versions.length > 0 %>
       <div class="flow-root">
         <dl class="dl">
           <% unless !@subsystem.description.present? %>
             <div class="dr">
               <dt class="dt">Description</dt>
               <dd class="dd"><%= simple_format(@subsystem.description, class: "text-sm") %></dd>
+            </div>
+          <% end %>
+          <% if @subsystem.versions.length > 0 %>
+            <div class="dr">
+              <dt class="dt">Last edited by</dt>
+              <% last_subsystem_version = @subsystem.versions.last %>
+              <dd class="dd">
+                <% if last_subsystem_version.whodunnit %>
+                  <%= link_to User.find(last_subsystem_version.whodunnit).name_for(current_user), user_path(last_subsystem_version) %>
+                <% else %>
+                  Unknown user
+                <% end %> on <%= @subsystem.updated_at.strftime('%d/%m/%y') %>
+              </dd>
             </div>
           <% end %>
         </dl>

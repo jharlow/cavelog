@@ -39,12 +39,12 @@ class LogPartnerConnectionsController < ApplicationController
             turbo_stream.replace(
               "log_partners_#{@log.id}",
               partial: "log_partner_connections/edit-form",
-              locals: { log: @log, available_partners: @available_partners, current_user: current_user }
+              locals: {log: @log, available_partners: @available_partners, current_user: current_user}
             ),
             turbo_stream.replace(
               "log_details_#{@log.id}",
               partial: "logs/details-section",
-              locals: { log: @log, current_user: current_user }
+              locals: {log: @log, current_user: current_user}
             )
           ]
         )
@@ -87,12 +87,12 @@ class LogPartnerConnectionsController < ApplicationController
             turbo_stream.replace(
               "log_partners_#{@log.id}",
               partial: "log_partner_connections/edit-form",
-              locals: { log: @log, available_partners: @available_partners, current_user: current_user }
+              locals: {log: @log, available_partners: @available_partners, current_user: current_user}
             ),
             turbo_stream.replace(
               "log_details_#{@log.id}",
               partial: "logs/details-section",
-              locals: { log: @log, current_user: current_user }
+              locals: {log: @log, current_user: current_user}
             )
           ]
         )

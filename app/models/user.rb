@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   has_many :logs, dependent: :destroy
 
-  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: {case_sensitive: false}
 
   def has_pending_request_with_user?(user)
     if self == user
@@ -61,7 +61,7 @@ class User < ApplicationRecord
   end
 
   def name_for(user)
-    if !first_name || self == user || !is_partner_of?(user)
+    if user.nil? || !first_name || self == user || !is_partner_of?(user)
       username
     elsif !last_name
       first_name + " (#{username})"

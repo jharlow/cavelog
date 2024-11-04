@@ -12,8 +12,8 @@ class UsersController < ApplicationController
     @user_logs_preview = @user.logs.take(@cutoff_count)
     @user_logs_count = @user.logs.count
     tagged_logs_query = @user.logs.left_outer_joins(log_partner_connections: :partnership).where(
-      "partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id",
-      { user_id: current_user.id }
+      "(partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id) AND logs.user_id != :user_id",
+      {user_id: current_user.id}
     )
     @user_tagged_logs_preview = tagged_logs_query.take(@cutoff_count)
     @user_tagged_logs_count = tagged_logs_query.count

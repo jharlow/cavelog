@@ -2,6 +2,7 @@
 <%= page_padding do %>
   <h1>Edit <%= @location.title %></h1>
   <section>
+    <%= render 'components/audit-warning', item: @location %>
     <%= render 'form' %>
   </section>
 <% end %>

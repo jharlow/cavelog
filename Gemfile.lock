@@ -187,6 +187,9 @@ GEM
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    paper_trail (15.2.0)
+      activerecord (>= 6.1)
+      request_store (~> 1.4)
     parallel (1.25.1)
     parser (3.3.4.0)
       ast (~> 2.4.1)
@@ -242,6 +245,8 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.10)
       io-console (~> 0.5)
+    request_store (1.7.0)
+      rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -345,9 +350,11 @@ DEPENDENCIES
   dotenv-rails
   geocoder (~> 1.8)
   importmap-rails
+  irb
   jbuilder
   kaminari
   net-pop!
+  paper_trail
   pg (~> 1.5)
   puma (>= 5.0)
   rails (~> 7.2.2)
@@ -356,6 +363,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   tailwindcss-rails
+  tailwindcss-ruby
   turbo-rails
   tzinfo-data
   web-console

@@ -1,4 +1,5 @@
 class CavesController < ApplicationController
+  before_action :set_paper_trail_whodunnit
   def index
     @caves = if params[:q].present?
       caves = Cave.search_by_text_or_location(params[:q])
@@ -15,7 +16,7 @@ class CavesController < ApplicationController
     current_user_logs = @cave
       .logs
       .left_outer_joins(log_partner_connections: :partnership)
-      .where("user_id = :user_id", { user_id: current_user.id })
+      .where("user_id = :user_id", {user_id: current_user.id})
       .distinct
 
     @cutoff_count = 4
@@ -28,7 +29,10 @@ class CavesController < ApplicationController
     current_user_tagged_logs = @cave
       .logs
       .left_outer_joins(log_partner_connections: :partnership)
-      .where("partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id", { user_id: current_user.id })
+      .where(
+        "(partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id) AND user_id != :user_id",
+        {user_id: current_user.id}
+      )
       .distinct
 
     @user_tagged_logs = current_user_tagged_logs
@@ -39,6 +43,11 @@ class CavesController < ApplicationController
     # TODO: only public logs
     @cave_logs_preview = @cave.logs.take(@cutoff_count)
     @cave_logs_count = @cave.logs.count
+  end
+
+  def history
+    @cave = Cave.find(params[:cave_id])
+    @versions = @cave.versions
   end
 
   def new
