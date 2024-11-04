@@ -70,7 +70,7 @@ class LogLocationCopiesController < ApplicationController
   private
 
   def rerender_misc_edit_form(log)
-    locals = { unconnected_locations: log.unconnected_locations, log: log, cave: nil, cave_locations_data: nil }
+    locals = {unconnected_locations: log.unconnected_locations, log: log, cave: nil, cave_locations_data: nil}
     render(
       turbo_stream: turbo_stream.replace(
         "log_locations_cave_misc",
@@ -86,12 +86,12 @@ class LogLocationCopiesController < ApplicationController
         turbo_stream.replace(
           "edit_log_#{log.id}_location_#{location.id}",
           partial: "log_location_copies/attached-location-form",
-          locals: { log: log, log_location_copy: log_location_copy, location: location }
+          locals: {log: log, log_location_copy: log_location_copy, location: location}
         ),
         turbo_stream.replace(
           "log_caves_#{log.id}",
           partial: "logs/caves-visited",
-          locals: { log: log, unconnected_caves: @log.unconnected_caves, locations_data: @log.locations_data }
+          locals: {log: log, unconnected_caves: @log.unconnected_caves, locations_data: @log.locations_data}
         )
       ]
     )

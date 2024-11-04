@@ -38,7 +38,7 @@ gem "net-pop", github: "ruby/net-pop"
 
 gem "devise"
 
-gem "dotenv-rails", groups: [ :development, :test ]
+gem "dotenv-rails", groups: [:development, :test]
 
 gem "kaminari"
 
@@ -46,6 +46,7 @@ gem "paper_trail"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "irb"
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
@@ -66,6 +67,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem "tailwindcss-ruby"
 gem "tailwindcss-rails"
 
 gem "geocoder", "~> 1.8"

@@ -31,7 +31,7 @@ class LogsController < ApplicationController
       .left_outer_joins(log_partner_connections: :partnership)
       .left_outer_joins(:log_cave_copies)
       .left_outer_joins(:log_location_copies)
-      .where(query, { user_id: user_id, cave_id: cave_id, location_id: location_id })
+      .where(query, {user_id: user_id, cave_id: cave_id, location_id: location_id})
       .distinct
       .page(params[:page])
       .per(10)

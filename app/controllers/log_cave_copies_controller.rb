@@ -80,7 +80,7 @@ class LogCaveCopiesController < ApplicationController
   end
 
   def log_locations_context(log)
-    { locations_data: @log.locations_data, log: @log }
+    {locations_data: @log.locations_data, log: @log}
   end
 
   def log_cave_context(log)
@@ -94,7 +94,7 @@ class LogCaveCopiesController < ApplicationController
         .per(10)
     end
 
-    { log: log, current_caves: current_caves, available_caves: available_caves }
+    {log: log, current_caves: current_caves, available_caves: available_caves}
   end
 
   def log_cave_copy_params
