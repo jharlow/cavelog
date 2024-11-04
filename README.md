@@ -14,7 +14,7 @@ $ asdf current ruby
 Install the correct dependencies:
 
 ```sh
-$ bundle install
+$ sudo bundle install
 > Bundle complete!
 ```
 
@@ -39,6 +39,12 @@ Run the dev environment:
 
 ```sh
 $ ./bin/dev
+```
+
+Lint the project:
+
+```sh
+$ ./bin/brakeman
 ```
 
 ### Local development via Docker

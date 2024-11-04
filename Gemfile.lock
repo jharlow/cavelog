@@ -350,6 +350,7 @@ DEPENDENCIES
   dotenv-rails
   geocoder (~> 1.8)
   importmap-rails
+  irb
   jbuilder
   kaminari
   net-pop!
@@ -362,6 +363,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   tailwindcss-rails
+  tailwindcss-ruby
   turbo-rails
   tzinfo-data
   web-console
