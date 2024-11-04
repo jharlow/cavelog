@@ -3,35 +3,34 @@ Rails.application.routes.draw do
   get("partnership_requests/create")
   devise_for(:users)
   resources(:users) do
-    resources(:logs, only: [ :index ])
+    resources(:logs, only: [:index])
   end
 
-  resources(:partnership_requests, only: [ :create, :destroy ]) do
+  resources(:partnership_requests, only: [:create, :destroy]) do
     member do
       patch(:accept)
     end
   end
 
-  resources(:partnerships, only: [ :destroy ])
+  resources(:partnerships, only: [:destroy])
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root("caves#index")
   resources(:caves) do
-    get("history")
     resources(:users) do
-      resources(:logs, only: [ :index ])
+      resources(:logs, only: [:index])
     end
 
-    resources(:logs, only: [ :index, :new, :create ])
-    resources(:locations, only: [ :new, :create, :show, :edit, :update, :destroy ]) do
-      resources(:logs, only: [ :index ])
+    resources(:logs, only: [:index, :new, :create])
+    resources(:locations, only: [:new, :create, :show, :edit, :update, :destroy]) do
+      resources(:logs, only: [:index])
       resources(:users) do
-        resources(:logs, only: [ :index ])
+        resources(:logs, only: [:index])
       end
     end
 
-    resources(:subsystems, only: [ :new, :create, :show, :edit, :update, :destroy ]) do
-      resources(:locations, only: [ :new, :create, :show, :edit, :update, :destroy ])
+    resources(:subsystems, only: [:new, :create, :show, :edit, :update, :destroy]) do
+      resources(:locations, only: [:new, :create, :show, :edit, :update, :destroy])
     end
   end
 
@@ -44,19 +43,19 @@ Rails.application.routes.draw do
       post("remove_unconnected_location")
       get("edit_unconnected_locations")
 
-      resources(:log_location_copies, path: "locations", only: [ :create, :destroy ], param: :location_id) do
+      resources(:log_location_copies, path: "locations", only: [:create, :destroy], param: :location_id) do
         collection do
           get("/edit/:cave_id", to: "log_location_copies#edit", as: "edit_cave")
         end
       end
 
-      resources(:log_cave_copies, path: "caves", only: [ :create, :destroy ], param: :cave_id) do
+      resources(:log_cave_copies, path: "caves", only: [:create, :destroy], param: :cave_id) do
         collection do
           get("edit", to: "log_cave_copies#edit")
         end
       end
 
-      resources(:log_partner_connections, path: "partners", only: [ :create, :destroy ], param: :partner_id) do
+      resources(:log_partner_connections, path: "partners", only: [:create, :destroy], param: :partner_id) do
         collection do
           get("edit", to: "log_partner_connections#edit")
         end

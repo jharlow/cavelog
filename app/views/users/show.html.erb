@@ -115,7 +115,7 @@
       <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@cave)} %>
     <% end %>
     <% if @user_logs_count > @cutoff_count %>
-      <%= link_to "View more →", user_logs_path(current_user), aria: { label: "View all #{@user.name_for(current_user)}s logs" } %>
+      <%= link_to "View more →", user_logs_path(@user), aria: { label: "View all #{@user.name_for(current_user)}s logs" } %>
     <% end %>
     <% unless @user_tagged_logs_count == 0 %>
       <h3 class="-mb-1">Logs <%= @user.name_for(current_user) %> tagged you in <% if @user_tagged_logs_count > 0 %><span class="opacity-50">(<%= @user_tagged_logs_count %> total)</span><% end %></h3>

@@ -11,7 +11,7 @@
       <h2>Details</h2>
       <%= link_to "Edit", params[:subsystem_id].present? ? edit_cave_subsystem_location_path(@parent, @locatable, @location) : edit_cave_location_path(@locatable, @location), class: 'btn btn-sm' %>
     </div>
-    <% if @location.description.present? || @location_logs_count > 0 %>
+    <% if @location.description.present? || @location_logs_count > 0 || @location.versions.length > 0 %>
       <div class="flow-root">
         <dl class="dl">
           <% unless !@location.description.present? %>
@@ -24,6 +24,19 @@
             <div class="dr">
               <dt class="dt">Logged trips</dt>
               <dd class="dd"><%= @location_logs_count %> total trips <% if @user_logs_count > 0 %><span class="opacity-75">(<%= @user_logs_count %> by you)</span><% end %></dd>
+            </div>
+          <% end %>
+          <% if @location.versions.length > 0 %>
+            <div class="dr">
+              <dt class="dt">Last edited by</dt>
+              <% last_location_version = @location.versions.last %>
+              <dd class="dd">
+                <% if last_location_version.whodunnit %>
+                  <%= link_to User.find(last_location_version.whodunnit).name_for(current_user), user_path(last_location_version) %>
+                <% else %>
+                  Unknown user
+                <% end %> on <%= @location.updated_at.strftime('%d/%m/%y') %>
+              </dd>
             </div>
           <% end %>
         </dl>

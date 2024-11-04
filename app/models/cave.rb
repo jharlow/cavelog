@@ -51,7 +51,7 @@ class Cave < ApplicationRecord
 
   def self.search(search)
     if search
-      where([ "title ILIKE ?", "%#{sanitize_sql_like(search)}%" ])
+      where(["title ILIKE ?", "%#{sanitize_sql_like(search)}%"])
     else
       all
     end
@@ -79,7 +79,6 @@ class Cave < ApplicationRecord
       elsif longitude
         self.longitude = parse_float(longitude)
       end
-
     rescue ArgumentError
       errors.add(:longitude, "must be a valid floating point number, positive for East, negative for West")
     end
@@ -90,7 +89,6 @@ class Cave < ApplicationRecord
       elsif latitude
         self.latitude = parse_float(latitude)
       end
-
     rescue ArgumentError
       errors.add(:latitude, "must be a valid floating point number, positive for North, negative for South")
     end

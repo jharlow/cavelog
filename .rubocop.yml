@@ -9,3 +9,6 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 AllCops:
   Exclude:
     - "cdk/**/*"
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  EnforcedStyle: no_space
