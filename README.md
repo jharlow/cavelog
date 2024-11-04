@@ -179,7 +179,7 @@ $ npm run cdk -- destroy --all
     - [x] Add partners to a log (high)
 - [ ] deletion/edit permissions
 - [x] edit history on caves/subsystem/location
-  - [ ] checkbox/text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
+  - [x] text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
 - [ ] add cave id to log locations copy
 - [ ] Add cave connections
   - [ ] Adding cave to log suggests relevant cave connections

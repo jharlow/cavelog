@@ -2,6 +2,7 @@
 <%= page_padding do %>
   <h1>Edit <%= @subsystem.title %></h1>
   <section>
+    <%= render 'components/audit-warning', item: @subsystem %>
     <%= render 'form', cave: @subsystem.cave, subsystem: @subsystem %>
   </section>
 <% end %>
