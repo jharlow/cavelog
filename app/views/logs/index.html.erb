@@ -4,8 +4,12 @@
     <div class="no-ul flex gap-1 flex-wrap items-center grid-list-item justify-start">
       Showing logs
         <% if @user %>
-          <%= @tagged_option ? "that tag" : "recorded by" %>
+          recorded by
           <%= link_to @user.name_for(current_user), user_path(@user), class: "inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-950 px-2.5 py-0.5 text-blue-700 dark:text-blue-200" %>
+        <% end %>
+        <% if @tagged_user %>
+          that tag
+          <%= link_to @tagged_user.name_for(current_user), user_path(@tagged_user), class: "inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-950 px-2.5 py-0.5 text-blue-700 dark:text-blue-200" %>
         <% end %>
         <% if @cave %>
           <%= @user ? "and went to" : "that went to" %>

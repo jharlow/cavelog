@@ -3,6 +3,7 @@ class LogsController < ApplicationController
     user_id = params[:user_id]
     cave_id = params[:cave_id]
     location_id = params[:location_id]
+    tagged_id = params[:tagged]
 
     if cave_id.present?
       @cave = Cave.find(cave_id)
@@ -16,12 +17,17 @@ class LogsController < ApplicationController
 
     if user_id.present?
       @user = User.find(user_id)
-      @tagged_option = params.has_key?(:tagged)
-      @user_query = params.has_key?(:tagged) ? "partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id" : "user_id = :user_id"
+      @user_query = "user_id = :user_id"
+    end
+
+    if tagged_id.present?
+      @tagged_user = User.find(tagged_id)
+      @tagged_query = (!user_id.present?) ? "(partnerships.user1_id = :tagged_user_id OR partnerships.user2_id = :tagged_user_id) AND user_id != :tagged_user_id" : "(partnerships.user1_id = :tagged_user_id OR partnerships.user2_id = :tagged_user_id)"
     end
 
     query = [
       user_id.present? ? @user_query : nil,
+      tagged_id.present? ? @tagged_query : nil,
       location_id.present? ? @location_query : nil,
       cave_id.present? ? @cave_query : nil
     ].compact.join(" AND ")
@@ -31,7 +37,7 @@ class LogsController < ApplicationController
       .left_outer_joins(log_partner_connections: :partnership)
       .left_outer_joins(:log_cave_copies)
       .left_outer_joins(:log_location_copies)
-      .where(query, {user_id: user_id, cave_id: cave_id, location_id: location_id})
+      .where(query, {user_id: user_id, cave_id: cave_id, location_id: location_id, tagged_user_id: tagged_id})
       .distinct
       .page(params[:page])
       .per(10)

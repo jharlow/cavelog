@@ -194,7 +194,7 @@ $ npm run cdk -- destroy --all
 - [ ] Locations metadata - star rating, physical difficulty rating, mental grimness rating (1)
   - [ ] tier ranking/access difficulty grade
 - [ ] Report cave/locations
-- [ ] Number log entries according to how many the user has logged?
+- [x] Logs you tagged X in
 
 ## Notes
 

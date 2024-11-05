@@ -124,13 +124,21 @@
       </ul>
     <% end %>
     <% if @user_tagged_logs_count > @cutoff_count %>
-      <%= link_to "View more →", "#{user_logs_path(current_user)}?tagged", aria: { label: "View all logs #{@user.name_for(current_user)} has tagged you in" } %>
+      <%= link_to "View more →", "#{user_logs_path(@user)}?tagged=#{current_user.id}", aria: { label: "View all logs #{@user.name_for(current_user)} has tagged you in" } %>
+    <% end %>
+    <% if @user == current_user %>
+      <h3 class="-mb-1">Logs you are tagged in <% if @logs_user_tagged_in.count > 0 %><span class="opacity-50">(<%= @logs_user_tagged_in.count %> total)</span><% end %></h3>
+      <ul class='grid-list-2'>
+        <%= render partial: 'logs/preview', collection: @logs_user_tagged_in.take(@cutoff_count), as: :log %>
+      </ul>
+      <% if @logs_user_tagged_in.count > @cutoff_count %>
+        <%= link_to "View more →", "#{logs_path}?tagged=#{current_user.id}", aria: { label: "View all logs #{@user.name_for(current_user)} has tagged you in" } %>
+      <% end %>
     <% end %>
   </section>
   <% if current_user.is_partner_of?(@user) %>
     <section>
-      <h2>Your partnership</h2>
-      <h3>Danger zone</h3>
+      <h2>Danger zone</h2>
       <p>Please note that removing <%= @user.username %> as a partner is unrecoverable and you will also lose access any logs that <%= @user.username %> has tagged you in.</p>
       <%= link_to "Remove #{@user.username} as partner", partnership_path(@user.partnership_with(current_user)), data: { 'turbo-method': :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
     </section>
