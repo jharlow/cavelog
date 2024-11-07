@@ -38,10 +38,15 @@ class SubsystemsController < ApplicationController
   def update
     @subsystem = Subsystem.find(params[:id])
 
-    if @subsystem.update(subsystem_params)
-      redirect_to(cave_subsystem_url(@subsystem.cave, @subsystem))
+    if current_user.can_edit
+      if @subsystem.update(subsystem_params)
+        redirect_to(cave_subsystem_url(@subsystem.cave, @subsystem))
+      else
+        render(:edit, status: :unprocessable_entity)
+      end
     else
-      render(:edit, status: :unprocessable_entity)
+      flash[:alert] = "You must have created at least 5 logs to edit #{@subsystem.title}"
+      redirect_to(@subsystem.path)
     end
   end
 

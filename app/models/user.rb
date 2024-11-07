@@ -31,7 +31,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: {case_sensitive: false}
 
   def can_edit
-    if logs.count > 0 || role != "user"
+    if logs.count > 5 || role != "user"
       return true
     end
 

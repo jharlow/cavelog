@@ -69,10 +69,15 @@ class CavesController < ApplicationController
 
   def update
     @cave = Cave.find(params[:id])
-    if @cave.update(cave_params)
-      redirect_to(@cave)
+    if current_user.can_edit
+      if @cave.update(cave_params)
+        redirect_to(@cave)
+      else
+        render(:edit, status: :unprocessable_entity)
+      end
     else
-      render(:edit, status: :unprocessable_entity)
+      flash[:alert] = "You must have created at least 5 logs to edit #{@cave.title}"
+      redirect_to(@cave)
     end
   end
 

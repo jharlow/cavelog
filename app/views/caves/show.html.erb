@@ -9,7 +9,7 @@
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Details</h2>
-      <%= link_to "Edit", edit_cave_path(@cave), class: 'btn btn-sm' %>
+      <%= link_to "Edit", edit_cave_path(@cave), class: 'btn btn-sm' unless !current_user.can_edit %>
     </div>
     <% if @cave.description != "" || (@cave.longitude && @cave.latitude) || @cave.versions.count > 0 %>
       <div class="flow-root">

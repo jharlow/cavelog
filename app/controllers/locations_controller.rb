@@ -61,10 +61,15 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     is_cave = (location_params[:subsystem_id] != "")
     locatable = is_cave ? Subsystem.find(location_params[:subsystem_id]) : Cave.find(params[:cave_id])
-    if @location.update(location_params.except(:subsystem_id).merge(locatable: locatable))
-      redirect_to(@location.path)
+    if current_user.can_edit
+      if @location.update(location_params.except(:subsystem_id).merge(locatable: locatable))
+        redirect_to(@location.path)
+      else
+        render(:edit, status: :unprocessable_entity)
+      end
     else
-      render(:edit, status: :unprocessable_entity)
+      flash[:alert] = "You must have created at least 5 logs to edit #{@location.title}"
+      redirect_to(@location.path)
     end
   end
 
