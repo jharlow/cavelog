@@ -47,8 +47,13 @@ class SubsystemsController < ApplicationController
 
   def destroy
     @subsystem = Subsystem.find(params[:id])
-    @subsystem.destroy
-    redirect_to(cave_path(@subsystem.cave), status: :see_other)
+    if current_user.can_delete
+      @subsystem.destroy
+      redirect_to(cave_path(@subsystem.cave), status: :see_other)
+    else
+      flash[:alert] = "You are not authorized to delete #{@subsystem.title}"
+      redirect_to(@subsystem.path)
+    end
   end
 
   private def subsystem_params

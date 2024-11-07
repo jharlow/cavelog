@@ -26,7 +26,25 @@ class User < ApplicationRecord
 
   has_many :logs, dependent: :destroy
 
+  enum :role, {admin: 0, expert: 1, user: 2}
+
   validates :username, presence: true, uniqueness: {case_sensitive: false}
+
+  def can_edit
+    if logs.count > 0 || role != "user"
+      return true
+    end
+
+    false
+  end
+
+  def can_delete
+    if role == "user"
+      return false
+    end
+
+    true
+  end
 
   def has_pending_request_with_user?(user)
     if self == user

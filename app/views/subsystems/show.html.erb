@@ -67,9 +67,11 @@
       </div>
     <% end %>
   </section>
-  <section>
-    <h2>Danger zone</h2>
-    <div>Be warned! This action permanently and irreversibly deletes this subsystem and all its location data.</div>
-    <%= link_to 'Delete', cave_subsystem_path(@subsystem.cave, @subsystem), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
-  </section>
+  <% if current_user.can_delete %>
+    <section>
+      <h2>Danger zone</h2>
+      <div>Be warned! This action permanently and irreversibly deletes this subsystem and all its location data.</div>
+      <%= link_to 'Delete', cave_subsystem_path(@subsystem.cave, @subsystem), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
+    </section>
+  <% end %>
 <% end %>

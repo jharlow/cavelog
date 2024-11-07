@@ -70,8 +70,14 @@ class LocationsController < ApplicationController
 
   def destroy
     @location = Location.find(params[:id])
-    @location.destroy
-    redirect_to(@location.locatable.path, status: :see_other)
+
+    if current_user.can_delete
+      @location.destroy
+      redirect_to(@location.locatable.path, status: :see_other)
+    else
+      flash[:alert] = "You are not authorized to delete #{@location.title}"
+      redirect_to(@location.path)
+    end
   end
 
   private

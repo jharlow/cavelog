@@ -11,11 +11,13 @@ $ asdf current ruby
 > 3.3.3
 ```
 
-Install the correct dependencies:
+Install the correct dependencies and link your yard docs:
 
 ```sh
 $ sudo bundle install
 > Bundle complete!
+$ yard gems
+>
 ```
 
 Startup Postgres container:
@@ -194,6 +196,7 @@ $ npm run cdk -- destroy --all
 - [ ] Locations metadata - star rating, physical difficulty rating, mental grimness rating (1)
   - [ ] tier ranking/access difficulty grade
 - [ ] Report cave/locations
+- [ ] Improve homepage
 - [x] Logs you tagged X in
 
 ## Notes

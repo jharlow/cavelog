@@ -78,8 +78,13 @@ class CavesController < ApplicationController
 
   def destroy
     @cave = Cave.find(params[:id])
-    @cave.destroy
-    redirect_to(root_path, status: :see_other)
+    if current_user.can_delete
+      @cave.destroy
+      redirect_to(root_path, status: :see_other)
+    else
+      flash[:alert] = "You are not authorized to delete #{@cave.title}"
+      redirect_to(@cave)
+    end
   end
 
   private
