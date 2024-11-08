@@ -9,7 +9,7 @@
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Details</h2>
-      <%= link_to "Edit", params[:subsystem_id].present? ? edit_cave_subsystem_location_path(@parent, @locatable, @location) : edit_cave_location_path(@locatable, @location), class: 'btn btn-sm' if current_user.can_edit %>
+      <%= link_to "Edit", params[:subsystem_id].present? ? edit_cave_subsystem_location_path(@parent, @locatable, @location) : edit_cave_location_path(@locatable, @location), class: 'btn btn-sm' if current_user&.can_edit %>
     </div>
     <% if @location.description.present? || @location_logs_count > 0 || @location.versions.length > 0 %>
       <div class="flow-root">
@@ -20,7 +20,7 @@
               <dd class="dd"><%= simple_format(@location.description, class: "text-sm") %></dd>
             </div>
           <% end %>
-          <% if @location_logs_count > 0 %>
+          <% if current_user && @location_logs_count > 0 %>
             <div class="dr">
               <dt class="dt">Logged trips</dt>
               <dd class="dd"><%= @location_logs_count %> total trips <% if @user_logs_count > 0 %><span class="opacity-75">(<%= @user_logs_count %> by you)</span><% end %></dd>
@@ -50,25 +50,27 @@
       <h2>Logs</h2>
       <%= link_to 'Add log', new_cave_log_path(@parent || @locatable), class: 'btn btn-sm' %>
     </div>
-    <h3 class="-mb-1">Your logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>
-    <% if @user_logs_count > 0 %>
-      <ul class="grid-list-2">
-        <%= render partial: 'logs/preview', collection: @user_logs_preview, as: :log %>
-      </ul>
-    <% else %>
-      <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@parent || @locatable)} %>
-    <% end %>
-    <% if @user_logs_count > @cutoff_count %>
-      <%= link_to "View more →", cave_location_user_logs_path(@parent || @locatable, @location, current_user), aria: { label: "View all logs you are featured in" } %>
-    <% end %>
-    <% unless @user_tagged_logs_count == 0 %>
-      <h3 class="-mb-1">Logs you are tagged in <% if @user_tagged_logs_count > 0 %><span class="opacity-50">(<%= @user_tagged_logs_count %> total)</span><% end %></h3>
-      <ul class="grid-list-2">
-        <%= render partial: 'logs/preview', collection: @user_tagged_logs , as: :log %>
-      </ul>
-    <% end %>
-    <% if @user_tagged_logs_count > @cutoff_count %>
-      <%= link_to "View more →", "#{cave_user_logs_path(@cave, current_user)}?tagged", aria: { label: "View all logs you are featured in" } %>
+    <% if current_user %>
+      <h3 class="-mb-1">Your logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>
+      <% if @user_logs_count > 0 %>
+        <ul class="grid-list-2">
+          <%= render partial: 'logs/preview', collection: @user_logs_preview, as: :log %>
+        </ul>
+      <% else %>
+        <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@parent || @locatable)} %>
+      <% end %>
+      <% if @user_logs_count > @cutoff_count %>
+        <%= link_to "View more →", cave_location_user_logs_path(@parent || @locatable, @location, current_user), aria: { label: "View all logs you are featured in" } %>
+      <% end %>
+      <% unless @user_tagged_logs_count == 0 %>
+        <h3 class="-mb-1">Logs you are tagged in <% if @user_tagged_logs_count > 0 %><span class="opacity-50">(<%= @user_tagged_logs_count %> total)</span><% end %></h3>
+        <ul class="grid-list-2">
+          <%= render partial: 'logs/preview', collection: @user_tagged_logs , as: :log %>
+        </ul>
+      <% end %>
+      <% if @user_tagged_logs_count > @cutoff_count %>
+        <%= link_to "View more →", "#{cave_user_logs_path(@cave, current_user)}?tagged", aria: { label: "View all logs you are featured in" } %>
+      <% end %>
     <% end %>
     <h3>Public logs <% if @location_logs_count > 0 %><span class="opacity-50">(<%= @location_logs_count %> total)</span><% end %></h3>
     <% if @location_logs_count > 0 %>
@@ -82,7 +84,7 @@
       <%= link_to "View all →", cave_location_logs_path(@parent || @locatable, @location), aria: { label: "View all public logs" } %>
     <% end %>
   </section>
-  <% if current_user.can_delete %>
+  <% if current_user&.can_delete %>
     <section>
       <h2>Danger zone</h2>
       <div>Be warned! This action permanently and irreversibly deletes this location.</div>
