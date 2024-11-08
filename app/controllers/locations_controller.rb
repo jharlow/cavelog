@@ -7,30 +7,32 @@ class LocationsController < ApplicationController
 
     @cutoff_count = 4
 
-    current_user_logs = @location
-      .logs
-      .left_outer_joins(log_partner_connections: :partnership)
-      .where("user_id = :user_id", {user_id: current_user.id})
-      .distinct
+    if current_user
+      current_user_logs = @location
+        .logs
+        .left_outer_joins(log_partner_connections: :partnership)
+        .where("user_id = :user_id", {user_id: current_user.id})
+        .distinct
 
-    @user_logs_preview = current_user_logs
-      .order(created_at: :desc)
-      .take(@cutoff_count)
-    @user_logs_count = current_user_logs.count
+      @user_logs_preview = current_user_logs
+        .order(created_at: :desc)
+        .take(@cutoff_count)
+      @user_logs_count = current_user_logs.count
 
-    current_user_tagged_logs = @location
-      .logs
-      .left_outer_joins(log_partner_connections: :partnership)
-      .where(
-        "partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id AND user_id != :user_id",
-        {user_id: current_user.id}
-      )
-      .distinct
+      current_user_tagged_logs = @location
+        .logs
+        .left_outer_joins(log_partner_connections: :partnership)
+        .where(
+          "partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id AND user_id != :user_id",
+          {user_id: current_user.id}
+        )
+        .distinct
 
-    @user_tagged_logs = current_user_tagged_logs
-      .order(created_at: :desc)
-      .take(@cutoff_count)
-    @user_tagged_logs_count = current_user_tagged_logs.count
+      @user_tagged_logs = current_user_tagged_logs
+        .order(created_at: :desc)
+        .take(@cutoff_count)
+      @user_tagged_logs_count = current_user_tagged_logs.count
+    end
 
     # TODO: only public logs
     @location_logs_preview = @location.logs.take(@cutoff_count)
@@ -61,17 +63,28 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     is_cave = (location_params[:subsystem_id] != "")
     locatable = is_cave ? Subsystem.find(location_params[:subsystem_id]) : Cave.find(params[:cave_id])
-    if @location.update(location_params.except(:subsystem_id).merge(locatable: locatable))
-      redirect_to(@location.path)
+    if current_user.can_edit
+      if @location.update(location_params.except(:subsystem_id).merge(locatable: locatable))
+        redirect_to(@location.path)
+      else
+        render(:edit, status: :unprocessable_entity)
+      end
     else
-      render(:edit, status: :unprocessable_entity)
+      flash[:alert] = "You must have created at least 5 logs to edit #{@location.title}"
+      redirect_to(@location.path)
     end
   end
 
   def destroy
     @location = Location.find(params[:id])
-    @location.destroy
-    redirect_to(@location.locatable.path, status: :see_other)
+
+    if current_user.can_delete
+      @location.destroy
+      redirect_to(@location.locatable.path, status: :see_other)
+    else
+      flash[:alert] = "You are not authorized to delete #{@location.title}"
+      redirect_to(@location.path)
+    end
   end
 
   private

@@ -11,11 +11,13 @@ $ asdf current ruby
 > 3.3.3
 ```
 
-Install the correct dependencies:
+Install the correct dependencies and link your yard docs:
 
 ```sh
 $ sudo bundle install
 > Bundle complete!
+$ yard gems
+>
 ```
 
 Startup Postgres container:
@@ -113,8 +115,10 @@ To shut down the stack:
 $ npm run cdk -- destroy --all
 ```
 
-## TODOs
+## 0.1 Release Beta Criteria
 
+<details>
+<summary><b>Click to expand the TODO list</b></summary>
 - [x] Add locations to log
 - [x] Edit locations on log
 - [x] Remove cave from log
@@ -149,9 +153,7 @@ $ npm run cdk -- destroy --all
   - [x] Simple cave pagination
   - [x] Pagination in turbo
 - [x] add cave address data at save time
-- [ ] pagination for caves/partners
 - [x] dark mode
-- [ ] search for partners on log
 - [x] cave: no description/location if not present
 - [x] cave: no details if no lon && lat && desc
 - [x] general ui cleanup
@@ -167,25 +169,31 @@ $ npm run cdk -- destroy --all
   - [x] consistent log views on all locations/caves
   - [x] checkmarks on locations/caves once visited
   - [x] shared logs on my partnership section
-- [ ] add info on the caves table
-- [ ] add location button when editing cave location copies on a log
 - [ ] better footer
+- [ ] better home page
 - [ ] CI/CD pr deployments/teardowns
 - [ ] CI/CD production deployments
 - [ ] DNS routing to domain
 - [ ] SSL in production
 - [ ] Tests!
+</details>
 
 ## Feature ideas
 
+<details>
+<summary><b>Click to expand the TODO list</b></summary>
+- [ ] add info on the caves table
+- [ ] add location button when editing cave location copies on a log
 - [x] User page (name, username)
   - [x] Edit user page
   - [x] Permissions
   - [x] Connect partners to users
     - [x] Add partners to a log (high)
-- [ ] deletion/edit permissions
+- [x] deletion/edit permissions (basic)
 - [x] edit history on caves/subsystem/location
   - [x] text about the importance of accuracy on cave/subsystem/edit forms and warning about tracability of edits/additions
+- [ ] search for partners on log
+- [ ] pagination for caves/partners
 - [ ] add cave id to log locations copy
 - [ ] Add cave connections
   - [ ] Adding cave to log suggests relevant cave connections
@@ -194,7 +202,9 @@ $ npm run cdk -- destroy --all
 - [ ] Locations metadata - star rating, physical difficulty rating, mental grimness rating (1)
   - [ ] tier ranking/access difficulty grade
 - [ ] Report cave/locations
+- [ ] Improve homepage
 - [x] Logs you tagged X in
+</details>
 
 ## Notes
 

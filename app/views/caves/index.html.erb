@@ -1,7 +1,10 @@
 <%= page_padding do %>
   <h1>Welcome back!</h1>
   <section>
-    <h2>Caves</h2>
+    <div class="flex justify-between gap-4">
+      <h2>Caves</h2>
+      <%= link_to "New Cave", new_cave_path, class: 'btn btn-sm' %>
+    </div>
     <%= render "search-bar", path: caves_path %>
     <% if @caves.length > 0 %>
       <div class="table-container">
@@ -26,7 +29,32 @@
     <% else %>
       <%= render 'components/empty-section', message: "No caves found in this search" %>
     <% end %>
-    <%= link_to "New Cave", new_cave_path %>
     <%= link_to "New Log", new_log_path %>
   </section>
+  <% if current_user != nil %>
+    <section>
+      <div class="flex gap-4 justify-between items-center">
+        <h2>Logs</h2>
+        <%= link_to 'Add log', new_log_path, class: 'btn btn-sm' %>
+      </div>
+      <h3 class="-mb-1">Your logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>
+      <% if @user_logs_count > 0 %>
+        <ul class="grid-list-2">
+          <%= render partial: 'logs/preview', collection: @user_logs_preview, as: :log %>
+        </ul>
+      <% else %>
+        <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@cave)} %>
+      <% end %>
+      <% if @user_logs_count > @cutoff_count %>
+        <%= link_to "View more →", user_logs_path(current_user), aria: { label: "View all #{current_user.name_for(current_user)}s logs" } %>
+      <% end %>
+      <h3 class="-mb-1">Logs you are tagged in <% if @logs_user_tagged_in.count > 0 %><span class="opacity-50">(<%= @logs_user_tagged_in.count %> total)</span><% end %></h3>
+      <ul class='grid-list-2'>
+        <%= render partial: 'logs/preview', collection: @logs_user_tagged_in.take(@cutoff_count), as: :log %>
+      </ul>
+      <% if @logs_user_tagged_in.count > @cutoff_count %>
+        <%= link_to "View more →", "#{logs_path}?tagged=#{current_user.id}", aria: { label: "View all logs #{current_user.name_for(current_user)} has tagged you in" } %>
+      <% end %>
+    </section>
+  <% end %>
 <% end %>

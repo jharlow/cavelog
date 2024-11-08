@@ -2,14 +2,14 @@
 <%= page_padding do %>
   <div class="flex items-center gap-3 flex-wrap">
     <h1><%= @subsystem.title %></h1>
-    <% unless @visited.length == 0 %>
+    <% unless @visited&.length == 0 %>
       <%= render 'components/checked', label: "You have visited this subsystem" %>
     <% end %>
   </div>
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Details</h2>
-      <%= link_to "Edit", edit_cave_subsystem_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' %>
+      <%= link_to "Edit", edit_cave_subsystem_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' if current_user&.can_edit %>
     </div>
     <% if @subsystem.description.present? || @subsystem.versions.length > 0 %>
       <div class="flow-root">
@@ -67,9 +67,11 @@
       </div>
     <% end %>
   </section>
-  <section>
-    <h2>Danger zone</h2>
-    <div>Be warned! This action permanently and irreversibly deletes this subsystem and all its location data.</div>
-    <%= link_to 'Delete', cave_subsystem_path(@subsystem.cave, @subsystem), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
-  </section>
+  <% if current_user&.can_delete %>
+    <section>
+      <h2>Danger zone</h2>
+      <div>Be warned! This action permanently and irreversibly deletes this subsystem and all its location data.</div>
+      <%= link_to 'Delete', cave_subsystem_path(@subsystem.cave, @subsystem), data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' }, class: 'btn btn-red w-fit' %>
+    </section>
+  <% end %>
 <% end %>

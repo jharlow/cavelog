@@ -71,3 +71,6 @@ gem "tailwindcss-ruby"
 gem "tailwindcss-rails"
 
 gem "geocoder", "~> 1.8"
+
+gem "solargraph", "~> 0.50.0"
+gem "solargraph-rails", "~> 1.1"
