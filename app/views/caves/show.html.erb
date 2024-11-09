@@ -63,9 +63,9 @@
     <% end %>
   </section>
   <section>
-    <div class="flex gap-4 justify-between items-center">
+    <div class="flex gap-4 justify-between items-center flex-wrap">
       <h2>Locations</h2>
-      <div class="flex gap-2 items-center">
+      <div class="flex gap-2 items-center flex-wrap">
         <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave), class: 'btn btn-sm' %>
         <%= link_to "Add location", new_cave_location_path(@cave), class: 'btn btn-sm' %>
       </div>

@@ -11,5 +11,9 @@
     "eu-west-2a",
     "eu-west-2b",
     "eu-west-2c"
-  ]
+  ],
+  "hosted-zone:account=547794798594:domainName=cavelog.org:privateZone=false:region=eu-west-2": {
+    "Id": "/hostedzone/Z07530602PYTCF0Z93UQX",
+    "Name": "cavelog.org."
+  }
 }

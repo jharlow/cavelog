@@ -94,9 +94,9 @@ Optionally, you can also see the database with caves
 
 ```sh
 $ aws ecs execute-command \
-  --cluster {{RAILS_APP_CULUSTER_ID}} \
   --region {{AWS_REGION}} \
-  --task {{RAILS_APP_TASK_ID}} \
+  --cluster {{RAILS_APP_CULUSTER_ARN}} \
+  --task {{RAILS_APP_TASK_ARN}} \
   --container RailsAppContainer \
   --interactive \
   --command "bundle exec rake data:load_cave_csv"
@@ -105,8 +105,8 @@ $ aws ecs execute-command \
 
 Where:
 
-- `{{RAILS_APP_CULUSTER_ID}}` -- the ECS cluster ID of your deployed rails app
-- `{{RAILS_APP_TASK_ID}}` -- the ECS task ID contained inside the above ECC cluster
+- `{{RAILS_APP_CULUSTER_ARN}}` -- the ECS cluster ID of your deployed rails app
+- `{{RAILS_APP_TASK_ARN}}` -- the ECS task ID contained inside the above ECC cluster
 - `{{AWS_REGION}}` -- the value of `CDK_REGION` env used when you ran the deploy script
 
 To shut down the stack:
@@ -169,12 +169,16 @@ $ npm run cdk -- destroy --all
   - [x] consistent log views on all locations/caves
   - [x] checkmarks on locations/caves once visited
   - [x] shared logs on my partnership section
-- [ ] better footer
-- [ ] better home page
+- [ ] No info yet on tables
+- [ ] Add/edit buttons go to sign in page if no current user
+- [ ] If no description/metadata, show link to add it
+- [ ] check marks on caves if not signed in
+- [x] better footer
+- [x] better home page
 - [ ] CI/CD pr deployments/teardowns
 - [ ] CI/CD production deployments
-- [ ] DNS routing to domain
-- [ ] SSL in production
+- [x] DNS routing to domain
+- [x] SSL in production
 - [ ] Tests!
 </details>
 
@@ -182,7 +186,6 @@ $ npm run cdk -- destroy --all
 
 <details>
 <summary><b>Click to expand the TODO list</b></summary>
-- [ ] add info on the caves table
 - [ ] add location button when editing cave location copies on a log
 - [x] User page (name, username)
   - [x] Edit user page
@@ -202,7 +205,7 @@ $ npm run cdk -- destroy --all
 - [ ] Locations metadata - star rating, physical difficulty rating, mental grimness rating (1)
   - [ ] tier ranking/access difficulty grade
 - [ ] Report cave/locations
-- [ ] Improve homepage
+- [x] Improve homepage
 - [x] Logs you tagged X in
 </details>
 

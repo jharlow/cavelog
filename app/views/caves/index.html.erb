@@ -29,7 +29,6 @@
     <% else %>
       <%= render 'components/empty-section', message: "No caves found in this search" %>
     <% end %>
-    <%= link_to "New Log", new_log_path %>
   </section>
   <% if current_user != nil %>
     <section>
@@ -43,7 +42,7 @@
           <%= render partial: 'logs/preview', collection: @user_logs_preview, as: :log %>
         </ul>
       <% else %>
-        <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_cave_log_path(@cave)} %>
+        <%= render 'components/empty-section', message: "No logs recorded yet!", link: { text: 'Add your first log', href: new_log_path(@cave)} %>
       <% end %>
       <% if @user_logs_count > @cutoff_count %>
         <%= link_to "View more →", user_logs_path(current_user), aria: { label: "View all #{current_user.name_for(current_user)}s logs" } %>

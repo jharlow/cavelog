@@ -2,15 +2,17 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
+import * as ecr_assets from "aws-cdk-lib/aws-ecr-assets";
 import * as ecs_patterns from "aws-cdk-lib/aws-ecs-patterns";
-import * as ecr from "aws-cdk-lib/aws-ecr-assets";
 import { assertAndReturn } from "./assert-and-return";
 import { CaveLogVpcStack } from "./cavelog-vpc-stack";
 import { CaveLogDatabaseStack } from "./cavelog-db-stack";
+import { CaveLogDomainStack } from "./cavelog-domain-stack";
 
 type AppStackProps = {
   vpcStack: CaveLogVpcStack;
   databaseStack: CaveLogDatabaseStack;
+  domainStack: CaveLogDomainStack
 };
 
 export type AppEnvProps = { railsMasterKey: string };
@@ -41,15 +43,16 @@ export class CaveLogAppStack extends cdk.Stack {
       allowAllOutbound: true,
     });
 
+
     this.cluster = new ecs.Cluster(this, "RailsCluster", {
       vpc: props.vpcStack.vpc,
     });
 
-    this.task = new ecs.FargateTaskDefinition(this, "AppTaskDef");
+    this.task = new ecs.FargateTaskDefinition(this, "RailsAppTaskDef");
     this.task.addContainer("RailsAppContainer", {
       image: ecs.ContainerImage.fromAsset("../", {
         file: "Dockerfile",
-        platform: ecr.Platform.LINUX_AMD64,
+        platform: ecr_assets.Platform.LINUX_AMD64,
       }),
       logging: new ecs.AwsLogDriver({ streamPrefix: "rails-app" }),
       secrets: {
@@ -63,10 +66,10 @@ export class CaveLogAppStack extends cdk.Stack {
         ),
       },
       environment: {
-        DB_DATABASE: "postgres",
+        DB_DATABASE: props.databaseStack.databaseName,
         DB_TIMEOUT: "5000",
-        DB_PORT: "5432",
-        DB_HOST: props.databaseStack.database.dbInstanceEndpointAddress,
+        DB_PORT: props.databaseStack.database.clusterEndpoint.port.toString(),
+        DB_HOST: props.databaseStack.database.clusterEndpoint.hostname,
         RAILS_ENV: "production",
         RAILS_SERVE_STATIC_FILES: "true",
         RAILS_LOG_TO_STDOUT: "true",
@@ -77,9 +80,10 @@ export class CaveLogAppStack extends cdk.Stack {
 
     this.securityGroup.connections.allowTo(
       props.databaseStack.securityGroup,
-      ec2.Port.tcp(5432),
+      ec2.Port.tcp(props.databaseStack.database.clusterEndpoint.port),
       "Allow outbound RDS access",
     );
+
 
     props.databaseStack.secret.grantRead(this.task.taskRole);
 
@@ -90,10 +94,13 @@ export class CaveLogAppStack extends cdk.Stack {
         cluster: this.cluster,
         taskDefinition: this.task,
         desiredCount: 1,
-        publicLoadBalancer: true,
-        listenerPort: 80,
         securityGroups: [this.securityGroup],
         enableExecuteCommand: true,
+        publicLoadBalancer: true,
+        domainName: props.domainStack.applicationDomainName,
+        domainZone: props.domainStack.hostedZone,
+        certificate: props.domainStack.certificate,
+        listenerPort: 443,
       },
     );
   }

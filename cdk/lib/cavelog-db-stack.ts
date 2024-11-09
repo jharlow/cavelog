@@ -9,7 +9,8 @@ type DatabaseStackProps = { vpcStack: CaveLogVpcStack };
 
 export class CaveLogDatabaseStack extends cdk.Stack {
   public readonly secret: secretsmanager.Secret;
-  public readonly database: rds.DatabaseInstance;
+  public readonly database: rds.ServerlessCluster;
+  public readonly databaseName: string;
   public readonly securityGroup: ec2.SecurityGroup;
 
   constructor(
@@ -33,18 +34,23 @@ export class CaveLogDatabaseStack extends cdk.Stack {
       },
     });
 
-    this.database = new rds.DatabaseInstance(this, "PostgresDB", {
-      engine: rds.DatabaseInstanceEngine.postgres({
-        version: rds.PostgresEngineVersion.VER_14,
+
+    this.databaseName = 'postgres';
+    this.database = new rds.ServerlessCluster(this, 'AuroraServerlessCluster', {
+      engine: rds.DatabaseClusterEngine.auroraPostgres({
+        version: rds.AuroraPostgresEngineVersion.VER_13_9,
       }),
       securityGroups: [this.securityGroup],
       vpc: props.vpcStack.vpc,
       credentials: rds.Credentials.fromSecret(this.secret),
-      multiAz: false,
-      allocatedStorage: 100,
-      maxAllocatedStorage: 200,
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
-      publiclyAccessible: true,
+      defaultDatabaseName: this.databaseName,
     });
+
+    this.securityGroup.addIngressRule(
+      this.securityGroup,
+      ec2.Port.tcp(this.database.clusterEndpoint.port),
+      "Allow inbound traffic to RDS"
+    )
   }
 }
