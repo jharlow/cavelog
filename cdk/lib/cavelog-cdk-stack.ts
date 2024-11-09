@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 import { CaveLogVpcStack } from "./cavelog-vpc-stack";
 import { CaveLogDatabaseStack } from "./cavelog-db-stack";
 import { AppEnvProps, CaveLogAppStack } from "./cavelog-app-stack";
+import { CaveLogDomainStack } from "./cavelog-domain-stack";
 
 export class CaveLogStack extends cdk.Stack {
   constructor(
@@ -12,17 +13,18 @@ export class CaveLogStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
-    const vpc = new CaveLogVpcStack(this, "VpcStack", props);
+    const vpcStack = new CaveLogVpcStack(this, "VpcStack", props);
 
-    const db = new CaveLogDatabaseStack(this, "DatabaseStack", {
-      ...props,
-      vpcStack: vpc,
+    const domainStack = new CaveLogDomainStack(this, 'DomainStack', {
+      ...props, domainName: 'cavelog.org', subdomain: 'alpha', vpcStack
     });
 
-    new CaveLogAppStack(this, "AppStack", {
+
+    const databaseStack = new CaveLogDatabaseStack(this, "DatabaseStack", {
       ...props,
-      vpcStack: vpc,
-      databaseStack: db,
+      vpcStack: vpcStack,
     });
+
+    new CaveLogAppStack(this, "AppStack", { ...props, vpcStack, databaseStack, domainStack });
   }
 }
