@@ -93,6 +93,14 @@ $ npm run cdk -- deploy --all
 Optionally, you can also see the database with caves
 
 ```sh
+$ aws ecs list-tasks \
+    --cluster {{RAILS_APP_CULUSTER_ARN}} \
+    --service {{RAILS_APP_SERVICE_ARN}} \
+    --desired-status RUNNING \
+    --query "taskArns[0]" \
+    --output text
+> {{RAILS_APP_TASK_ARN}}
+
 $ aws ecs execute-command \
   --region {{AWS_REGION}} \
   --cluster {{RAILS_APP_CULUSTER_ARN}} \
@@ -170,7 +178,7 @@ $ npm run cdk -- destroy --all
   - [x] checkmarks on locations/caves once visited
   - [x] shared logs on my partnership section
 - [ ] No info yet on tables
-- [ ] Add/edit buttons go to sign in page if no current user
+- [x] Add/edit buttons go to sign in page if no current user
 - [ ] If no description/metadata, show link to add it
 - [ ] check marks on caves if not signed in
 - [x] better footer
