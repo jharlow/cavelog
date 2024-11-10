@@ -49,6 +49,29 @@ class Cave < ApplicationRecord
     log_cave_copies.update_all(cave_id: nil)
   end
 
+  def visited_times(user)
+    if !user
+      return 0
+    end
+
+    current_user_logs = logs
+      .left_outer_joins(log_partner_connections: :partnership)
+      .where("user_id = :user_id", {user_id: user.id})
+      .distinct
+      .count
+
+    current_user_tagged_logs = logs
+      .left_outer_joins(log_partner_connections: :partnership)
+      .where(
+        "(partnerships.user1_id = :user_id OR partnerships.user2_id = :user_id) AND user_id != :user_id",
+        {user_id: user.id}
+      )
+      .distinct
+      .count
+
+    current_user_logs + current_user_tagged_logs
+  end
+
   def self.search(search)
     if search
       where(["title ILIKE ?", "%#{sanitize_sql_like(search)}%"])

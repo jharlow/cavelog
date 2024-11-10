@@ -1,5 +1,6 @@
 class CavesController < ApplicationController
   before_action :set_paper_trail_whodunnit
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   def index
     @caves = if params[:q].present?
       caves = Cave.search_by_text_or_location(params[:q])

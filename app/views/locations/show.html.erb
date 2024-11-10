@@ -2,7 +2,7 @@
 <%= page_padding do %>
   <div class="flex items-center gap-3 flex-wrap">
     <h1><%= @location.title %></h1>
-    <% unless @user_logs_count == 0 && @user_tagged_logs_count == 0 %>
+    <% unless !current_user || (@user_logs_count == 0 && @user_tagged_logs_count == 0) %>
       <%= render 'components/checked', label: "You have visited this location" %>
     <% end %>
   </div>
@@ -48,7 +48,7 @@
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Logs</h2>
-      <%= link_to 'Add log', new_cave_log_path(@parent || @locatable), class: 'btn btn-sm' %>
+      <%= link_to_if_signed_in 'Add log', new_cave_log_path(@parent || @locatable), class: 'btn btn-sm' %>
     </div>
     <% if current_user %>
       <h3 class="-mb-1">Your logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>

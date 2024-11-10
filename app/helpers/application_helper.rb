@@ -28,4 +28,15 @@ module ApplicationHelper
       "#{titles.join(", ")} and #{last_item}"
     end
   end
+
+  def link_to_if_signed_in(name = nil, options = nil, html_options = nil, &)
+    if current_user
+      link_to(name, options, html_options, &)
+    else
+      html_options ||= {}
+      html_options[:aria] ||= {}
+      html_options[:aria][:label] = "Sign in to perform '#{name}' action"
+      link_to(name, new_user_session_path, html_options, &)
+    end
+  end
 end

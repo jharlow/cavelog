@@ -3,7 +3,7 @@
   <section>
     <div class="flex justify-between gap-4">
       <h2>Caves</h2>
-      <%= link_to "New Cave", new_cave_path, class: 'btn btn-sm' %>
+      <%= link_to_if_signed_in "New Cave", new_cave_path, class: 'btn btn-sm' %>
     </div>
     <%= render "search-bar", path: caves_path %>
     <% if @caves.length > 0 %>
@@ -12,14 +12,25 @@
           <thead>
             <tr>
               <th>Cave</th>
-              <th>Info</th>
+              <th>Logs</th>
+              <th>Visited</th>
+              <th>Address</th>
             </tr>
           </thead>
           <tbody class="list-none pl-0 divide-y divide-slate-200 dark:divide-slate-800 opcaity-25">
             <% @caves.each do |cave| %>
               <tr>
                 <td><%= link_to cave.title, cave_path(cave) %></td>
-                <td>No info yet</td>
+                <td><%= cave.logs.count %></td>
+                <td class="flex gap-2 items-center">
+                  <% visited_times = cave.visited_times(current_user) %>
+                  <%= render 'components/checked', label: "You have visited this cave", size: 16, unchecked: visited_times == 0 %>
+                  <span class="text-[0.75rem]"><%= "#{visited_times}x" unless visited_times <= 1 %></span>
+                </td>
+                <td>
+                  <%= link_to "🔗", "http://maps.google.com/maps?z=10&t=m&q=loc:#{cave.latitude}+#{cave.longitude}", target: '_blank', aria: { label: "View address on Google Maps"} if cave.address.present? %>
+                  <%= cave.address if cave.address.present? %>
+                </td>
               </tr>
             <% end %>
           </tbody>

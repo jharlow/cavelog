@@ -1,4 +1,5 @@
 class LogsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   def index
     user_id = params[:user_id]
     cave_id = params[:cave_id]
