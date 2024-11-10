@@ -15,16 +15,23 @@ export class CaveLogStack extends cdk.Stack {
 
     const vpcStack = new CaveLogVpcStack(this, "VpcStack", props);
 
-    const domainStack = new CaveLogDomainStack(this, 'DomainStack', {
-      ...props, domainName: 'cavelog.org', subdomain: 'alpha', vpcStack
+    const domainStack = new CaveLogDomainStack(this, "DomainStack", {
+      ...props,
+      domainName: "cavelog.org",
+      subdomain: "alpha",
+      vpcStack,
     });
-
 
     const databaseStack = new CaveLogDatabaseStack(this, "DatabaseStack", {
       ...props,
       vpcStack: vpcStack,
     });
 
-    new CaveLogAppStack(this, "AppStack", { ...props, vpcStack, databaseStack, domainStack });
+    new CaveLogAppStack(this, "AppStack", {
+      ...props,
+      vpcStack,
+      databaseStack,
+      domainStack,
+    });
   }
 }
