@@ -72,7 +72,7 @@
         <%= link_to "View more →", "#{cave_user_logs_path(@cave, current_user)}?tagged", aria: { label: "View all logs you are featured in" } %>
       <% end %>
     <% end %>
-    <h3>Public logs <% if @location_logs_count > 0 %><span class="opacity-50">(<%= @location_logs_count %> total)</span><% end %></h3>
+    <h3>All logs <% if @location_logs_count > 0 %><span class="opacity-50">(<%= @location_logs_count %> total)</span><% end %></h3>
     <% if @location_logs_count > 0 %>
       <ul class="grid-list-2">
         <%= render partial: 'logs/preview', collection: @location_logs_preview, as: :log %>
