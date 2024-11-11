@@ -14,16 +14,18 @@
     <% if @cave.description != "" || (@cave.longitude && @cave.latitude) || @cave.versions.count > 0 %>
       <div class="flow-root">
         <dl class="dl">
-          <div class="dr">
-            <dt class="dt">Description</dt>
-            <dd class="dd">
-              <% if @cave.description.present? %>
-                <%= simple_format(@cave.description, class: "text-sm") %>
-              <% else %>
-                <%= link_to "Add a description", edit_cave_path(@cave) %>
-              <% end %>
-            </dd>
-          </div>
+          <% if @cave.description.present? || current_user&.can_edit %>
+            <div class="dr">
+              <dt class="dt">Description</dt>
+              <dd class="dd">
+                <% if @cave.description.present? %>
+                  <%= simple_format(@cave.description, class: "text-sm") %>
+                <% elsif current_user.can_edit %>
+                  <%= link_to "Help other by adding a description", edit_cave_path(@cave) %>
+                <% end %>
+              </dd>
+            </div>
+          <% end %>
           <% if @cave.longitude && @cave.latitude %>
             <div class="dr">
               <dt class="dt">Approx location</dt>
@@ -55,7 +57,7 @@
               <% last_cave_version = @cave.versions.last %>
               <dd class="dd">
                 <% if last_cave_version.whodunnit %>
-                  <%= link_to User.find(last_cave_version.whodunnit).name_for(current_user), user_path(last_cave_version) %>
+                  <%= link_to User.find(last_cave_version.whodunnit).name_for(current_user), user_path(last_cave_version.whodunnit) %>
                 <% else %>
                   Unknown user
                 <% end %> on <%= @cave.updated_at.strftime('%d/%m/%y') %>

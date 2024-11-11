@@ -32,7 +32,7 @@
               <% last_location_version = @location.versions.last %>
               <dd class="dd">
                 <% if last_location_version.whodunnit %>
-                  <%= link_to User.find(last_location_version.whodunnit).name_for(current_user), user_path(last_location_version) %>
+                  <%= link_to User.find(last_location_version.whodunnit).name_for(current_user), user_path(last_location_version.whodunnit) %>
                 <% else %>
                   Unknown user
                 <% end %> on <%= @location.updated_at.strftime('%d/%m/%y') %>

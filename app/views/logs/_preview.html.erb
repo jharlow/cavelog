@@ -1,14 +1,11 @@
 <li class="card gap-2">
   <div class="flex flex-wrap gap-4 justify-between items-center">
-    <div class="text-sm"><%= log.format_date(log.start_datetime) %><span class="opacity-50">   &mdash;  <%= log.length_of_log %></span></div>
-    <% if log.user === current_user %>
-      <%= link_to "You", user_path(log.user), class: 'inline-flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs' %>
-    <% else %>
-      <%= link_to log.user.name_for(current_user), user_path(log.user), class: 'inline-flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs' %>
-    <% end %>
+    <div class="text-md"><%= link_to "#{cave_titles_list(log.caves)} on #{log.format_date(log.start_datetime)}", log_path(log) %><span class="opacity-50">   &mdash;  <%= log.length_of_log %></span></div>
+    <% user_pill_color = log.user == current_user ? "emerald"  : "gray" %>
   </div>
-  <div class="text-lg -mt-1"><%= link_to cave_titles_list(log.caves), log_path(log) %></div>
+  <div class="text-sm -mt-1"><%= log.personal_comments.truncate(140, ommited: '...') %></div>
   <div class="flex flex-wrap items-center gap-1.5">
+    <%= link_to "Logged by #{log.user == current_user ? "you" : log.user.name_for(current_user)}", user_path(log.user), class: "inline-flex items-center justify-center rounded-full bg-#{user_pill_color}-200 dark:bg-#{user_pill_color}-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs" %>
     <% if log.log_location_copies.size > 0 || log.log_partner_connections.size > 0 %>
       <% if log.log_location_copies.size > 0 %>
         <div class="inline-flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 px-2.5 py-0.5 text-gray-700 dark:text-gray-200 text-xs">

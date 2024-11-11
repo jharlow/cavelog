@@ -1,5 +1,47 @@
 <%= page_padding do %>
-  <h1>Welcome back!</h1>
+  <h1>Welcome <%= !current_user ? "to CaveLog" : "back, #{current_user.name_for(current_user, only_first: true)}" %>!</h1>
+  <% if !current_user %>
+    <section>
+      <div class="max-w-2xl">
+        <h2>📔 CaveLog is building a modern logbook for caving</h2>
+        <p class="mt-4 opacity-70">We are improving the experience of Excel logbooks for cavers by providing a data-driven tool that provides you with insights about the caves on your wishlist and your logbook.</p>
+      </div>
+      <div class="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-3">
+        <div class="flex items-start gap-4">
+          <span class="rounded-lg bg-gray-800 py-2 px-3 text-xl sm:text-2xl" aria-label="Emoji representing a log">
+            🗒️
+          </span>
+          <div>
+            <h3 class="text-lg">Log your trips</h3>
+            <p class="mt-1 text-sm opacity-70">Logging is highly flexible. Add caves, locations in those caves, and the people you went with.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <span class="rounded-lg bg-gray-800 py-2 px-3 text-xl sm:text-2xl" aria-label="Emoji representing a team">
+            🤼
+          </span>
+          <div>
+            <h3 class="text-lg">Partner with friends</h3>
+            <p class="mt-1 text-sm opacity-70">Add friends on CaveLog to see logs they tag you in and their caving activity.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <span class="rounded-lg bg-gray-800 py-2 px-3 text-xl sm:text-2xl" aria-label="Emoji representing a log">
+            🗒️
+          </span>
+          <div>
+            <h3 class="text-lg">Get data-driven insights </h3>
+            <span class="text-xs bg-green-200 dark:bg-green-900 px-1.5 py-0.5 rounded-md my-1.5 opacity-80">In progress</span>
+            <p class="mt-1 text-sm opacity-70">Get stats and insights about your caving activities dynamically built for you from your data.</p>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-2xl">
+        <p class="opacity-70">Plus, contribute your own knowledge by adding data about caves like subsystems, locations, and (coming soon) cave ratings!</p>
+        <%= button_to "Get started now 🚀", new_user_session_path, class: 'w-fit px-6 mt-4' %>
+      </div>
+    </section>
+  <% end %>
   <section>
     <div class="flex justify-between gap-4">
       <h2>Caves</h2>
@@ -13,7 +55,9 @@
             <tr>
               <th>Cave</th>
               <th>Logs</th>
-              <th>Visited</th>
+              <% if current_user %>
+                <th>Visited</th>
+              <% end %>
               <th>Address</th>
             </tr>
           </thead>
@@ -22,11 +66,13 @@
               <tr>
                 <td><%= link_to cave.title, cave_path(cave) %></td>
                 <td><%= cave.logs.count %></td>
-                <td class="flex gap-2 items-center">
-                  <% visited_times = cave.visited_times(current_user) %>
-                  <%= render 'components/checked', label: "You have visited this cave", size: 16, unchecked: visited_times == 0 %>
-                  <span class="text-[0.75rem]"><%= "#{visited_times}x" unless visited_times <= 1 %></span>
-                </td>
+                <% if current_user %>
+                  <td class="flex gap-2 items-center">
+                    <% visited_times = cave.visited_times(current_user) %>
+                    <%= render 'components/checked', label: "You have visited this cave", size: 16, unchecked: visited_times == 0 %>
+                    <span class="text-[0.75rem]"><%= "#{visited_times}x" unless visited_times <= 1 %></span>
+                  </td>
+                <% end %>
                 <td>
                   <%= link_to "🔗", "http://maps.google.com/maps?z=10&t=m&q=loc:#{cave.latitude}+#{cave.longitude}", target: '_blank', aria: { label: "View address on Google Maps"} if cave.address.present? %>
                   <%= cave.address if cave.address.present? %>
@@ -58,12 +104,14 @@
       <% if @user_logs_count > @cutoff_count %>
         <%= link_to "View more →", user_logs_path(current_user), aria: { label: "View all #{current_user.name_for(current_user)}s logs" } %>
       <% end %>
-      <h3 class="-mb-1">Logs you are tagged in <% if @logs_user_tagged_in.count > 0 %><span class="opacity-50">(<%= @logs_user_tagged_in.count %> total)</span><% end %></h3>
-      <ul class='grid-list-2'>
-        <%= render partial: 'logs/preview', collection: @logs_user_tagged_in.take(@cutoff_count), as: :log %>
-      </ul>
-      <% if @logs_user_tagged_in.count > @cutoff_count %>
-        <%= link_to "View more →", "#{logs_path}?tagged=#{current_user.id}", aria: { label: "View all logs #{current_user.name_for(current_user)} has tagged you in" } %>
+      <% unless @logs_user_tagged_in.count == 0 %>
+        <h3 class="-mb-1">Logs you are tagged in <% if @logs_user_tagged_in.count > 0 %><span class="opacity-50">(<%= @logs_user_tagged_in.count %> total)</span><% end %></h3>
+        <ul class='grid-list-2'>
+          <%= render partial: 'logs/preview', collection: @logs_user_tagged_in.take(@cutoff_count), as: :log %>
+        </ul>
+        <% if @logs_user_tagged_in.count > @cutoff_count %>
+          <%= link_to "View more →", "#{logs_path}?tagged=#{current_user.id}", aria: { label: "View all logs #{current_user.name_for(current_user)} has tagged you in" } %>
+        <% end %>
       <% end %>
     </section>
   <% end %>

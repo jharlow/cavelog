@@ -12,10 +12,10 @@
             <li class="grid-list-item">
               <% if lpc.partnership %>
                 <%= link_to lpc.partnership.other_user_than(log.user).name_for(current_user), user_path(lpc.partnership.other_user_than(@log.user)), data: { turbo: false } %>
-                <%= button_to "Remove", log_partner_connection_path(@log, lpc), method: :delete, aria: { label: "Remove #{lpc.partnership.other_user_than(current_user).name_for(current_user)} from log" }, class: 'btn-red' %>
+                <%= button_to "Remove", log_partner_connection_path(@log, lpc), method: :delete, aria: { label: "Remove #{lpc.partnership.other_user_than(current_user).name_for(current_user)} from log" } %>
               <% else %>
                 <%= lpc.partner_name %>
-                <%= button_to "Remove", log_partner_connection_path(@log, lpc), method: :delete, aria: { label: "Remove #{lpc.partner_name} from log" }, class: 'btn-red' %>
+                <%= button_to "Remove", log_partner_connection_path(@log, lpc), method: :delete, aria: { label: "Remove #{lpc.partner_name} from log" } %>
               <% end %>
             </li>
           <% end %>

@@ -26,7 +26,7 @@
               <% last_subsystem_version = @subsystem.versions.last %>
               <dd class="dd">
                 <% if last_subsystem_version.whodunnit %>
-                  <%= link_to User.find(last_subsystem_version.whodunnit).name_for(current_user), user_path(last_subsystem_version) %>
+                  <%= link_to User.find(last_subsystem_version.whodunnit).name_for(current_user), user_path(last_subsystem_version.whodunnit) %>
                 <% else %>
                   Unknown user
                 <% end %> on <%= @subsystem.updated_at.strftime('%d/%m/%y') %>

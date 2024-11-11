@@ -67,7 +67,9 @@ class User < ApplicationRecord
   end
 
   def is_partner_of?(user)
-    if self == user
+    if user.nil?
+      false
+    elsif self == user
       nil
     else
       partners.where("user1_id = :id OR user2_id = :id", id: user.id).exists?
@@ -78,13 +80,18 @@ class User < ApplicationRecord
     partners.where("user1_id = :id OR user2_id = :id", id: user.id).first
   end
 
-  def name_for(user)
-    if user.nil? || !first_name || self == user || !is_partner_of?(user)
-      username
-    elsif !last_name
-      first_name + " (#{username})"
-    else
-      first_name + " " + last_name
+  def name_for(user, opts = {})
+    if user.nil?
+      return username
+    elsif first_name && (id == user&.id || is_partner_of?(user))
+      full_name = first_name + " " + last_name
+      if !last_name || opts[:only_first]
+        return first_name
+      else
+        return full_name
+      end
     end
+
+    username
   end
 end
