@@ -44,6 +44,10 @@ export class CaveLogDatabaseStack extends cdk.Stack {
       credentials: rds.Credentials.fromSecret(this.secret),
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
       defaultDatabaseName: this.databaseName,
+      scaling: {
+        autoPause: cdk.Duration.minutes(5),
+        maxCapacity: rds.AuroraCapacityUnit.ACU_2,
+      },
     });
 
     this.securityGroup.addIngressRule(

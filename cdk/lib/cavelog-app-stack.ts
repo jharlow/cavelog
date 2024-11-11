@@ -4,10 +4,12 @@ import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as ecr_assets from "aws-cdk-lib/aws-ecr-assets";
 import * as ecs_patterns from "aws-cdk-lib/aws-ecs-patterns";
+import * as iam from "aws-cdk-lib/aws-iam";
 import { assertAndReturn } from "./assert-and-return";
 import { CaveLogVpcStack } from "./cavelog-vpc-stack";
 import { CaveLogDatabaseStack } from "./cavelog-db-stack";
 import { CaveLogDomainStack } from "./cavelog-domain-stack";
+import { ok } from "assert";
 
 type AppStackProps = {
   vpcStack: CaveLogVpcStack;
@@ -26,7 +28,7 @@ export const getCaveLogAppStackPropsFromEnvrionment = (): AppEnvProps => ({
 
 export class CaveLogAppStack extends cdk.Stack {
   public readonly cluster: ecs.Cluster;
-  public readonly service: ecs_patterns.ApplicationLoadBalancedFargateService;
+  public readonly fargateAlb: ecs_patterns.ApplicationLoadBalancedFargateService;
   public readonly securityGroup: ec2.SecurityGroup;
 
   constructor(
@@ -35,6 +37,7 @@ export class CaveLogAppStack extends cdk.Stack {
     props: cdk.StackProps & AppEnvProps & AppStackProps,
   ) {
     super(scope, id, props);
+    ok(props.env?.region);
 
     this.securityGroup = new ec2.SecurityGroup(this, "FargateSecurityGroup", {
       vpc: props.vpcStack.vpc,
@@ -52,7 +55,7 @@ export class CaveLogAppStack extends cdk.Stack {
       vpc: props.vpcStack.vpc,
     });
 
-    this.service = new ecs_patterns.ApplicationLoadBalancedFargateService(
+    this.fargateAlb = new ecs_patterns.ApplicationLoadBalancedFargateService(
       this,
       "RailsAppService",
       {
@@ -83,6 +86,10 @@ export class CaveLogAppStack extends cdk.Stack {
             RAILS_SERVE_STATIC_FILES: "true",
             RAILS_LOG_TO_STDOUT: "true",
             RAILS_MASTER_KEY: props.railsMasterKey,
+            APPLICATION_DOMAIN: props.domainStack.applicationDomainName,
+            MAILING_DOMAIN: props.domainStack.mailDomainName,
+            SES_REGION: props.env.region,
+            SES_EMAIL_ADDRESS: `no-reply@${props.domainStack.mailDomainName}`,
           },
           secrets: {
             DB_USERNAME: ecs.Secret.fromSecretsManager(
@@ -93,13 +100,34 @@ export class CaveLogAppStack extends cdk.Stack {
               props.databaseStack.secret,
               "password",
             ),
+            SMTP_USERNAME: ecs.Secret.fromSecretsManager(
+              props.domainStack.smptSecret,
+              "username",
+            ),
+            SMTP_PASSWORD: ecs.Secret.fromSecretsManager(
+              props.domainStack.smptSecret,
+              "password",
+            ),
           },
           logDriver: new ecs.AwsLogDriver({ streamPrefix: "rails-app" }),
         },
       },
     );
 
-    props.databaseStack.secret.grantRead(this.service.taskDefinition.taskRole);
+    this.fargateAlb.service.taskDefinition.addToTaskRolePolicy(
+      new iam.PolicyStatement({
+        actions: ["ses:SendEmail", "ses:SendRawEmail"],
+        resources: ["*"],
+      }),
+    );
+
+    props.databaseStack.secret.grantRead(
+      this.fargateAlb.taskDefinition.taskRole,
+    );
+
+    props.domainStack.smptSecret.grantRead(
+      this.fargateAlb.taskDefinition.taskRole,
+    );
 
     new cdk.CfnOutput(this, "RailsAppUrl", {
       value: props.domainStack.applicationDomainName,
@@ -112,7 +140,7 @@ export class CaveLogAppStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, "RailsAppServiceArn", {
-      value: this.service.service.serviceArn,
+      value: this.fargateAlb.service.serviceArn,
       description: "The ARN of your Rails app's ECS service",
     });
 

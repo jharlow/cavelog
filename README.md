@@ -84,7 +84,7 @@ $ cd cdk && npm install
 
 **Important:** Now set up your `.env` file according to the `.env.example`.
 
-Run the deployment script:
+Run the full deployment script:
 
 ```sh
 $ npm run cdk -- deploy --all
@@ -177,10 +177,13 @@ $ npm run cdk -- destroy --all
   - [x] consistent log views on all locations/caves
   - [x] checkmarks on locations/caves once visited
   - [x] shared logs on my partnership section
-- [ ] No info yet on tables
+- [x] No info yet on tables
 - [x] Add/edit buttons go to sign in page if no current user
+- [ ] nicer sign in page
+- [x] if not signed in, welcome and explanation of what cavelog is
+- [ ] forgot password flow
 - [ ] If no description/metadata, show link to add it
-- [ ] check marks on caves if not signed in
+- [x] check marks on caves if not signed in
 - [x] better footer
 - [x] better home page
 - [ ] CI/CD pr deployments/teardowns
@@ -195,6 +198,11 @@ $ npm run cdk -- destroy --all
 <details>
 <summary><b>Click to expand the TODO list</b></summary>
 - [ ] add location button when editing cave location copies on a log
+- [ ] Reputation score
+- [ ] Stats section on user page (caves visited, hours in caves)
+- [ ] Log type (leader, participant)
+- [ ] Add filters to logs#index
+- [ ] export logs to excel file
 - [x] User page (name, username)
   - [x] Edit user page
   - [x] Permissions
