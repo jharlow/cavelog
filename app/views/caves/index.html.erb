@@ -2,7 +2,7 @@
   <h1>Welcome <%= !current_user ? "to CaveLog" : "back, #{current_user.name_for(current_user, only_first: true)}" %>!</h1>
   <% if !current_user %>
     <section>
-      <div class="max-w-2xl">
+      <div class="max-w-5xl">
         <h2>📔 CaveLog is building a modern logbook for caving</h2>
         <p class="mt-4 opacity-70">We are improving the experience of Excel logbooks for cavers by providing a data-driven tool that provides you with insights about the caves on your wishlist and your logbook.</p>
       </div>
@@ -30,15 +30,17 @@
             🗒️
           </span>
           <div>
-            <h3 class="text-lg">Get data-driven insights </h3>
-            <span class="text-xs bg-green-200 dark:bg-green-900 px-1.5 py-0.5 rounded-md my-1.5 opacity-80">In progress</span>
+            <h3 class="text-lg flex flex-wrap gap-y-1 gap-x-2 items-center mb-1.5">
+              Get data-driven insights
+              <span class="flex text-xs bg-green-200 dark:bg-green-900 px-1.5 py-0.5 rounded-md opacity-80">In progress</span>
+            </h3>
             <p class="mt-1 text-sm opacity-70">Get stats and insights about your caving activities dynamically built for you from your data.</p>
           </div>
         </div>
       </div>
-      <div class="max-w-2xl">
+      <div class="max-w-5xl flex flex-col gap-3">
         <p class="opacity-70">Plus, contribute your own knowledge by adding data about caves like subsystems, locations, and (coming soon) cave ratings!</p>
-        <%= button_to "Get started now 🚀", new_user_session_path, class: 'w-fit px-6 mt-4' %>
+        <%= link_to "Get started now 🚀", new_user_session_path, class: 'btn w-fit px-6' %>
       </div>
     </section>
   <% end %>

@@ -198,7 +198,7 @@ $ npm run cdk -- destroy --all
 <details>
 <summary><b>Click to expand the TODO list</b></summary>
 - [ ] add location button when editing cave location copies on a log
-- [ ] Reputation score
+- [ ] Reputation score (gaining and as a thrshold for is can edit/delete)
 - [ ] Stats section on user page (caves visited, hours in caves)
 - [ ] Log type (leader, participant)
 - [ ] Add filters to logs#index

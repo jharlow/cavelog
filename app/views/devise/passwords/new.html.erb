@@ -1,24 +1,15 @@
 <%= page_padding do %>
   <div class="w-full flex justify-center">
     <div class="w-[400px] flex flex-col gap-4 pt-10 sm:pt-24 pb-52">
-      <h2>Log in</h2>
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <h2>Forgot your password?</h2>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
         <div class="field">
           <%= f.label :email %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
         </div>
-        <div class="field">
-          <%= f.label :password %>
-          <%= f.password_field :password, autocomplete: "current-password" %>
-        </div>
-        <% if devise_mapping.rememberable? %>
-          <div class="flex gap-2 items-center">
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
-          </div>
-        <% end %>
         <div class="actions">
-          <%= f.submit "Log in", class: "btn" %>
+          <%= f.submit "Send me reset password instructions", class: 'btn' %>
         </div>
       <% end %>
       <span class="flex items-center">

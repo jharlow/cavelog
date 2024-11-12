@@ -23,7 +23,7 @@
           <%= link_to "👤", user_path(current_user), class: "btn", aria: { label: "My profile" } %>
           <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "flex flex-nowrap truncate" %>
         <% else %>
-          <%= button_to "Sign in", new_user_session_path, class: 'flex flex-nowrap truncate' %>
+          <%= link_to "Sign in", new_user_session_path, class: 'flex flex-nowrap truncate btn' %>
         <% end %>
         <button id="toggle-dark-mode" aria-label="Turn on dark mode">🌒</button>
       </div>
