@@ -26,7 +26,7 @@
             <% subsystem.locations.each do |location| %>
               <tr>
                 <td><%= link_to location.title, cave_subsystem_location_path(cave, subsystem, location) %></td>
-                <td><%= location.description || "" %></td>
+                <td><%= location.description.truncate(100) || "" %></td>
               </tr>
             <% end %>
           <% end %>
@@ -39,7 +39,7 @@
         <% cave.locations.each do |location| %>
           <tr>
             <td><%= link_to location.title, cave_location_path(cave, location) %></td>
-            <td><%= location.description || "" %></td>
+            <td><%= location.description.truncate(100) || "" %></td>
           </tr>
         <% end %>
         <% if cave.subsystems.length == 0 && cave.locations.length == 0 %>

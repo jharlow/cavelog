@@ -2,7 +2,10 @@
   <div class="flex flex-col gap-2">
     <div class="flex justify-between items-center">
       <h3><%= cave ? cave.title : "Miscellaneous locations" %></h3>
-      <%= link_to "Done", log_path(log), aria: { label: "Done editing" }, class: 'btn btn-sm' %>
+      <span>
+        <%= link_to "Add location", new_cave_location_path(cave), class: 'btn btn-sm', data: { turbo_frame: "_top" } %>
+        <%= link_to "Done", log_path(log), aria: { label: "Done editing" }, class: 'btn btn-sm' %>
+      </span>
     </div>
     <% if cave_locations_data.present? %>
       <div class="table-container">

@@ -1,32 +1,43 @@
 <%= page_padding do %>
-  <h2>Sign up</h2>
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-      <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:email) %>
-    </div>
-    <div class="field">
-      <%= f.label :username %>
-      <%= f.text_field :username, value: resource.username == "caver" ? "" : resource.username %>
-      <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:username) %>
-    </div>
-    <div class="field">
-      <%= f.label :password %>
-      <%= f.password_field :password, autocomplete: "new-password" %>
-      <% if @minimum_password_length %>
-        <%= render 'components/forms/label-hint', hint: "#{@minimum_password_length} characters minimum" %>
+  <div class="w-full flex justify-center">
+    <div class="w-[400px] flex flex-col gap-4 pt-10 sm:pt-24 pb-24">
+      <h2>Sign up</h2>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:email) %>
+        </div>
+        <div class="field">
+          <%= f.label :username %>
+          <%= f.text_field :username, value: resource.username == "caver" ? "" : resource.username %>
+          <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:username) %>
+        </div>
+        <div class="field">
+          <%= f.label :password %>
+          <%= f.password_field :password, autocomplete: "new-password" %>
+          <% if @minimum_password_length %>
+            <%= render 'components/forms/label-hint', hint: "#{@minimum_password_length} characters minimum" %>
+          <% end %>
+          <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:password) %>
+        </div>
+        <div class="field">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+          <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:password_confirmation) %>
+        </div>
+        <div class="action">
+          <%= f.submit "Sign up", class: 'btn' %>
+        </div>
       <% end %>
-      <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:password) %>
+      <span class="flex items-center">
+        <span class="h-px flex-1 bg-gray-300 dark:bg-gray-600"></span>
+        <span class="shrink-0 px-6 text-gray-600 dark:text-gray-300">or</span>
+        <span class="h-px flex-1 bg-gray-300 dark:bg-gray-600"></span>
+      </span>
+      <div class="flex w-full gap-6 justify-center">
+        <%= render "devise/shared/links" %>
+      </div>
     </div>
-    <div class="field">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-      <%= render 'components/forms/errors', error_messages: resource.errors.full_messages_for(:password_confirmation) %>
-    </div>
-    <div class="action">
-      <%= f.submit "Sign up", class: 'btn' %>
-    </div>
-  <% end %>
-  <%= render "devise/shared/links" %>
+  </div>
 <% end %>

@@ -1,5 +1,6 @@
 class SubsystemsController < ApplicationController
   before_action :set_paper_trail_whodunnit
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
 
   def show
     @subsystem = Subsystem.find(params[:id])

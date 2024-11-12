@@ -2,7 +2,7 @@
 <%= page_padding do %>
   <div class="flex items-center gap-3 flex-wrap">
     <h1><%= @cave.title %></h1>
-    <% unless @user_logs_count == 0 && @user_tagged_logs_count == 0 %>
+    <% unless !current_user || (@user_logs_count == 0 && @user_tagged_logs_count == 0) %>
       <%= render 'components/checked', label: "You have visited this cave" %>
     <% end %>
   </div>
@@ -14,10 +14,16 @@
     <% if @cave.description != "" || (@cave.longitude && @cave.latitude) || @cave.versions.count > 0 %>
       <div class="flow-root">
         <dl class="dl">
-          <% unless !@cave.description.present? %>
+          <% if @cave.description.present? || current_user&.can_edit %>
             <div class="dr">
               <dt class="dt">Description</dt>
-              <dd class="dd"><%= simple_format(@cave.description, class: "text-sm") %></dd>
+              <dd class="dd">
+                <% if @cave.description.present? %>
+                  <%= simple_format(@cave.description, class: "text-sm") %>
+                <% elsif current_user.can_edit %>
+                  <%= link_to "Help other by adding a description", edit_cave_path(@cave) %>
+                <% end %>
+              </dd>
             </div>
           <% end %>
           <% if @cave.longitude && @cave.latitude %>
@@ -51,7 +57,7 @@
               <% last_cave_version = @cave.versions.last %>
               <dd class="dd">
                 <% if last_cave_version.whodunnit %>
-                  <%= link_to User.find(last_cave_version.whodunnit).name_for(current_user), user_path(last_cave_version) %>
+                  <%= link_to User.find(last_cave_version.whodunnit).name_for(current_user), user_path(last_cave_version.whodunnit) %>
                 <% else %>
                   Unknown user
                 <% end %> on <%= @cave.updated_at.strftime('%d/%m/%y') %>
@@ -66,8 +72,8 @@
     <div class="flex gap-4 justify-between items-center flex-wrap">
       <h2>Locations</h2>
       <div class="flex gap-2 items-center flex-wrap">
-        <%= link_to 'Add subsystem', new_cave_subsystem_path(@cave), class: 'btn btn-sm' %>
-        <%= link_to "Add location", new_cave_location_path(@cave), class: 'btn btn-sm' %>
+        <%= link_to_if_signed_in 'Add subsystem', new_cave_subsystem_path(@cave), class: 'btn btn-sm' %>
+        <%= link_to_if_signed_in "Add location", new_cave_location_path(@cave), class: 'btn btn-sm' %>
       </div>
     </div>
     <%= render 'locations/locations', cave: @cave %>
@@ -75,7 +81,7 @@
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Logs</h2>
-      <%= link_to 'Add log', new_cave_log_path(@cave), class: 'btn btn-sm' %>
+      <%= link_to_if_signed_in 'Add log', new_cave_log_path(@cave), class: 'btn btn-sm' %>
     </div>
     <% if current_user %>
       <h3 class="-mb-1">Your logs <% if @user_logs_count > 0 %><span class="opacity-50">(<%= @user_logs_count %> total)</span><% end %></h3>
@@ -99,7 +105,7 @@
         <%= link_to "View more →", "#{cave_user_logs_path(@cave, current_user)}?tagged", aria: { label: "View all logs you are featured in" } %>
       <% end %>
     <% end %>
-    <h3>Public logs <% if @cave_logs_count > 0 %><span class="opacity-50">(<%= @cave_logs_count %> total)</span><% end %></h3>
+    <h3>All logs <% if @cave_logs_count > 0 %><span class="opacity-50">(<%= @cave_logs_count %> total)</span><% end %></h3>
     <% if @cave_logs_count > 0 %>
       <ul class="grid-list-2">
         <%= render partial: 'logs/preview', collection: @cave_logs_preview, as: :log %>

@@ -2,7 +2,7 @@
 <%= page_padding do %>
   <div class="flex items-center gap-3 flex-wrap">
     <h1><%= @subsystem.title %></h1>
-    <% unless @visited&.length == 0 %>
+    <% unless !current_user || @visited&.length == 0 %>
       <%= render 'components/checked', label: "You have visited this subsystem" %>
     <% end %>
   </div>
@@ -26,7 +26,7 @@
               <% last_subsystem_version = @subsystem.versions.last %>
               <dd class="dd">
                 <% if last_subsystem_version.whodunnit %>
-                  <%= link_to User.find(last_subsystem_version.whodunnit).name_for(current_user), user_path(last_subsystem_version) %>
+                  <%= link_to User.find(last_subsystem_version.whodunnit).name_for(current_user), user_path(last_subsystem_version.whodunnit) %>
                 <% else %>
                   Unknown user
                 <% end %> on <%= @subsystem.updated_at.strftime('%d/%m/%y') %>
@@ -42,7 +42,7 @@
   <section>
     <div class="flex gap-4 justify-between items-center">
       <h2>Locations</h2>
-      <%= link_to 'Add a location', new_cave_subsystem_location_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' %>
+      <%= link_to_if_signed_in 'Add a location', new_cave_subsystem_location_path(@subsystem.cave, @subsystem), class: 'btn btn-sm' %>
     </div>
     <% if @subsystem.locations.length == 0 %>
       <%= render 'components/empty-section', message: 'No locations in this subsystem yet!', link: { text: 'Add a location', href: new_cave_subsystem_location_path(@subsystem.cave, @subsystem) } %>

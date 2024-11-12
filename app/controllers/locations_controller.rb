@@ -1,6 +1,7 @@
 class LocationsController < ApplicationController
   before_action :set_paper_trail_whodunnit
   before_action :set_locatable
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
 
   def show
     @location = Location.find(params[:id])

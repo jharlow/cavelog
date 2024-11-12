@@ -6,10 +6,10 @@
         <% if cave[:total_locations] == 0 %>
           <div class="flex flex-col gap-2">
             <h3 id="<%= "locations_cave_#{cave[:cave][:data].id}" %>"><%= cave[:cave][:data].title %></h3>
-            <%= 
-              render 'components/empty-section', 
-              message: "This cave doesn't have any locations yet to log!", 
-              link: { text:  "Add a location in #{cave[:cave][:data].title}", href: new_cave_location_path(cave[:cave][:data]) } 
+            <%=
+              render 'components/empty-section',
+              message: "This cave doesn't have any locations yet to log!",
+              link: { text:  "Add a location in #{cave[:cave][:data].title}", href: new_cave_location_path(cave[:cave][:data]) }
             %>
           </div>
         <% else %>
@@ -33,7 +33,9 @@
                       <tr>
                         <td class="bg-orange-50 dark:bg-orange-950">
                           Cave visited but no locations logged
-                          <%= link_to "Edit", edit_cave_log_location_copies_path(log, cave[:cave][:data]) %>
+                          <% if @log.user == current_user %>
+                            <%= link_to "Edit", edit_cave_log_location_copies_path(log, cave[:cave][:data]) %>
+                          <% end %>
                         </td>
                       </tr>
                     <% else %>

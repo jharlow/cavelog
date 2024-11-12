@@ -34,9 +34,8 @@ export class CaveLogDatabaseStack extends cdk.Stack {
       },
     });
 
-
-    this.databaseName = 'postgres';
-    this.database = new rds.ServerlessCluster(this, 'AuroraServerlessCluster', {
+    this.databaseName = "postgres";
+    this.database = new rds.ServerlessCluster(this, "AuroraServerlessCluster", {
       engine: rds.DatabaseClusterEngine.auroraPostgres({
         version: rds.AuroraPostgresEngineVersion.VER_13_9,
       }),
@@ -45,12 +44,16 @@ export class CaveLogDatabaseStack extends cdk.Stack {
       credentials: rds.Credentials.fromSecret(this.secret),
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
       defaultDatabaseName: this.databaseName,
+      scaling: {
+        autoPause: cdk.Duration.minutes(5),
+        maxCapacity: rds.AuroraCapacityUnit.ACU_2,
+      },
     });
 
     this.securityGroup.addIngressRule(
       this.securityGroup,
       ec2.Port.tcp(this.database.clusterEndpoint.port),
-      "Allow inbound traffic to RDS"
-    )
+      "Allow inbound traffic to RDS",
+    );
   }
 }
